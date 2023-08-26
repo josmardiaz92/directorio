@@ -1,0 +1,365 @@
+//funcion para sacar los dias que labora un doctor
+CREATE OR REPLACE FUNCTION public.dias_laborables(p1_cod_doc integer)
+RETURNS character varying
+LANGUAGE plpgsql
+AS $dias_laborables$
+DECLARE 
+    dias character varying;
+BEGIN
+    SELECT STRING_AGG(d.nom_dia, ', ')
+    INTO dias
+    FROM turno t
+    JOIN dia_laborable d ON t.fky_dia = d.cod_dia
+    WHERE t.fky_doc = p1_cod_doc;
+    
+    RETURN dias;
+END;
+$dias_laborables$;
+
+//vista de los turnos
+SELECT DISTINCT ON (d.cod_doc)
+	d.cod_doc, d.nom_doc, e.nom_esp, t.ent_tur, t.sal_tur, dias_laborables(d.cod_doc) as dias
+from
+	public.doctor d
+	inner join
+		public.especialidad e on d.fky_esp=e.cod_esp
+	inner join
+		public.turno t on t.fky_doc=d.cod_doc
+ORDER BY d.cod_doc;
+
+//funcion para agregar doctores con todo el turno
+CREATE OR REPLACE FUNCTION public.doctor_nuevo(p1_nom_doc character varying, p2_fky_esp integer, p3_fky_con integer, p4_fky_dia integer, p5_ent_tur character varying, p6_sal_tur character varying)
+RETURNS integer
+LANGUAGE plpgsql
+AS $doctor_nuevo$
+DECLARE 
+    valor integer;
+BEGIN
+    WITH nuevo_doctor AS (
+		INSERT INTO doctor (nom_doc, fky_esp)
+		VALUES (p1_nom_doc,p2_fky_esp)
+		RETURNING cod_doc)
+	INSERT INTO turno (fky_doc, fky_con, fky_dia, ent_tur, sal_tur)
+	SELECT cod_doc, p3_fky_con, p4_fky_dia, p5_ent_tur, p6_sal_tur
+	FROM nuevo_doctor returning cod_tur into valor;
+    
+    RETURN valor;
+END;
+$doctor_nuevo$
+
+//funcion agregar consultorios
+CREATE OR REPLACE FUNCTION public.consultorio_agregar(p1_nom_con character varying)
+RETURNS integer
+LANGUAGE plpgsql
+AS $consultorio_agregar$
+DECLARE 
+    valor integer;
+BEGIN
+    INSERT INTO public.consultorio(
+	nom_con)
+	VALUES (p1_nom_con)
+	returning cod_con into valor;
+    
+    RETURN valor;
+END;
+$consultorio_agregar$;
+
+//funcion para agregar especialidad
+CREATE OR REPLACE FUNCTION public.especialidad_agregar(p1_nom_esp character varying)
+RETURNS integer
+LANGUAGE plpgsql
+AS $consultorio_agregar$
+DECLARE 
+    valor integer;
+BEGIN
+    INSERT INTO public.especialidad(
+	nom_esp)
+	VALUES (p1_nom_esp)
+	returning cod_esp into valor;
+    
+    RETURN valor;
+END;
+$consultorio_agregar$;
+
+//funcion dpara modificar el consultorio
+
+CREATE OR REPLACE FUNCTION public.consultorio_modificar(p1_nom_con character varying, p2_est_con character, p3_cod_con integer)
+RETURNS integer
+LANGUAGE plpgsql
+AS $consultorio_modificar$
+DECLARE 
+    valor integer;
+BEGIN
+    UPDATE public.consultorio
+	SET nom_con=p1_nom_con, est_con=p2_est_con
+	WHERE cod_con=p3_cod_con
+	returning cod_con into valor;
+    
+    RETURN valor;
+END;
+$consultorio_modificar$;
+
+//funcion para modificar los dias de la semana
+
+CREATE OR REPLACE FUNCTION public.dia_laborable_modificar(p1_est_dia character, p2_cod_dia integer)
+RETURNS integer
+LANGUAGE plpgsql
+AS $dia_laborable_modificar$
+DECLARE 
+    valor integer;
+BEGIN
+    UPDATE public.dia_laborable
+	SET est_dia=p1_est_dia
+	WHERE cod_dia=p2_cod_dia
+	returning cod_dia into valor;
+    
+    RETURN valor;
+END;
+$dia_laborable_modificar$;
+
+//funcion para modificar al doctor
+CREATE OR REPLACE FUNCTION public.doctor_modificar(p1_nom_doc character varying, p2_fky_esp integer, p3_est_doc character, p4_cod_doc integer)
+RETURNS integer
+LANGUAGE plpgsql
+AS $doctor_modificar$
+DECLARE 
+    valor integer;
+BEGIN
+    UPDATE public.doctor
+	SET nom_doc=p1_nom_doc, fky_esp=p2_fky_esp, est_doc=p3_est_doc
+	WHERE cod_doc=p4_cod_doc
+	returning cod_doc into valor;
+    
+    RETURN valor;
+END;
+$doctor_modificar$;
+
+//funcion para modificar las especialidades
+
+CREATE OR REPLACE FUNCTION public.especialidad_modificar(p1_nom_esp character varying, p2_est_esp character, p3_cod_esp integer)
+RETURNS integer
+LANGUAGE plpgsql
+AS $especialidad_modificar$
+DECLARE 
+    valor integer;
+BEGIN
+    UPDATE public.especialidad
+	SET nom_esp=p1_nom_esp, est_esp=p2_est_esp
+	WHERE cod_esp=p3_cod_esp
+	returning cod_esp into valor;
+    
+    RETURN valor;
+END;
+$especialidad_modificar$;
+
+//modificar turno
+
+CREATE OR REPLACE FUNCTION public.turno_modificar()
+RETURNS integer
+LANGUAGE plpgsql
+AS $turno_modificar$
+DECLARE 
+    valor integer;
+BEGIN
+
+   	UPDATE public.turno
+	SET fky_doc=p1_fky_doc, fky_con=p2_fky_con, fky_dia=p3_fky_dia, ent_tur=p4_ent_tur, sal_tur=p5_sal_tur, est_tur=p6_est_tur
+	WHERE cod_tur=p7_cod_tur
+	returning cod_tur into valor;
+    
+    RETURN valor;
+END;
+$turno_modificar$;
+
+
+//eliminar turno
+
+CREATE OR REPLACE FUNCTION public.turno_eliminar(p1_cod_tur integer)
+RETURNS integer
+LANGUAGE plpgsql
+AS $turno_eliminar$
+DECLARE 
+    valor integer;
+BEGIN
+
+UPDATE public.turno
+	SET est_tur='I'
+	WHERE cod_tur=p1_cod_tur
+	returning cod_tur into valor;
+    
+    RETURN valor;
+END;
+$turno_eliminar$;
+
+//reanudar turno
+
+CREATE OR REPLACE FUNCTION public.turno_reanudar(p1_cod_tur integer)
+RETURNS integer
+LANGUAGE plpgsql
+AS $turno_reanudar$
+DECLARE 
+    valor integer;
+BEGIN
+
+UPDATE public.turno
+	SET est_tur='A'
+	WHERE cod_tur=p1_cod_tur
+	returning cod_tur into valor;
+    
+    RETURN valor;
+END;
+$turno_reanudar$;
+
+//reanudar especialidad
+
+CREATE OR REPLACE FUNCTION public.especialidad_reanudar(p1_cod_esp integer)
+RETURNS integer
+LANGUAGE plpgsql
+AS $especialidad_reanudar$
+DECLARE 
+    valor integer;
+BEGIN
+
+UPDATE public.especialidad
+	SET est_esp='A'
+	WHERE cod_esp=p1_cod_esp
+	returning cod_esp into valor;
+    
+    RETURN valor;
+END;
+$especialidad_reanudar$;
+
+//eliminar especialidad
+
+CREATE OR REPLACE FUNCTION public.especialidad_eliminar(p1_cod_esp integer)
+RETURNS integer
+LANGUAGE plpgsql
+AS $especialidad_eliminar$
+DECLARE 
+    valor integer;
+BEGIN
+
+UPDATE public.especialidad
+	SET est_esp='I'
+	WHERE cod_esp=p1_cod_esp
+	returning cod_esp into valor;
+    
+    RETURN valor;
+END;
+$especialidad_eliminar$;
+
+//reanudar doctor
+
+CREATE OR REPLACE FUNCTION public.doctor_reanudar(p1_cod_doc integer)
+RETURNS integer
+LANGUAGE plpgsql
+AS $doctor_reanudar$
+DECLARE 
+    valor integer;
+BEGIN
+
+UPDATE public.doctor
+	SET est_doc='A'
+	WHERE cod_doc=p1_cod_doc
+	returning cod_doc into valor;
+    
+    RETURN valor;
+END;
+$doctor_reanudar$;
+
+//eliminar doctor
+
+CREATE OR REPLACE FUNCTION public.doctor_eliminar(p1_cod_doc integer)
+RETURNS integer
+LANGUAGE plpgsql
+AS $doctor_eliminar$
+DECLARE 
+    valor integer;
+BEGIN
+
+UPDATE public.doctor
+	SET est_doc='I'
+	WHERE cod_doc=p1_cod_doc
+	returning cod_doc into valor;
+    
+    RETURN valor;
+END;
+$doctor_eliminar$;
+
+//reanudar dia_laborable
+
+CREATE OR REPLACE FUNCTION public.dia_laborable_reanudar(p1_cod_dia integer)
+RETURNS integer
+LANGUAGE plpgsql
+AS $dia_laborable_reanudar$
+DECLARE 
+    valor integer;
+BEGIN
+
+UPDATE public.dia_laborable
+	SET est_dia='A'
+	WHERE cod_dia=p1_cod_dia
+	returning cod_dia into valor;
+    
+    RETURN valor;
+END;
+$dia_laborable_reanudar$;
+
+//eliminar dia_laborable
+
+CREATE OR REPLACE FUNCTION public.dia_laborable_eliminar(p1_cod_dia integer)
+RETURNS integer
+LANGUAGE plpgsql
+AS $dia_laborable_eliminar$
+DECLARE 
+    valor integer;
+BEGIN
+
+UPDATE public.dia_laborable
+	SET est_dia='I'
+	WHERE cod_dia=p1_cod_dia
+	returning cod_dia into valor;
+    
+    RETURN valor;
+END;
+$dia_laborable_eliminar$;
+
+
+//reanudar consultorio
+
+CREATE OR REPLACE FUNCTION public.consultorio_reanudar(p1_cod_con integer)
+RETURNS integer
+LANGUAGE plpgsql
+AS $consultorio_reanudar$
+DECLARE 
+    valor integer;
+BEGIN
+
+UPDATE public.consultorio
+	SET est_con='A'
+	WHERE cod_con=p1_cod_con
+	returning cod_con into valor;
+    
+    RETURN valor;
+END;
+$consultorio_reanudar$;
+
+//eliminar consultorio
+
+CREATE OR REPLACE FUNCTION public.consultorio_eliminar(p1_cod_con integer)
+RETURNS integer
+LANGUAGE plpgsql
+AS $consultorio_eliminar$
+DECLARE 
+    valor integer;
+BEGIN
+
+UPDATE public.consultorio
+	SET est_con='I'
+	WHERE cod_con=p1_cod_con
+	returning cod_con into valor;
+    
+    RETURN valor;
+END;
+$consultorio_eliminar$;
+

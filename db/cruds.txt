@@ -363,3 +363,172 @@ UPDATE public.consultorio
 END;
 $consultorio_eliminar$;
 
+//estructura y funcion para ver la tabla consultorio
+
+create type public.consultorio_estructura as 
+    (
+        cod_con integer,
+        nom_con character varying,
+        est_con character
+    );
+
+create or replace function public.consultorio_listar() returns setof public.consultorio_estructura language 'plpgsql' as $consultorio$
+
+declare
+    fila public.consultorio_estructura%rowtype;
+begin
+    for fila in 
+    select * from public.consultorio order by cod_con
+
+loop 
+  return next fila;
+end loop;
+
+return;
+end;
+$consultorio$
+
+//estructura y funcion para ver la tabla dia_laborable
+
+create type public.dia_laborable_estructura as 
+    (
+        cod_dia integer,
+        nom_dia character varying,
+        est_dia character
+    );
+
+create or replace function public.dia_laborable_listar() returns setof public.dia_laborable_estructura language 'plpgsql' as $dia_laborable$
+
+declare
+    fila public.dia_laborable_estructura%rowtype;
+begin
+    for fila in 
+    select * from public.dia_laborable order by cod_dia
+
+loop 
+  return next fila;
+end loop;
+
+return;
+end;
+$dia_laborable$
+
+//estructura y funcion para ver la tabla especialidad
+
+create type public.especialidad_estructura as 
+    (
+        cod_esp integer,
+        nom_esp character varying,
+        est_esp character
+    );
+
+create or replace function public.especialidad_listar() returns setof public.especialidad_estructura language 'plpgsql' as $especialidad$
+
+declare
+    fila public.especialidad_estructura%rowtype;
+begin
+    for fila in 
+    select * from public.especialidad order by cod_esp
+
+loop 
+  return next fila;
+end loop;
+
+return;
+end;
+$especialidad$
+
+//vista de la tabla turno
+ SELECT t.cod_tur AS turno,
+    t.fky_doc,
+    d.nom_doc AS doctor,
+    d.fky_esp,
+    e.nom_esp AS especialidad,
+    t.fky_con,
+    c.nom_con AS consultorio,
+    t.fky_dia,
+    dl.nom_dia AS dia,
+    t.ent_tur AS desde,
+    t.sal_tur AS hasta,
+    t.est_tur AS estatus
+   FROM turno t
+     JOIN doctor d ON d.cod_doc = t.fky_doc
+     JOIN especialidad e ON e.cod_esp = d.fky_esp
+     JOIN consultorio c ON c.cod_con = t.fky_con
+     JOIN dia_laborable dl ON dl.cod_dia = t.fky_dia
+  ORDER BY t.cod_tur;
+
+//estructura y funcion para ver la vista turnos
+
+create type public.turnos_estructura as 
+    (
+        turnos integer,
+        fky_doc integer,
+		doctor character varying,
+        fky_esp integer,
+		especialidad character varying,
+        fky_con integer,
+		consultorio character varying,
+        fky_dia integer,
+		dia character varying,
+        desde character varying,
+        hasta character varying,
+        estatus character
+    );
+
+create or replace function public.turnos_listar() returns setof public.turnos_estructura language 'plpgsql' as $turnos$
+
+declare
+    fila public.turnos_estructura%rowtype;
+begin
+    for fila in 
+    select * from public.turnos
+
+loop 
+  return next fila;
+end loop;
+
+return;
+end;
+$turnos$
+
+//vista de doctor
+
+select
+	d.cod_doc,
+	d.nom_doc as doctor,
+	d.fky_esp,
+	e.nom_esp as especialidad,
+	d.est_doc as estatud
+from
+	public.doctor d
+	inner join
+	public.especialidad e on e.cod_esp=d.fky_esp
+order by d.cod_doc
+
+//estructura y funcion para ver la vista doctores
+
+create type public.doctores_estructura as 
+    (
+        cod_doc integer,
+        doctor character varying,
+		fky_esp integer,
+        especialidad character varying,
+        estatus character
+    );
+
+create or replace function public.doctores_listar() returns setof public.doctores_estructura language 'plpgsql' as $doctores$
+
+declare
+    fila public.doctores_estructura%rowtype;
+begin
+    for fila in 
+    select * from public.doctores
+
+loop 
+  return next fila;
+end loop;
+
+return;
+end;
+$doctores$

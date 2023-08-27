@@ -532,3 +532,37 @@ end loop;
 return;
 end;
 $doctores$
+
+//funcion para agregar 1 doctor
+CREATE OR REPLACE FUNCTION public.doctor_agregar(p1_nom_doc character varying, p2_fky_esp integer)
+RETURNS integer
+LANGUAGE plpgsql
+AS $doctor_agregar$
+DECLARE 
+    valor integer;
+BEGIN
+    INSERT INTO public.doctor(
+	nom_doc, fky_esp)
+	VALUES (p1_nom_doc, p2_fky_esp)
+	returning cod_doc into valor;
+    
+    RETURN valor;
+END;
+$doctor_agregar$;
+
+//funcion para agregar turno
+CREATE OR REPLACE FUNCTION public.turno_agregar(p1_fky_doc integer, p2_fky_con integer, p3_fky_dia integer, p4_ent_tur character varying, p5_sal_tur character varying)
+RETURNS integer
+LANGUAGE plpgsql
+AS $turno_agregar$
+DECLARE 
+    valor integer;
+BEGIN
+    INSERT INTO public.turno(
+	fky_doc, fky_con, fky_dia, ent_tur, sal_tur)
+	VALUES (p1_fky_doc,p2_fky_con,p3_fky_dia,p4_ent_tur,p5_sal_tur)
+	returning cod_tur into valor;
+    
+    RETURN valor;
+END;
+$turno_agregar$;

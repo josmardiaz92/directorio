@@ -566,3 +566,58 @@ BEGIN
     RETURN valor;
 END;
 $turno_agregar$;
+
+//tabla divisa
+
+CREATE TABLE divisiones (
+    cod_div serial PRIMARY KEY,
+    nom_div character varying,
+    val_div numeric,
+    fec_div timestamp DEFAULT now(),
+    est_div character varying DEFAULT 'A'
+);
+
+//funcion agregar divisa
+
+CREATE OR REPLACE FUNCTION public.divisa_agregar(p1_nom_div character varying, p2_val_div numeric)
+RETURNS integer
+LANGUAGE plpgsql
+AS $divisa_agregar$
+DECLARE 
+    valor integer;
+BEGIN
+    INSERT INTO public.divisa(
+	nom_div, val_div)
+	VALUES (p1_nom_div, p2_val_div)
+    returning cod_div into valor;
+    
+    RETURN valor;
+END;
+$divisa_agregar$;
+
+//estructura y vista de la tabla divisa
+
+create type public.divisa_estructura as 
+    (
+        cod_div integer,
+        nom_div character varying,
+        val_div numeric,
+        fec_div timestamp,
+        est_div character
+    );
+
+create or replace function public.divisa_listar() returns setof public.divisa_estructura language 'plpgsql' as $divisa$
+
+declare
+    fila public.divisa_estructura%rowtype;
+begin
+    for fila in 
+    select * from public.divisa order by cod_div
+
+loop 
+  return next fila;
+end loop;
+
+return;
+end;
+$divisa$

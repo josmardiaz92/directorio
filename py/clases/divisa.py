@@ -1,5 +1,8 @@
 import requests
-from base_datos import postgres_conexion as bd
+from bs4 import BeautifulSoup
+import sys
+sys.path.append('c:\\xampp\\htdocs\\Github\\directorio')
+from py.clases.base_datos import postgres_conexion as bd
 class divisa(bd.base_datos):
     def __init__(self):
         self.cod_div=''
@@ -7,6 +10,7 @@ class divisa(bd.base_datos):
         self.val_div=''
         self.fec_div=''
         self.est_div=''
+        self.ultimaMoneda=''
     def agregar(self):
         #*Llamamos a la funcion para guardar en la base de datos
         sql=f"""select public.divisa_agregar('{self.nom_div}',{self.val_div})"""
@@ -27,12 +31,58 @@ class divisa(bd.base_datos):
         self.cerrar()
         return lista #*retornamos la lista
     def obtenerDivisas(self):
-        url_api = "http://127.0.0.1:5000/api/v1/currency"  # Cambia la URL según corresponda
-        response = requests.get(url_api)
+        url = 'https://www.bcv.org.ve/'
+        r = requests.get(url)
+        html_contents = r.text
+        html_soup = BeautifulSoup(html_contents, 'html.parser')
 
-        if response.status_code == 200:
-            datos_divisas = response.json()
-            return datos_divisas
-        else:
-            print("Error al obtener los datos de la API")
-            return None
+        # Buscar todos los elementos con la clase "recuadrotsmc"
+        recuadros = html_soup.find_all('div', class_='recuadrotsmc')
+
+        # Crear una lista para almacenar los diccionarios
+        informacion_divisas = []
+        registros=self.listar()
+        # Iterar a través de los elementos y extraer la información deseada
+        for recuadro in recuadros:
+            # Obtener el contenido del elemento strong
+            strong_element = recuadro.find('strong')
+            valor = strong_element.get_text(strip=True)
+            # Reemplazar las comas por puntos en el valor
+            valor = valor.replace(',', '.')
+            
+            # Obtener el contenido de la etiqueta span (moneda)
+            span_element = recuadro.find('span')
+            moneda = span_element.get_text(strip=True)
+            moneda_buscada = moneda  # Cambia esto por el nombre de la moneda que deseas buscar
+
+            registro_encontrado = None
+
+            for registro in registros:
+                datos = registro[0].split(',')
+                moneda = datos[1]
+                
+                if moneda == moneda_buscada:
+                    registro_encontrado = registro
+                    break
+
+            if registro_encontrado:
+                self.ultimaMoneda=valor
+            else:
+                self.ultimaMoneda=0
+            
+            if valor != self.ultimaMoneda:
+            # Crear un diccionario con la información y agregarlo a la lista
+                informacion_divisa = {
+                    "Moneda": moneda,
+                    "Valor": valor
+                }
+                informacion_divisas.append(informacion_divisa)
+                self.nom_div = moneda
+                self.val_div = valor
+                self.agregar()
+            
+
+p = divisa()
+
+p.obtenerDivisas()
+

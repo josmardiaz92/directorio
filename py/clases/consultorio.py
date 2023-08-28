@@ -1,4 +1,6 @@
-from base_datos import postgres_conexion as bd
+import sys
+sys.path.append('c:\\xampp\\htdocs\\Github\\directorio')
+from py.clases.base_datos import postgres_conexion as bd
 class consultorio(bd.base_datos):
     def __init__(self):
         self.cod_con=''

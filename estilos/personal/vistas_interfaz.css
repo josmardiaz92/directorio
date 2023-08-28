@@ -24,7 +24,7 @@
 }
 
 .img-navbar {
-    height: 60px;
+    height: 50px;
 }
 
 .nav-link:hover {
@@ -44,5 +44,4 @@
 .campoAlertas{
     top: 20%;
     right: 0px;
-    /* width: 400px; */
 }

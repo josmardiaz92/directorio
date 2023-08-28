@@ -5,7 +5,7 @@ from bs4 import BeautifulSoup
 
 app = Flask(__name__)
 
-@app.route('/', methods=['GET'])
+@app.route('/api/v1/currency', methods=['GET'])
 def get_currency():
     url = 'https://www.bcv.org.ve/'
     r = requests.get(url)

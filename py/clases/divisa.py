@@ -1,3 +1,4 @@
+import requests
 from base_datos import postgres_conexion as bd
 class divisa(bd.base_datos):
     def __init__(self):
@@ -25,3 +26,13 @@ class divisa(bd.base_datos):
         print(lista)
         self.cerrar()
         return lista #*retornamos la lista
+    def obtenerDivisas(self):
+        url_api = "http://127.0.0.1:5000/api/v1/currency"  # Cambia la URL según corresponda
+        response = requests.get(url_api)
+
+        if response.status_code == 200:
+            datos_divisas = response.json()
+            return datos_divisas
+        else:
+            print("Error al obtener los datos de la API")
+            return None

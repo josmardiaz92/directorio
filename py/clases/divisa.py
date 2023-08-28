@@ -80,9 +80,5 @@ class divisa(bd.base_datos):
                 self.nom_div = moneda
                 self.val_div = valor
                 self.agregar()
-            
 
-p = divisa()
-
-p.obtenerDivisas()
 

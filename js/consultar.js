@@ -2,9 +2,15 @@ const identificador=document.getElementById('identificador').value;
 const ruta=`../php/${identificador}_listar.php`;
 let filtro='';
 const btnFiltro=document.getElementById('filtro');
+const selectEspecialidad = document.querySelector('#fky_esp', null);
+
 
 consultarContenido();
 btnFiltro.addEventListener('change',filtrar);
+
+if(selectEspecialidad){
+    consultarEspecialidad();
+}
 
 async function consultarContenido(){
     fetch(ruta)
@@ -33,7 +39,7 @@ async function consultarContenido(){
                     consultaSimple(index,element,status)
                     break;
                 case 'dia_laborable':
-                    consultaSimple(index,element,status)
+                    consultaDia(index,element,status)
                     break;
                 case 'doctor':
                     consultarDoctor(index,element,status)
@@ -128,6 +134,67 @@ function consultaSimple(index,element,status){
                                     <td id="ver${index}">
                                     <button type="button" class="btn" data-bs-toggle="modal" data-bs-target="#modal" data-bs-whatever=${element.codigo}><i class="fa-solid fa-eye" style="color: #001A6F" data-bs-toggle="tooltip" data-bs-placement="top" title="Ver"></i></button>
                                         <i class="btn fa-solid fa-trash eliminar" style="color: #001A6F" data-bs-toggle="tooltip" data-bs-placement="right" title="Borrar" id="${element.codigo}"></i>
+                                    </td>
+                                </tr>`;
+            setTimeout(() => {
+            const estadoElemento=document.getElementById(element.codigo);
+            estadoElemento.checked=status;
+            estadoElemento.value=status;
+            }, 100);
+        break;
+        }
+}
+
+function consultaDia(index,element,status){
+    switch(filtro){
+        case true:
+            if(status){
+            cuerpoTabla.innerHTML+=`
+                                <tr id="linea${index}">
+                                    <td id="${element.nombre}">${element.nombre}</td>
+                                    <td class="${element.estatus}">
+                                    <div class="form-check form-switch d-flex justify-content-center">
+                                        <input class="form-check-input estadoElemento" type="checkbox" role="switch" id="${element.codigo}">
+                                    </div>
+                                    </td>
+                                </tr>`;
+            }
+            if(filtro===status){
+            setTimeout(() => {
+                const estadoElemento=document.getElementById(element.codigo);
+                estadoElemento.checked=status;
+                estadoElemento.value=status;
+            }, 100);
+            }
+        break;
+        case false:
+            if(!status){
+            cuerpoTabla.innerHTML+=`
+                                <tr id="linea${index}">
+                                    <td id="${element.nombre}">${element.nombre}</td>
+                                    <td class="${element.estatus}">
+                                    <div class="form-check form-switch d-flex justify-content-center">
+                                        <input class="form-check-input estadoElemento" type="checkbox" role="switch" id="${element.codigo}">
+                                    </div>
+                                    </td>
+                                </tr>`;
+            }
+            if(filtro===status){
+            setTimeout(() => {
+                const estadoElemento=document.getElementById(element.codigo);
+                estadoElemento.checked=status;
+                estadoElemento.value=status;
+            }, 100);
+            }
+        break;
+        default:
+            cuerpoTabla.innerHTML+=`
+                                <tr id="linea${index}">
+                                    <td id="${element.nombre}">${element.nombre}</td>
+                                    <td class="${element.estatus}">
+                                    <div class="form-check form-switch d-flex justify-content-center">
+                                        <input class="form-check-input estadoElemento" type="checkbox" role="switch" id="${element.codigo}">
+                                    </div>
                                     </td>
                                 </tr>`;
             setTimeout(() => {
@@ -298,4 +365,17 @@ function consultarTurno(index,element,status){
             }, 100);
         break;
         }
+}
+
+function consultarEspecialidad(){
+    selectEspecialidad.innerHTML='<option value="">Seleccione...</option>';
+    fetch(`../php/especialidad_listar.php`)
+    .then(respuesta=>respuesta.json())
+    .then(arregloJson=>{
+        arregloJson.forEach(element=>{
+            selectEspecialidad.innerHTML+=`<option value="${element.codigo}">${element.nombre}</option>`;
+            })
+
+    })
+    .catch(error=>{console.error(`Atención ${error}`)})
 }

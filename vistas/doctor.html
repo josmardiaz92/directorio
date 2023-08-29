@@ -11,7 +11,6 @@
 <body class="bg-secondary bg-opacity-50">
     <input type="text" value="doctor" class="d-none" id="identificador">
     <input type="text" value="cod_doc" class="d-none" id="nombreCodigo">
-
     <div class="contenedor-modal" id="contenedor-modal-agregar">
         <div class="modal fade" id="modalAgregar" tabindex="-1" aria-labelledby="modalLabel" aria-hidden="true">
             <div class="modal-dialog">
@@ -26,10 +25,23 @@
                         <form>
                             <div class="row m-3 d-flex justify-content-center align-items-end">
                                 <div class="col-sm-12 col-md-5">
-                                    <label class="form-label" for="nom_con">Nombre:</label>
+                                    <label class="form-label" for="nom_doc">Nombre:</label>
                                 </div>
                                 <div class="col-sm-12 col-md-7">
-                                    <input class="form-control" type="text" id="nom_con" name="nom_con" size="16" maxlength="20" placeholder="Ingrese Nombre del consultorio">
+                                    <input class="form-control agregar" type="text" id="nom_doc" name="nom_doc" size="16" maxlength="20" placeholder="Ingrese Nombre del consultorio">
+                                    <span></span>
+                                </div>
+                            </div>
+                            <div class="row m-3 d-flex justify-content-center align-items-end">
+                                <div class="col-sm-12 col-md-5">
+                                    <label for="fky_esp" class="col-form-label text-capitalize">
+                                        Especialidad:
+                                    </label>
+                                </div>
+                                <div class="col-sm-12 col-md-7">
+                                    <select name="fky_esp" id="fky_esp" class="text-capitalize form-select casilla" required>
+                                        
+                                    </select>
                                 </div>
                             </div>
                         </form>
@@ -157,5 +169,6 @@
     <script src="../js/consultar.js"></script>
     <script src="../js/activarDesactivar.js"></script>
     <script src="../js/eliminar.js"></script>
+    <script src="../js/agregar.js"></script>
 </body>
 </html>

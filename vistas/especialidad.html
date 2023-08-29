@@ -22,19 +22,19 @@
                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
                     <div class="modal-body">
-                        <form action="../py/controladores/especialidad.py" method="post">
+                        <form action="" method="post">
                             <div class="row m-3 d-flex justify-content-center align-items-end">
                                 <div class="col-sm-12 col-md-5">
                                     <label class="form-label" for="nom_esp">Nombre:</label>
                                 </div>
                                 <div class="col-sm-12 col-md-7">
-                                    <input class="form-control" type="text" id="nom_esp" name="nom_esp" size="16" maxlength="20" placeholder="Ingrese Nombre de la especialidad">
+                                    <input class="form-control agregar" type="text" id="nom_esp" name="nom_esp" size="16" maxlength="20" placeholder="Ingrese Nombre de la especialidad">
                                 </div>
                             </div>
-                            <div class="modal-footer d-flex justify-content-center">
-                                <button type="submit" class="btn btn-secondary" id="btnAgregar">Agregar</button>
-                            </div>
                         </form>
+                    </div>
+                    <div class="modal-footer d-flex justify-content-center">
+                        <button type="button" class="btn btn-secondary" id="btnAgregar">Agregar</button>
                     </div>
                 </div>
             </div>
@@ -156,5 +156,6 @@
     <script src="../js/consultar.js"></script>
     <script src="../js/activarDesactivar.js"></script>
     <script src="../js/eliminar.js"></script>
+    <script src="../js/agregar.js"></script>
 </body>
 </html>

@@ -4,10 +4,10 @@ setTimeout(() => {
         elemento.addEventListener('click',evento=>{
             const campo=evento.target;
             const id=parseInt(campo.id);
-            let consulta=`${identificador}_eliminar_definitivo`
+            let consulta=`${identificador}_eliminar_definitivo`;
             const formData=new FormData();
             formData.append("codigo",id);
-            formData.append("consulta",consulta)
+            formData.append("consulta",consulta);
             fetch("../php/eliminar.php",{
             method: "POST",
             body: formData

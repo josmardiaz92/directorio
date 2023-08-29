@@ -9,6 +9,8 @@
     <title>Interfaz</title>
 </head>
 <body class="bg-secondary bg-opacity-50">
+    <input type="text" value="especialidad" class="d-none" id="identificador">
+
     <div class="contenedor-modal" id="contenedor-modal-agregar">
         <div class="modal fade" id="modalAgregar" tabindex="-1" aria-labelledby="modalLabel" aria-hidden="true">
             <div class="modal-dialog">
@@ -94,6 +96,9 @@
                             <li class="nav-item">
                                 <a href="especialidad.html" class="nav-link">especialidads</a>
                             </li>
+                            <li class="nav-item">
+                                <a href="dia_laborable.html" class="nav-link">dias</a>
+                            </li>
                         </ul>
                     </div>
                 </div>
@@ -124,6 +129,16 @@
                     <a role="button" class="btn btn-secondary" data-bs-toggle="modal" data-bs-target="#modalAgregar" data-bs-whatever='agregarConsultorio'>Agregar</a>
                     </a>
                 </div>
+                <div class="fixed-bottom d-flex justify-content-end mb-3">
+                    <div class="col1">
+                        <select name="filtro" id="filtro" class="form-select">
+                            <option value="">todos</option>
+                            <option value="true">solo activas</option>
+                            <option value="false">solo inactivas</option>
+                        </select>
+                    </div>
+                    <button type="button" id="recargar" class="border-0 bg-transparent"><i class="fa-solid fa-spinner"></i></button>
+                </div>
             </div>
         </div>
         
@@ -132,5 +147,7 @@
 
     <script src="../js/tooltip.js"></script>
     <script src="../js/js-bootstrap/bootstrap.bundle.min.js"></script>
+    <script src="../js/consultar.js"></script>
+    <script src="../js/activarDesactivar.js"></script>
 </body>
 </html>

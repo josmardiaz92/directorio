@@ -80,6 +80,7 @@ function consultaSimple(index,element,status){
                                     </td>
                                     <td id="ver${index}">
                                     <button type="button" class="btn" data-bs-toggle="modal" data-bs-target="#modal" data-bs-whatever=${element.codigo}><i class="fa-solid fa-eye" style="color: #001A6F" data-bs-toggle="tooltip" data-bs-placement="top" title="Ver"></i></button>
+                                        <i class="btn fa-solid fa-trash eliminar" style="color: #001A6F" data-bs-toggle="tooltip" data-bs-placement="right" title="Borrar" id="${element.codigo}"></i>
                                     </td>
                                 </tr>`;
             }
@@ -103,6 +104,7 @@ function consultaSimple(index,element,status){
                                     </td>
                                     <td id="ver${index}">
                                     <button type="button" class="btn" data-bs-toggle="modal" data-bs-target="#modal" data-bs-whatever=${element.codigo}><i class="fa-solid fa-eye" style="color: #001A6F" data-bs-toggle="tooltip" data-bs-placement="top" title="Ver"></i></button>
+                                        <i class="btn fa-solid fa-trash eliminar" style="color: #001A6F" data-bs-toggle="tooltip" data-bs-placement="right" title="Borrar" id="${element.codigo}"></i>
                                     </td>
                                 </tr>`;
             }
@@ -125,6 +127,7 @@ function consultaSimple(index,element,status){
                                     </td>
                                     <td id="ver${index}">
                                     <button type="button" class="btn" data-bs-toggle="modal" data-bs-target="#modal" data-bs-whatever=${element.codigo}><i class="fa-solid fa-eye" style="color: #001A6F" data-bs-toggle="tooltip" data-bs-placement="top" title="Ver"></i></button>
+                                        <i class="btn fa-solid fa-trash eliminar" style="color: #001A6F" data-bs-toggle="tooltip" data-bs-placement="right" title="Borrar" id="${element.codigo}"></i>
                                     </td>
                                 </tr>`;
             setTimeout(() => {
@@ -151,6 +154,7 @@ function consultarDoctor(index,element,status){
                                     </td>
                                     <td id="ver${index}">
                                     <button type="button" class="btn" data-bs-toggle="modal" data-bs-target="#modal" data-bs-whatever=${element.codigo}><i class="fa-solid fa-eye" style="color: #001A6F" data-bs-toggle="tooltip" data-bs-placement="top" title="Ver"></i></button>
+                                        <i class="btn fa-solid fa-trash eliminar" style="color: #001A6F" data-bs-toggle="tooltip" data-bs-placement="right" title="Borrar" id="${element.codigo}"></i>
                                     </td>
                                 </tr>`;
             }
@@ -175,6 +179,7 @@ function consultarDoctor(index,element,status){
                                     </td>
                                     <td id="ver${index}">
                                     <button type="button" class="btn" data-bs-toggle="modal" data-bs-target="#modal" data-bs-whatever=${element.codigo}><i class="fa-solid fa-eye" style="color: #001A6F" data-bs-toggle="tooltip" data-bs-placement="top" title="Ver"></i></button>
+                                        <i class="btn fa-solid fa-trash eliminar" style="color: #001A6F" data-bs-toggle="tooltip" data-bs-placement="right" title="Borrar" id="${element.codigo}"></i>
                                     </td>
                                 </tr>`;
             }
@@ -198,6 +203,7 @@ function consultarDoctor(index,element,status){
                                     </td>
                                     <td id="ver${index}">
                                     <button type="button" class="btn" data-bs-toggle="modal" data-bs-target="#modal" data-bs-whatever=${element.codigo}><i class="fa-solid fa-eye" style="color: #001A6F" data-bs-toggle="tooltip" data-bs-placement="top" title="Ver"></i></button>
+                                        <i class="btn fa-solid fa-trash eliminar" style="color: #001A6F" data-bs-toggle="tooltip" data-bs-placement="right" title="Borrar" id="${element.codigo}"></i>
                                     </td>
                                 </tr>`;
             setTimeout(() => {
@@ -227,6 +233,7 @@ function consultarTurno(index,element,status){
                                     </td>
                                     <td id="ver${index}">
                                     <button type="button" class="btn" data-bs-toggle="modal" data-bs-target="#modal" data-bs-whatever=${element.codigo}><i class="fa-solid fa-eye" style="color: #001A6F" data-bs-toggle="tooltip" data-bs-placement="top" title="Ver"></i></button>
+                                        <i class="btn fa-solid fa-trash eliminar" style="color: #001A6F" data-bs-toggle="tooltip" data-bs-placement="right" title="Borrar" id="${element.codigo}"></i>
                                     </td>
                                 </tr>`;
             }
@@ -254,6 +261,7 @@ function consultarTurno(index,element,status){
                                     </td>
                                     <td id="ver${index}">
                                     <button type="button" class="btn" data-bs-toggle="modal" data-bs-target="#modal" data-bs-whatever=${element.codigo}><i class="fa-solid fa-eye" style="color: #001A6F" data-bs-toggle="tooltip" data-bs-placement="top" title="Ver"></i></button>
+                                        <i class="btn fa-solid fa-trash eliminar" style="color: #001A6F" data-bs-toggle="tooltip" data-bs-placement="right" title="Borrar" id="${element.codigo}"></i>
                                     </td>
                                 </tr>`;
             }
@@ -280,6 +288,7 @@ function consultarTurno(index,element,status){
                                     </td>
                                     <td id="ver${index}">
                                     <button type="button" class="btn" data-bs-toggle="modal" data-bs-target="#modal" data-bs-whatever=${element.codigo}><i class="fa-solid fa-eye" style="color: #001A6F" data-bs-toggle="tooltip" data-bs-placement="top" title="Ver"></i></button>
+                                        <i class="btn fa-solid fa-trash eliminar" style="color: #001A6F" data-bs-toggle="tooltip" data-bs-placement="right" title="Borrar" id="${element.codigo}"></i>
                                     </td>
                                 </tr>`;
             setTimeout(() => {

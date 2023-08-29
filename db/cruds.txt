@@ -622,3 +622,88 @@ end loop;
 return;
 end;
 $divisa$
+
+//Eliminar fisico consultorio
+
+CREATE OR REPLACE FUNCTION public.consultorio_eliminar_definitivo(p1_cod_con integer)
+RETURNS character varying
+LANGUAGE plpgsql
+AS $consultorio_eliminar_definitivo$
+DECLARE 
+    valor character varying;
+BEGIN
+    DELETE FROM public.consultorio
+	where cod_con=p1_cod_con
+	returning 'hecho' into valor;
+    
+    RETURN valor;
+END;
+$consultorio_eliminar_definitivo$;
+
+//Eliminar fisico dia_laborable
+
+CREATE OR REPLACE FUNCTION public.dia_laborable_eliminar_definitivo(p1_cod_dia integer)
+RETURNS character varying
+LANGUAGE plpgsql
+AS $dia_laborable_eliminar_definitivo$
+DECLARE 
+    valor character varying;
+BEGIN
+    DELETE FROM public.dia_laborable
+	where cod_dia=p1_cod_dia
+	returning 'hecho' into valor;
+    
+    RETURN valor;
+END;
+$dia_laborable_eliminar_definitivo$;
+
+//Eliminar fisico doctor
+
+CREATE OR REPLACE FUNCTION public.doctor_eliminar_definitivo(p1_cod_doc integer)
+RETURNS character varying
+LANGUAGE plpgsql
+AS $doctor_eliminar_definitivo$
+DECLARE 
+    valor character varying;
+BEGIN
+    DELETE FROM public.doctor
+	where cod_doc=p1_cod_doc
+	returning 'hecho' into valor;
+    
+    RETURN valor;
+END;
+$doctor_eliminar_definitivo$;
+
+//Eliminar fisico especialidad
+
+CREATE OR REPLACE FUNCTION public.especialidad_eliminar_definitivo(p1_cod_esp integer)
+RETURNS character varying
+LANGUAGE plpgsql
+AS $especialidad_eliminar_definitivo$
+DECLARE 
+    valor character varying;
+BEGIN
+    DELETE FROM public.especialidad
+	where cod_esp=p1_cod_esp
+	returning 'hecho' into valor;
+    
+    RETURN valor;
+END;
+$especialidad_eliminar_definitivo$;
+
+//Eliminar fisico turno
+
+CREATE OR REPLACE FUNCTION public.turno_eliminar_definitivo(p1_cod_tur integer)
+RETURNS character varying
+LANGUAGE plpgsql
+AS $turno_eliminar_definitivo$
+DECLARE 
+    valor character varying;
+BEGIN
+    DELETE FROM public.turno
+	where cod_tur=p1_cod_tur
+	returning 'hecho' into valor;
+    
+    RETURN valor;
+END;
+$turno_eliminar_definitivo$;

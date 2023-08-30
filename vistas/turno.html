@@ -25,10 +25,51 @@
                         <form>
                             <div class="row m-3 d-flex justify-content-center align-items-end">
                                 <div class="col-sm-12 col-md-5">
-                                    <label class="form-label" for="nom_con">Nombre:</label>
+                                    <label for="fky_doc" class="col-form-label text-capitalize">
+                                        Doctor:
+                                    </label>
                                 </div>
                                 <div class="col-sm-12 col-md-7">
-                                    <input class="form-control" type="text" id="nom_con" name="nom_con" size="16" maxlength="20" placeholder="Ingrese Nombre del consultorio">
+                                    <select name="fky_doc" id="fky_doc" class="text-capitalize form-select casilla" required>
+                                        
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="row m-3 d-flex justify-content-center align-items-end">
+                                <div class="col-sm-12 col-md-5">
+                                    <label for="fky_con" class="col-form-label text-capitalize">
+                                        Consultorio:
+                                    </label>
+                                </div>
+                                <div class="col-sm-12 col-md-7">
+                                    <select name="fky_con" id="fky_con" class="text-capitalize form-select casilla" required>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="row m-3 d-flex justify-content-center align-items-end">
+                                <div class="col-sm-12 col-md-5">
+                                    <label for="fky_dia" class="col-form-label text-capitalize">
+                                        Día:
+                                    </label>
+                                </div>
+                                <div class="col-sm-12 col-md-7">
+                                    <select name="fky_dia" id="fky_dia" class="text-capitalize form-select casilla" required>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="row m-3 d-flex justify-content-center align-items-end">
+                                <div class="col-sm-12 col-md-4">
+                                    <label class="form-label" for="ent_tur">Horario:</label>
+                                </div>
+                                <div class="col-sm-12 col-md-1 mt-sm-2"></div>
+                                <div class="col-sm-12 col-md-3">
+                                    <input class="form-control agregar" type="text" id="ent_tur" name="ent_tur" size="16" maxlength="20" placeholder="Desde">
+                                    <span></span>
+                                </div>
+                                <div class="col-sm-12 col-md-1 mt-sm-2"></div>
+                                <div class="col-sm-12 col-md-3 mt-sm-2">
+                                    <input class="form-control agregar" type="text" id="sal_tur" name="sal_tur" size="16" maxlength="20" placeholder="Hasta">
+                                    <span></span>
                                 </div>
                             </div>
                         </form>
@@ -159,5 +200,6 @@
     <script src="../js/consultar.js"></script>
     <script src="../js/activarDesactivar.js"></script>
     <script src="../js/eliminar.js"></script>
+    <script src="../js/agregar.js"></script>
 </body>
 </html>

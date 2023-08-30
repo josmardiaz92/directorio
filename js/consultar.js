@@ -3,13 +3,25 @@ const ruta=`../php/${identificador}_listar.php`;
 let filtro='';
 const btnFiltro=document.getElementById('filtro');
 const selectEspecialidad = document.querySelector('#fky_esp', null);
+const selectDoctor = document.querySelector('#fky_doc', null);
+const selectConsultorio = document.querySelector('#fky_con', null);
+const selectDia = document.querySelector('#fky_dia', null);
 
 
 consultarContenido();
 btnFiltro.addEventListener('change',filtrar);
 
 if(selectEspecialidad){
-    consultarEspecialidad();
+    consultarListaEspecialidad();
+}
+if(selectDoctor){
+    consultarListaDoctor();
+}
+if(selectConsultorio){
+    consultarListaConsultorio();
+}
+if(selectDia){
+    consultarListaDia();
 }
 
 async function consultarContenido(){
@@ -367,13 +379,60 @@ function consultarTurno(index,element,status){
         }
 }
 
-function consultarEspecialidad(){
+function consultarListaEspecialidad(){
     selectEspecialidad.innerHTML='<option value="">Seleccione...</option>';
     fetch(`../php/especialidad_listar.php`)
     .then(respuesta=>respuesta.json())
     .then(arregloJson=>{
         arregloJson.forEach(element=>{
-            selectEspecialidad.innerHTML+=`<option value="${element.codigo}">${element.nombre}</option>`;
+            if(element.estatus=='A'){
+                selectEspecialidad.innerHTML+=`<option value="${element.codigo}">${element.nombre}</option>`;
+            }
+            })
+
+    })
+    .catch(error=>{console.error(`Atención ${error}`)})
+}
+
+function consultarListaDoctor(){
+    selectDoctor.innerHTML='<option value="">Seleccione...</option>';
+    fetch(`../php/doctor_listar.php`)
+    .then(respuesta=>respuesta.json())
+    .then(arregloJson=>{
+        arregloJson.forEach(element=>{
+            if(element.estatus=='A'){
+                selectDoctor.innerHTML+=`<option value="${element.codigo}">${element.nombre}</option>`;
+            }
+            })
+
+    })
+    .catch(error=>{console.error(`Atención ${error}`)})
+}
+
+function consultarListaConsultorio(){
+    selectConsultorio.innerHTML='<option value="">Seleccione...</option>';
+    fetch(`../php/consultorio_listar.php`)
+    .then(respuesta=>respuesta.json())
+    .then(arregloJson=>{
+        arregloJson.forEach(element=>{
+            if(element.estatus=='A'){
+                selectConsultorio.innerHTML+=`<option value="${element.codigo}">${element.nombre}</option>`;
+            }
+            })
+
+    })
+    .catch(error=>{console.error(`Atención ${error}`)})
+}
+
+function consultarListaDia(){
+    selectDia.innerHTML='<option value="">Seleccione...</option>';
+    fetch(`../php/dia_laborable_listar.php`)
+    .then(respuesta=>respuesta.json())
+    .then(arregloJson=>{
+        arregloJson.forEach(element=>{
+            if(element.estatus=='A'){
+                selectDia.innerHTML+=`<option value="${element.codigo}">${element.nombre}</option>`;
+            }
             })
 
     })

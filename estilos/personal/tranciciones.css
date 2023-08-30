@@ -17,15 +17,16 @@
 }
 
 .marquee {
-    animation: marquee 30s linear infinite;
+    animation: marquee linear infinite;
     white-space: nowrap;
+    animation-fill-mode: forwards;
 }
 
 @keyframes marquee {
     0% {
-        transform: translateX(100%);
+        transform: translateY(200%);
     }
     100% {
-        transform: translateX(-100%);
+        transform: translateY(-100%);
     }
 }

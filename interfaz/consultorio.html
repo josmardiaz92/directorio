@@ -6,11 +6,12 @@
     <link rel="stylesheet" href="../estilos/bootstrap/bootstrap.min.css">
     <link rel="stylesheet" href="../estilos/iconos/css/all.min.css">
     <link rel="stylesheet" href="../estilos/personal/vistas_interfaz.css">
+    <link rel="icon" href="../imagenes/logovertical.png" type="image/x-icon">
     <title>Interfaz</title>
 </head>
 <body class="bg-secondary bg-opacity-50">
-    <input type="text" value="especialidad" class="d-none" id="identificador">
-    <input type="text" value="cod_esp" class="d-none" id="nombreCodigo">
+    <input type="text" value="consultorio" class="d-none" id="identificador">
+    <input type="text" value="cod_con" class="d-none" id="nombreCodigo">
     <div class="contenedor-modal" id="contenedor-modal-agregar">
         <div class="modal fade" id="modalAgregar" tabindex="-1" aria-labelledby="modalLabel" aria-hidden="true">
             <div class="modal-dialog">
@@ -22,13 +23,13 @@
                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
                     <div class="modal-body">
-                        <form action="" method="post">
+                        <form>
                             <div class="row m-3 d-flex justify-content-center align-items-end">
                                 <div class="col-sm-12 col-md-5">
-                                    <label class="form-label" for="nom_esp">Nombre:</label>
+                                    <label class="form-label" for="nom_con">Nombre:</label>
                                 </div>
                                 <div class="col-sm-12 col-md-7">
-                                    <input class="form-control agregar casilla validar" type="text" id="nom_esp" name="nom_esp" size="16" maxlength="20" placeholder="Nombre de la especialidad" title="Solo letras">
+                                    <input class="form-control agregar casilla validar" type="text" id="nom_con" name="nom_con" size="16" maxlength="20" placeholder="Nombre del consultorio" title="Solo letras y números">
                                     <span></span>
                                 </div>
                             </div>
@@ -150,7 +151,6 @@
         
 			
 	</div>
-
     <script src="../js/tooltip.js"></script>
     <script src="../js/js-bootstrap/bootstrap.bundle.min.js"></script>
     <script src="../js/consultar.js"></script>

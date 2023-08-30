@@ -6,11 +6,12 @@
     <link rel="stylesheet" href="../estilos/bootstrap/bootstrap.min.css">
     <link rel="stylesheet" href="../estilos/iconos/css/all.min.css">
     <link rel="stylesheet" href="../estilos/personal/vistas_interfaz.css">
+    <link rel="icon" href="../imagenes/logovertical.png" type="image/x-icon">
     <title>Interfaz</title>
 </head>
 <body class="bg-secondary bg-opacity-50">
-    <input type="text" value="consultorio" class="d-none" id="identificador">
-    <input type="text" value="cod_con" class="d-none" id="nombreCodigo">
+    <input type="text" value="turno" class="d-none" id="identificador">
+    <input type="text" value="cod_tur" class="d-none" id="nombreCodigo">
     <div class="contenedor-modal" id="contenedor-modal-agregar">
         <div class="modal fade" id="modalAgregar" tabindex="-1" aria-labelledby="modalLabel" aria-hidden="true">
             <div class="modal-dialog">
@@ -25,17 +26,55 @@
                         <form>
                             <div class="row m-3 d-flex justify-content-center align-items-end">
                                 <div class="col-sm-12 col-md-5">
-                                    <label class="form-label" for="nom_con">Nombre:</label>
+                                    <label for="fky_doc" class="col-form-label text-capitalize">
+                                        Doctor:
+                                    </label>
                                 </div>
                                 <div class="col-sm-12 col-md-7">
-                                    <input class="form-control agregar casilla validar" type="text" id="nom_con" name="nom_con" size="16" maxlength="20" placeholder="Nombre del consultorio" title="Solo letras y números">
+                                    <select name="fky_doc" id="fky_doc" class="text-capitalize form-select casilla" required>
+                                        
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="row m-3 d-flex justify-content-center align-items-end">
+                                <div class="col-sm-12 col-md-5">
+                                    <label for="fky_con" class="col-form-label text-capitalize">
+                                        Consultorio:
+                                    </label>
+                                </div>
+                                <div class="col-sm-12 col-md-7">
+                                    <select name="fky_con" id="fky_con" class="text-capitalize form-select casilla" required>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="row m-3 d-flex justify-content-center align-items-end">
+                                <div class="col-sm-12 col-md-5">
+                                    <label for="fky_dia" class="col-form-label text-capitalize">
+                                        Día:
+                                    </label>
+                                </div>
+                                <div class="col-sm-12 col-md-7">
+                                    <select name="fky_dia" id="fky_dia" class="text-capitalize form-select casilla" required>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="row m-3 d-flex justify-content-center align-items-end">
+                                <div class="col-sm-12 col-md-4">
+                                    <label class="form-label" for="ent_tur">Horario:</label>
+                                </div>
+                                <div class="col-sm-12 col-md-4">
+                                    <input class="form-control agregar casilla validar" type="text" id="ent_tur" name="ent_tur" size="16" maxlength="20" placeholder="Hora de entrada" title="La hora debe ser en el siguiente formato: 00:00 AM o PM">
+                                    <span></span>
+                                </div>
+                                <div class="col-sm-12 col-md-4 mt-sm-2">
+                                    <input class="form-control agregar casilla validar" type="text" id="sal_tur" name="sal_tur" size="16" maxlength="20" placeholder="Hora de salida" title="La hora debe ser en el siguiente formato: 00:00 AM o PM">
                                     <span></span>
                                 </div>
                             </div>
                         </form>
                     </div>
                     <div class="modal-footer d-flex justify-content-center">
-                        <button type="button" class="btn btn-secondary" id="btnAgregar" disabled>Agregar</button>
+                        <button type="button" class="btn btn-secondary" id="btnAgregar">Agregar</button>
                     </div>
                 </div>
             </div>
@@ -117,8 +156,12 @@
                             <table class="table table-striped table-hover table-bordered table-secondary text-capitalize text-center align-middle">
                                 <thead class="text-center">
                                     <tr>
-                                        <th>Nombre</th>
-                                        <th>Estado</th>
+                                        <th>Doctor</th>
+                                        <th>Especialidad</th>
+                                        <th>consultorio</th>
+                                        <th>día</th>
+                                        <th>horario</th>
+                                        <th>estado</th>
                                         <th>acción</th>
                                     </tr>
                                 </thead>

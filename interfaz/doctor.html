@@ -6,12 +6,12 @@
     <link rel="stylesheet" href="../estilos/bootstrap/bootstrap.min.css">
     <link rel="stylesheet" href="../estilos/iconos/css/all.min.css">
     <link rel="stylesheet" href="../estilos/personal/vistas_interfaz.css">
+    <link rel="icon" href="../imagenes/logovertical.png" type="image/x-icon">
     <title>Interfaz</title>
 </head>
 <body class="bg-secondary bg-opacity-50">
-    <input type="text" value="dia_laborable" class="d-none" id="identificador">
-    <input type="text" value="cod_dia" class="d-none" id="nombreCodigo">
-
+    <input type="text" value="doctor" class="d-none" id="identificador">
+    <input type="text" value="cod_doc" class="d-none" id="nombreCodigo">
     <div class="contenedor-modal" id="contenedor-modal-agregar">
         <div class="modal fade" id="modalAgregar" tabindex="-1" aria-labelledby="modalLabel" aria-hidden="true">
             <div class="modal-dialog">
@@ -26,23 +26,36 @@
                         <form>
                             <div class="row m-3 d-flex justify-content-center align-items-end">
                                 <div class="col-sm-12 col-md-5">
-                                    <label class="form-label" for="nom_con">Nombre:</label>
+                                    <label class="form-label" for="nom_doc">Nombre:</label>
                                 </div>
                                 <div class="col-sm-12 col-md-7">
-                                    <input class="form-control" type="text" id="nom_con" name="nom_con" size="16" maxlength="20" placeholder="Ingrese Nombre del consultorio">
+                                    <input class="form-control agregar casilla validar" type="text" id="nom_doc" name="nom_doc" size="16" maxlength="20" placeholder="Nombre del consultorio" title="Solo letras">
+                                    <span></span>
+                                </div>
+                            </div>
+                            <div class="row m-3 d-flex justify-content-center align-items-end">
+                                <div class="col-sm-12 col-md-5">
+                                    <label for="fky_esp" class="col-form-label text-capitalize">
+                                        Especialidad:
+                                    </label>
+                                </div>
+                                <div class="col-sm-12 col-md-7">
+                                    <select name="fky_esp" id="fky_esp" class="text-capitalize form-select casilla" required>
+                                        
+                                    </select>
                                 </div>
                             </div>
                         </form>
                     </div>
                     <div class="modal-footer d-flex justify-content-center">
-                        <button type="button" class="btn btn-secondary" id="btnAgregar">Agregar</button>
+                        <button type="button" class="btn btn-secondary" id="btnAgregar" disabled>Agregar</button>
                     </div>
                 </div>
             </div>
         </div>
     </div>
-    <div class="position-absolute p-3 campoAlertas d-none col-sm-12 col-md-6 col-lg-3">
-        <div class="container-fluid " id="alerta">
+    <div class="position-absolute p-3 campoAlertas col-sm-12 col-md-6 col-lg-3">
+        <div class="container-fluid d-none" id="alerta">
             <div class="row">
                 <div class="col-12 alert alert-danger" role="alert">
                     <div class="row d-flex justify-content-center">
@@ -53,14 +66,13 @@
                         </div>
                         <div class="col-12">
                                 <p class="my-3 text-dark text-capitalize text-center" id="textoAlerta">
-
                                 </p>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
-        <div class="container-fluid " id="alerta2">
+        <div class="container-fluid d-none" id="alerta2">
             <div class="row">
                 <div class="col-12 alert alert-success" role="alert">
                     <div class="row d-flex justify-content-center">
@@ -119,7 +131,9 @@
                                 <thead class="text-center">
                                     <tr>
                                         <th>Nombre</th>
+                                        <th>Especialidad</th>
                                         <th>Estado</th>
+                                        <th>acción</th>
                                     </tr>
                                 </thead>
                                 <tbody id="cuerpoTabla">
@@ -131,6 +145,10 @@
         </div>
         <div class="pies" id="pies">
             <div class="row m-5 d-flex justify-content-center">
+                <div class="col-sm-12 col-md-10 col-lg-8 body-personal d-flex justify-content-center">
+                    <a role="button" class="btn btn-secondary" data-bs-toggle="modal" data-bs-target="#modalAgregar" data-bs-whatever='agregarConsultorio'>Agregar</a>
+                    </a>
+                </div>
                 <div class="fixed-bottom d-flex justify-content-end mb-3">
                     <div class="col1">
                         <select name="filtro" id="filtro" class="form-select">
@@ -151,5 +169,7 @@
     <script src="../js/consultar.js"></script>
     <script src="../js/activarDesactivar.js"></script>
     <script src="../js/eliminar.js"></script>
+    <script src="../js/agregar.js"></script>
+    <script src="../js/validar.js"></script>
 </body>
 </html>

@@ -28,20 +28,21 @@
                                     <label class="form-label" for="nom_esp">Nombre:</label>
                                 </div>
                                 <div class="col-sm-12 col-md-7">
-                                    <input class="form-control agregar" type="text" id="nom_esp" name="nom_esp" size="16" maxlength="20" placeholder="Ingrese Nombre de la especialidad">
+                                    <input class="form-control agregar casilla validar" type="text" id="nom_esp" name="nom_esp" size="16" maxlength="20" placeholder="Nombre de la especialidad" title="Solo letras">
+                                    <span></span>
                                 </div>
                             </div>
                         </form>
                     </div>
                     <div class="modal-footer d-flex justify-content-center">
-                        <button type="button" class="btn btn-secondary" id="btnAgregar">Agregar</button>
+                        <button type="button" class="btn btn-secondary" id="btnAgregar" disabled>Agregar</button>
                     </div>
                 </div>
             </div>
         </div>
     </div>
-    <div class="position-absolute p-3 campoAlertas d-none col-sm-12 col-md-6 col-lg-3">
-        <div class="container-fluid " id="alerta">
+    <div class="position-absolute p-3 campoAlertas col-sm-12 col-md-6 col-lg-3">
+        <div class="container-fluid d-none" id="alerta">
             <div class="row">
                 <div class="col-12 alert alert-danger" role="alert">
                     <div class="row d-flex justify-content-center">
@@ -52,14 +53,13 @@
                         </div>
                         <div class="col-12">
                                 <p class="my-3 text-dark text-capitalize text-center" id="textoAlerta">
-
                                 </p>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
-        <div class="container-fluid " id="alerta2">
+        <div class="container-fluid d-none" id="alerta2">
             <div class="row">
                 <div class="col-12 alert alert-success" role="alert">
                     <div class="row d-flex justify-content-center">
@@ -157,5 +157,6 @@
     <script src="../js/activarDesactivar.js"></script>
     <script src="../js/eliminar.js"></script>
     <script src="../js/agregar.js"></script>
+    <script src="../js/validar.js"></script>
 </body>
 </html>

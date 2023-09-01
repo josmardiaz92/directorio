@@ -34,12 +34,20 @@ function contarEspecialidades(){
     })
     .catch(error => { console.error(`Atención ${error}`) });
 }
-
-function mostrar(especialidadSeleccionada){
-    const contenedor=document.getElementById(especialidadSeleccionada);
-    contenedor.classList.remove('d-none')
+function mostrar(especialidadSeleccionada) {
+    const contenedor = document.getElementById(especialidadSeleccionada);
+    contenedor.classList.remove('d-none', 'fade-out'); // Quita la clase "d-none" y "fade-out"
+    contenedor.classList.add('fade-in'); // Agrega clases de animación
     setTimeout(() => {
-        contenedor.classList.add('d-none')
-    }, tiempo*0.96);
+        contenedor.classList.remove('fade-in');
+        contenedor.classList.add('fade-out');
+        setTimeout(() => {
+            contenedor.classList.add('d-none');
+        }, tiempo*0.15);
+    }, tiempo*0.8);
 }
+
+
+
+
 

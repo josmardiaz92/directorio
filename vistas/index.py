@@ -59,7 +59,7 @@ print('''
 
 for especialidad, doctores in especialidades.items():
     print(f'''
-        <div id="{especialidad}" class="text-capitalize text-warning">
+        <div id="{especialidad}" class="text-capitalize text-warning d-none fade-out">
             <div class="mt-5">
                 <h1>{especialidad}</h1>
             </div>
@@ -134,10 +134,13 @@ print(f"""
                     </div>
                 </div>
                 
-            </div> """)
+            </div> 
+            """)
 
 print('''</div>
     </div>
+    <script src="../js/main.js"></script>
+    <script src="../node_modules/axios/dist/axios.min.js"></script>
 </body>
 </html>
 ''')

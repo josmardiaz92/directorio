@@ -30,3 +30,35 @@
         transform: translateY(-100%);
     }
 }
+
+@keyframes entrada {
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
+}
+
+@keyframes salida {
+    from {
+        opacity: 1;
+    }
+    to {
+        opacity: 0;
+    }
+}
+
+/* Aplica las animaciones a los elementos con la clase "animated-container" */
+.animated-container {
+    animation-duration: 1s; /* Duración de la animación en segundos */
+    animation-fill-mode: both; /* Mantiene los estilos finales de la animación */
+}
+
+.fade-in {
+animation-name: entrada;
+}
+
+.fade-out {
+animation-name: salida;
+}

@@ -41,7 +41,6 @@ class turno(bd.base_datos):
         self.conexion.commit() #*Confirmamos la ejecución de la sentencia sql
         lista=self.cursor.fetchall() #*Lista de resultados
         self.cerrar()
-        print(lista)
         return lista #*retornamos la lista
     def eliminar(self):
         #*Llamamos a la funcion para eliminar en la base de datos

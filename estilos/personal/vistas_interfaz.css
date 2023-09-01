@@ -45,3 +45,9 @@
     top: 40%;
     right: 20px;
 }
+
+.logoEstatico{
+    background-color: rgba(255, 255, 255, 0.05); /* Cambia el valor de 0.5 según tu preferencia */
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(25px);
+}

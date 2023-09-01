@@ -1,3 +1,5 @@
+
+
 const especialidades = {};
 const contenedor = document.getElementById('contenedor');
 let contador=0;
@@ -21,8 +23,8 @@ fetch('../php/turno_listar.php')
         });
         const cantidadEspecialidades = Object.keys(especialidades).length;
         let especialidadSeleccionada = Object.keys(especialidades)[contador];
-        imprimirtodo();
-        /* imprimirSolo(especialidadSeleccionada)
+        //imprimirtodo();
+        imprimirSolo(especialidadSeleccionada)
         setInterval(() => {
             if(contador==(cantidadEspecialidades-1)){
                 contador=0;
@@ -31,7 +33,7 @@ fetch('../php/turno_listar.php')
             }
             especialidadSeleccionada = Object.keys(especialidades)[contador];
             imprimirSolo(especialidadSeleccionada);
-        }, 3000); */        
+        }, 3000);        
     })
     .catch(error => { console.error(`Atención ${error}`) });
 
@@ -142,3 +144,4 @@ function imprimirSolo(especialidad){
     }
 }
 
+console.log(especialidades)

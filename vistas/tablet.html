@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>AJAX con Python</title>
+</head>
+<body>
+    <script src="../node_modules/axios/dist/axios.min.js"></script>
+
+
+    <button type="button" id="btn">recargar</button>
+
+    <script>
+
+        function getUsers() {
+            // Make an AJAX request to the Python endpoint
+            axios({
+                method: "GET",
+                url: "../py/controladores/divisas_obtener.py",
+            })
+                .then((response) => {
+                    // Do something with the response data
+                    const users = response.data;
+
+                    console.log(users)
+                })
+                .catch((error) => {
+                    console.log(error);
+                });
+        }
+
+        document.addEventListener("DOMContentLoaded", () => {
+            // Call the function when the page is loaded
+            btn=document.getElementById('btn')
+            btn.addEventListener('click',getUsers)
+        });
+    </script>
+</body>
+</html>

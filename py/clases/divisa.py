@@ -27,7 +27,6 @@ class divisa(bd.base_datos):
         self.cursor.execute(sql) #*Le decimos al cursor que deseamos ejecutar la sentencia sql
         self.conexion.commit() #*Confirmamos la ejecución de la sentencia sql
         lista=self.cursor.fetchall() #*Lista de resultados
-        print(lista)
         self.cerrar()
         return lista #*retornamos la lista
     def obtenerDivisas(self):
@@ -80,5 +79,6 @@ class divisa(bd.base_datos):
                 self.nom_div = moneda
                 self.val_div = valor
                 self.agregar()
+        return informacion_divisas
 
 

@@ -1,39 +1,30 @@
 <!DOCTYPE html>
-<html lang="es">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>AJAX con Python</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../estilos/bootstrap/bootstrap.min.css">
+    <link rel="stylesheet" href="../estilos/iconos/css/all.min.css">
+    <link rel="stylesheet" href="../estilos/personal/vistas_interfaz.css">
+    <link rel="stylesheet" href="../estilos/personal/tranciciones.css">
+    <link rel="icon" href="../imagenes/logovertical.png" type="image/x-icon">
+    <title>tablet</title>
 </head>
 <body>
+    <div class="container-fluid bg-darck">
+        <button type="button" class="btn btn-outline-warning d-none" id="prueba">
+            <h1>
+                especialidad 1
+            </h1>
+        </button>
+        <div class="row mt-5">
+            <div class="col d-grid gap-2 col-10 mx-auto" id="contenedorBtn">
+                
+            </div>
+        </div>
+    </div>
+
     <script src="../node_modules/axios/dist/axios.min.js"></script>
-
-
-    <button type="button" id="btn">recargar</button>
-
-    <script>
-
-        function getUsers() {
-            // Make an AJAX request to the Python endpoint
-            axios({
-                method: "GET",
-                url: "../py/controladores/divisas_obtener.py",
-            })
-                .then((response) => {
-                    // Do something with the response data
-                    const users = response.data;
-
-                    console.log(users)
-                })
-                .catch((error) => {
-                    console.log(error);
-                });
-        }
-
-        document.addEventListener("DOMContentLoaded", () => {
-            // Call the function when the page is loaded
-            btn=document.getElementById('btn')
-            btn.addEventListener('click',getUsers)
-        });
-    </script>
+    <script src="../js/botones.js"></script>
 </body>
 </html>

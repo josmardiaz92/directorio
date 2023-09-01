@@ -11,9 +11,7 @@ d=div.divisa()
 
 divisas=d.listar()
 
-
-
-print('''
+head='''
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -32,7 +30,7 @@ print('''
             <div id="cabeza" class="col-9 ">
             
             </div>
-''')
+'''
 
 for datos in divisas:
     for str_data in datos:
@@ -40,7 +38,7 @@ for datos in divisas:
         d.cod_div,d.nom_div,d.val_div,d.fec_div,d.est_div=listaDivisas
         valor=float(d.val_div)
         valor=round(valor, 2)
-print(f""" 
+body=f""" 
 <div class="col-3 d-flex text-capitalize text-warning d-block">
                 <div class="row">
                     <div class="col text-center">
@@ -74,12 +72,13 @@ print(f"""
                 </div>
                 
             </div> 
-            """)
+            """
 
-print('''</div>
+pie='''</div>
     </div>
-    <script src="../js/antigua.js"></script>
+    <script src="../js/mostrar.js"></script>
     <script src="../node_modules/axios/dist/axios.min.js"></script>
 </body>
 </html>
-''')
+'''
+print(head,body,pie)

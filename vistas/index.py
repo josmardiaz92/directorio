@@ -25,7 +25,6 @@ for datos in turnos:
             entrada=t.ent_tur.strip('""')
             salida=t.sal_tur.strip('""')
             horario = f"{t.nom_dia} {entrada} a {salida}"
-            
 
             if t.nom_esp not in especialidades:
                 especialidades[t.nom_esp] = {}
@@ -56,8 +55,8 @@ print('''
         <div class="row">
             <div class="col-9">
 ''')
-
 for especialidad, doctores in especialidades.items():
+    especialidad=especialidad.strip('""')
     print(f'''
         <div id="{especialidad}" class="text-capitalize text-warning d-none fade-out">
             <div class="mt-5">
@@ -66,12 +65,13 @@ for especialidad, doctores in especialidades.items():
     ''')
     
     for doctor, horarios in doctores.items():
+        doctor=doctor.strip('""')
         print(f'''
-            <div class="row mt-5">
-                <div class="col-12 col-lg-6 align-self-center ps-lg-4 text-center text-lg-start doctor">
+            <div class="row mt-5 doctor">
+                <div class="col-12 col-lg-6 align-self-center ps-lg-4 text-center text-lg-start">
                     <h2>{doctor}</h2>
                 </div>
-                <div class="col-12 col-lg-3 text-center text-lg-start pt-1">
+                <div class="col-12 col-lg-3 text-center text-lg-start pt-1 align-self-center">
         ''')
         for horario_info in horarios:
             horario = horario_info['horario']
@@ -83,7 +83,7 @@ for especialidad, doctores in especialidades.items():
         print(f'''
                 </div>
                 <div class="col-12 col-lg-2 align-self-center">
-                    <h2 class="text-center">Consultorio: {consultorio_nombre}</h2>
+                    <h3 class="text-center">Consultorio: {consultorio_nombre}</h3>
                 </div>
             </div>
             <hr class="mx-5">

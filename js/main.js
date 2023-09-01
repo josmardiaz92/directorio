@@ -1,11 +1,18 @@
 const especialidades=[];
-const contenedor = document.getElementById('contenedor');
 let contador=0;
-const tiempo=5000;
+let tiempo=0;
 
 setTimeout(() => {
+    let milisegundos = 3000; // Ajusta este valor según tus necesidades
+    const doctor = document.querySelector('.doctor', null);
+    if(doctor){
+        const doctores=document.querySelectorAll('.doctor');
+        const cantidadLineas = doctores.length; // Cuenta la cantidad de líneas
+        tiempo = milisegundos * cantidadLineas;
+        console.log(tiempo)
+    }
     contarEspecialidades()
-}, 200);
+}, 1000);
 
 
 function contarEspecialidades(){
@@ -43,10 +50,9 @@ function mostrar(especialidadSeleccionada) {
         contenedor.classList.add('fade-out');
         setTimeout(() => {
             contenedor.classList.add('d-none');
-        }, tiempo*0.15);
-    }, tiempo*0.8);
+        }, 800);
+    }, tiempo-1000);
 }
-
 
 
 

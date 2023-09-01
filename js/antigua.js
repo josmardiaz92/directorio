@@ -143,5 +143,3 @@ function imprimirSolo(especialidad){
         especialidadesContainer.appendChild(especialidadDiv);
     }
 }
-
-console.log(especialidades)

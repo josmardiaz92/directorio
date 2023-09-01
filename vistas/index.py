@@ -4,38 +4,14 @@ import cgitb
 cgitb.enable()
 import sys
 sys.path.append('c:\\xampp\\htdocs\\Github\\directorio')
-from py.clases import turno as tur
 from py.clases import divisa as div
 print('Content-type: text/html\n\n')
 
-t=tur.turno()
 d=div.divisa()
 
-turnos=t.listar()
 divisas=d.listar()
 
-especialidades = {}
 
-for datos in turnos:
-    for str_data in datos:
-        listaTurnos = str_data.strip('()').split(',')
-        t.cod_tur,t.fky_doc,t.nom_doc,t.fky_esp,t.nom_esp,t.fky_con,t.nom_con,t.fky_dia,t.nom_dia,t.ent_tur,t.sal_tur,t.est_tur = listaTurnos
-
-        if t.est_tur == 'A':
-            entrada=t.ent_tur.strip('""')
-            salida=t.sal_tur.strip('""')
-            horario = f"{t.nom_dia} {entrada} a {salida}"
-
-            if t.nom_esp not in especialidades:
-                especialidades[t.nom_esp] = {}
-
-            if t.nom_doc not in especialidades[t.nom_esp]:
-                especialidades[t.nom_esp][t.nom_doc] = []
-
-            especialidades[t.nom_esp][t.nom_doc].append({
-                'horario': horario,
-                't.nom_con': t.nom_con  # Agregamos el nombre del consultorio
-            })
 
 print('''
 <!DOCTYPE html>
@@ -53,48 +29,11 @@ print('''
 <body class="bg-dark">
     <div class="container-fluid h-100" id="contenedor">
         <div class="row">
-            <div class="col-9">
+            <div id="cabeza" class="col-9 ">
+            
+            </div>
 ''')
-for especialidad, doctores in especialidades.items():
-    especialidad=especialidad.strip('""')
-    print(f'''
-        <div id="{especialidad}" class="text-capitalize text-warning d-none fade-out">
-            <div class="mt-5">
-                <h1>{especialidad}</h1>
-            </div>
-    ''')
-    
-    for doctor, horarios in doctores.items():
-        doctor=doctor.strip('""')
-        print(f'''
-            <div class="row mt-5 doctor">
-                <div class="col-12 col-lg-6 align-self-center ps-lg-4 text-center text-lg-start">
-                    <h2>{doctor}</h2>
-                </div>
-                <div class="col-12 col-lg-3 text-center text-lg-start pt-1 align-self-center">
-        ''')
-        for horario_info in horarios:
-            horario = horario_info['horario']
-            print(f'''
-                <p>{horario}</p>
-        ''')
 
-        consultorio_nombre = horarios[0]['t.nom_con']  # Tomamos el nombre del consultorio del primer horario
-        print(f'''
-                </div>
-                <div class="col-12 col-lg-2 align-self-center">
-                    <h3 class="text-center">Consultorio: {consultorio_nombre}</h3>
-                </div>
-            </div>
-            <hr class="mx-5">
-        ''')
-    
-    print('''
-        </div>
-    ''')
-print('''
-        </div>
-    ''')
 for datos in divisas:
     for str_data in datos:
         listaDivisas=str_data.strip('()').split(',')
@@ -139,7 +78,7 @@ print(f"""
 
 print('''</div>
     </div>
-    <script src="../js/main.js"></script>
+    <script src="../js/antigua.js"></script>
     <script src="../node_modules/axios/dist/axios.min.js"></script>
 </body>
 </html>

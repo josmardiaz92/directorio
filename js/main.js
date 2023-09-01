@@ -1,9 +1,9 @@
 const especialidades=[];
 let contador=0;
 let tiempo=0;
+let milisegundos = 3000; // Ajusta este valor según tus necesidades
 
 setTimeout(() => {
-    let milisegundos = 3000; // Ajusta este valor según tus necesidades
     const doctor = document.querySelector('.doctor', null);
     if(doctor){
         const doctores=document.querySelectorAll('.doctor');
@@ -11,7 +11,6 @@ setTimeout(() => {
         tiempo = milisegundos * cantidadLineas;
         console.log(tiempo)
     }
-    contarEspecialidades()
 }, 1000);
 
 

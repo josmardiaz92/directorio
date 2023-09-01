@@ -1,8 +1,8 @@
 
-
 const especialidades = {};
 const contenedor = document.getElementById('contenedor');
 let contador=0;
+
 
 
 fetch('../php/turno_listar.php')
@@ -21,10 +21,11 @@ fetch('../php/turno_listar.php')
                 especialidades[especialidad][nombre].push(horario);
             }
         });
+
         const cantidadEspecialidades = Object.keys(especialidades).length;
         let especialidadSeleccionada = Object.keys(especialidades)[contador];
         //imprimirtodo();
-        imprimirSolo(especialidadSeleccionada)
+        imprimirSolo(especialidadSeleccionada);
         setInterval(() => {
             if(contador==(cantidadEspecialidades-1)){
                 contador=0;
@@ -33,7 +34,8 @@ fetch('../php/turno_listar.php')
             }
             especialidadSeleccionada = Object.keys(especialidades)[contador];
             imprimirSolo(especialidadSeleccionada);
-        }, 3000);        
+        }, 30000);
+
     })
     .catch(error => { console.error(`Atención ${error}`) });
 
@@ -97,7 +99,7 @@ function imprimirSolo(especialidad){
 
     if (especialidades[especialidad]) {
         const especialidadDiv = document.createElement('div');
-        especialidadDiv.classList.add('text-capitalize', 'text-warning', 'mt-5');
+        especialidadDiv.classList.add('text-capitalize', 'text-warning');
 
         const especialidadHeader = document.createElement('h1');
         especialidadHeader.textContent = `${especialidad}:`;
@@ -115,7 +117,7 @@ function imprimirSolo(especialidad){
             medicoDiv.appendChild(medicoNameDiv);
 
             const horariosDiv = document.createElement('div');
-            horariosDiv.classList.add('col-12', 'col-lg-3', 'text-center', 'text-lg-start', 'pt-1');
+            horariosDiv.classList.add('col-12', 'col-lg-3', 'text-center', 'text-lg-start', 'align-self-center');
             for (const horario of especialidades[especialidad][medico]) {
                 const horarioP = document.createElement('p');
                 horarioP.textContent = horario;
@@ -143,3 +145,4 @@ function imprimirSolo(especialidad){
         especialidadesContainer.appendChild(especialidadDiv);
     }
 }
+

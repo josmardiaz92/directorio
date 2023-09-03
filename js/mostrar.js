@@ -34,7 +34,7 @@ fetch('../php/turno_listar.php')
             }
             especialidadSeleccionada = Object.keys(especialidades)[contador];
             imprimirSolo(especialidadSeleccionada);
-        }, 30000);
+        }, 3000);
 
     })
     .catch(error => { console.error(`Atención ${error}`) });

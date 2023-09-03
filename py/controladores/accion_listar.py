@@ -16,5 +16,7 @@ for datos in acciones:
         p.cod_acc,p.nom_acc,p.est_acc=lista
         if p.est_acc == 'A':
             accion=p.nom_acc
+        else:
+            accion=None
 print(accion)
 

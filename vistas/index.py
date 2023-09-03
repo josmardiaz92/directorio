@@ -25,6 +25,13 @@ head='''
     <title>Directorio</title>
 </head>
 <body class="bg-dark">
+    <div class="container-fluid bg-danger position-absolute" style="z-index: 3;">
+        <div class="row">
+            <div id="containerModal" class="col d-none">
+                dadadadad
+            </div>
+        </div>
+    </div>
     <div class="container-fluid h-100" id="contenedor">
         <div class="row">
             <div id="cabeza" class="col-9 ">
@@ -76,7 +83,9 @@ body=f"""
 
 pie='''</div>
     </div>
+    <script src="../node_modules/axios/dist/axios.min.js"></script>
     <script src="../js/mostrar.js"></script>
+    <script src="../js/mostrarModal.js"></script>
     <script src="../node_modules/axios/dist/axios.min.js"></script>
 </body>
 </html>

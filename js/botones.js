@@ -1,8 +1,6 @@
 const btnContenedor=document.getElementById('contenedorBtn')
 const especialidades=[];
 let btns;
-let accionEjecutable;
-const contenedorModal=document.getElementById('prueba');
 
 fetch('../php/turno_listar.php')
     .then(respuesta => respuesta.json())
@@ -40,7 +38,6 @@ function modal(){
             };
             // Valor que deseas enviar al script CGI
             let accion = id; // Reemplaza esto con el valor deseado
-
             // URL del script CGI en tu servidor
             let url = "../py/controladores/accion_reanudar.py"; // Reemplaza con la ruta correcta a tu script
 
@@ -57,19 +54,15 @@ function modal(){
             fetch(url, requestOptions)
                 .then(response => response.text()) // Obtener la respuesta como texto
                 .then(result => {
-                    console.log(result); // Resultado devuelto por el script CGI
+                    console.log('activo'); // Resultado devuelto por el script CGI
                 })
                 .catch(error => {console.error('Error:', error);
             });
             setTimeout(() => {
-                tomarAcciones()
                 setTimeout(() => {
-                    accion=accionEjecutable;
-                    accionEjecutable='';
-                    mostrar(accionEjecutable)
                     // URL del script CGI en tu servidor
                     let url = "../py/controladores/accion_eliminar.py"; // Reemplaza con la ruta correcta a tu script
-
+                    console.log('aqui'+accion)
                     // Configuración de la solicitud fetch
                     let requestOptions = {
                         method: 'POST',
@@ -83,39 +76,14 @@ function modal(){
                     fetch(url, requestOptions)
                         .then(response => response.text()) // Obtener la respuesta como texto
                         .then(result => {
-                            console.log(result); // Resultado devuelto por el script CGI
+                            console.log('eliminado'); // Resultado devuelto por el script CGI
                         })
                         .catch(error => {console.error('Error:', error);
+                    
             });
-                }, 1000);
+                }, 5000);
             }, 300);
         })
     })
-}
-
-function tomarAcciones() {
-    // Make an AJAX request to the Python endpoint
-    axios({
-        method: "GET",
-        url: "../py/controladores/accion_listar.py",
-    })
-        .then((response) => {
-            // Do something with the response data
-            accionEjecutable = response.data;
-            mostrar(accionEjecutable);
-        })
-        .catch((error) => {
-            console.log(error);
-        });
-}
-
-function mostrar(accionEjecutable){
-    let valido=true;
-    if(accionEjecutable!=''){
-        valido=true;
-    }else{
-        valido=false;
-    }
-    contenedorModal.classList.toggle("d-none", !valido);
 }
 

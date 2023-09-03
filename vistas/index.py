@@ -25,10 +25,9 @@ head='''
     <title>Directorio</title>
 </head>
 <body class="bg-dark">
-    <div class="container-fluid bg-danger position-absolute" style="z-index: 3;">
+    <div class="container-fluid position-absolute" style="z-index: 3;">
         <div class="row">
-            <div id="containerModal" class="col d-none">
-                dadadadad
+            <div id="containerModal" class="col-9 d-none HSA bordeRedondeado">
             </div>
         </div>
     </div>

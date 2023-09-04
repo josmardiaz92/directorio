@@ -34,7 +34,7 @@ fetch('../php/turno_listar.php')
             }
             especialidadSeleccionada = Object.keys(especialidades)[contador];
             imprimirSolo(especialidadSeleccionada);
-        }, 3000);
+        }, 30000);
 
     })
     .catch(error => { console.error(`Atención ${error}`) });
@@ -102,7 +102,8 @@ function imprimirSolo(especialidad){
         especialidadDiv.classList.add('text-capitalize', 'text-warning');
 
         const especialidadHeader = document.createElement('h1');
-        especialidadHeader.textContent = `${especialidad}:`;
+        especialidadHeader.classList.add('textoEspecialidad', 'mt-2', 'ms-2', 'text-uppercase')
+        especialidadHeader.textContent = `${especialidad}`;
         especialidadDiv.appendChild(especialidadHeader);
 
         for (const medico in especialidades[especialidad]) {
@@ -110,16 +111,17 @@ function imprimirSolo(especialidad){
             medicoDiv.classList.add('row', 'mt-5');
 
             const medicoNameDiv = document.createElement('div');
-            medicoNameDiv.classList.add('col-12', 'col-lg-6', 'align-self-center', 'ps-lg-4', 'text-center', 'text-lg-start', 'doctor');
+            medicoNameDiv.classList.add('col-12', 'col-lg-5', 'align-self-center', 'ps-lg-4', 'text-center', 'text-lg-start', 'doctor');
             const medicoName = document.createElement('h2');
             medicoName.textContent = medico;
             medicoNameDiv.appendChild(medicoName);
             medicoDiv.appendChild(medicoNameDiv);
 
             const horariosDiv = document.createElement('div');
-            horariosDiv.classList.add('col-12', 'col-lg-3', 'text-center', 'text-lg-start', 'align-self-center');
+            horariosDiv.classList.add('col-12', 'col-lg-4', 'text-center', 'text-lg-start', 'align-self-center');
             for (const horario of especialidades[especialidad][medico]) {
                 const horarioP = document.createElement('p');
+                horarioP.classList.add('fs-5')
                 horarioP.textContent = horario;
                 horariosDiv.appendChild(horarioP);
             }

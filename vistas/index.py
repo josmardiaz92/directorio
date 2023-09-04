@@ -27,7 +27,7 @@ head='''
 <body class="bg-dark">
     <div class="container-fluid position-absolute" style="z-index: 3;">
         <div class="row">
-            <div id="containerModal" class="col-9 d-none HSA bordeRedondeado">
+            <div id="containerModal" class="col-9 d-none bg-dark bordeRedondeado">
             </div>
         </div>
     </div>
@@ -45,35 +45,44 @@ for datos in divisas:
         valor=float(d.val_div)
         valor=round(valor, 2)
 body=f""" 
-<div class="col-3 d-flex text-capitalize text-warning d-block">
+<div class="col-3 d-flex text-capitalize text-warning d-block border">
                 <div class="row">
                     <div class="col text-center">
                         <div class="row">
-                            <div class="col" id="titulo">
-                                <h1>
-                                    hospital san antonio de táriba
-                                </h1>
+                            <div class="col mt-2" id="titulo">
+                                <h3 class='text-uppercase'>
+                                    fundación hospital san antonio de táriba
+                                </h3>
+                                <p class='text-uppercase'>R.I.F. J-311 71 576-2</p>
                             </div>
                         </div>
-                        <div class="row mt-5">
-                            <div class="col">
-                                <h2>
-                                    Tasa BCV
-                                </h2>
-                            </div>
-                        </div>
-                        <div class="row mt-5">
-                            <div class="col" id="tasa">
-                                <h2>
-                                    {valor if d.nom_div == 'USD' else ''}
-                                </h2>
-                            </div>
-                        </div>
-                        <div class="row mt-5">
+                        <div class="row mt-1">
                             <div class="col img-fluid" id="logoestatico">
                                 <img src="../imagenes/logovertical.png" class="img-fluid logoEstatico bordeRedondeado p-3"  >
                             </div>
                         </div>
+                        <div class="row mt-3">
+                            <div class="col">
+                                <h2>
+                                    Tasa BCV 
+                                </h2>
+                                <p>lunes 04 de septiembre de 2023</p>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col" id="tasa">
+                                <h2>
+                                    USD/Bs {valor if d.nom_div == 'USD' else ''}
+                                </h2>
+                                <h2>
+                                    EUR/Bs {valor if d.nom_div == 'EUR' else ''}
+                                </h2>
+                                <h2>
+                                    COP/Bs {valor if d.nom_div == 'COP' else ''}
+                                </h2>
+                            </div>
+                        </div>
+                        
                     </div>
                 </div>
                 

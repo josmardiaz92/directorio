@@ -12,7 +12,7 @@ function tomarAcciones() {
         url: "../py/controladores/accion_listar.py",
     })
         .then((response) => {
-            accionEjecutable = response.data;
+            accionEjecutable = 'cirugia general';
             if(accionEjecutable.trim()=='None'){
                 accionEjecutable=''
             }
@@ -44,7 +44,7 @@ function imprimir(especialidad){
         const espDiv=document.createElement('div');
         espDiv.classList.add('text-capitalize', 'text-warning');
         const espHeader=document.createElement('h1');
-        espHeader.textContent = `${especialidad}:`;
+        espHeader.textContent = `${especialidad}:             pagina 1 de 2`;
         espDiv.appendChild(espHeader);
         for(const med in especialidades[especialidad]){
             const medDiv=document.createElement('div');

@@ -12,7 +12,7 @@ function tomarAcciones() {
         url: "../py/controladores/accion_listar.py",
     })
         .then((response) => {
-            accionEjecutable = 'cirugia general';
+            accionEjecutable = response.data;
             if(accionEjecutable.trim()=='None'){
                 accionEjecutable=''
             }

@@ -13,6 +13,7 @@ function tomarAcciones() {
     })
         .then((response) => {
             accionEjecutable = response.data;
+            console.log(accionEjecutable)
             if(accionEjecutable.trim()=='None'){
                 accionEjecutable=''
             }

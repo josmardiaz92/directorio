@@ -14,9 +14,8 @@ for datos in acciones:
     for str_data in datos:
         lista=str_data.strip('()').split(',')
         p.cod_acc,p.nom_acc,p.est_acc=lista
-        print(p.cod_acc,p.nom_acc,p.est_acc)
         if p.est_acc.strip() == 'A':
-            accion=p.nom_acc
+            accion=p.nom_acc.strip('""')
         else:
             accion=None
 print(accion)

@@ -13,7 +13,6 @@ function tomarAcciones() {
     })
         .then((response) => {
             accionEjecutable = response.data;
-            console.log(accionEjecutable)
             if(accionEjecutable.trim()=='None'){
                 accionEjecutable=''
             }
@@ -21,6 +20,7 @@ function tomarAcciones() {
                 mostrarModal(accionEjecutable.trim());
                 imprimir(accionEjecutable.trim());
                 accionEjecutableAnterior=accionEjecutable;
+                console.log(accionEjecutable,accionEjecutableAnterior)
             }
         })
         .catch((error) => {
@@ -40,7 +40,6 @@ function mostrarModal(accionEjecutable){
 
 function imprimir(especialidad){
     contenedorModal.innerHTML='';
-    console.log(especialidad, especialidades)
     if(especialidades[especialidad]){
         const espDiv=document.createElement('div');
         espDiv.classList.add('text-capitalize', 'text-warning');

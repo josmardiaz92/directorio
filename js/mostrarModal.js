@@ -42,7 +42,8 @@ function imprimir(especialidad){
     contenedorModal.innerHTML='';
     if(especialidades[especialidad]){
         const espDiv=document.createElement('div');
-        espDiv.classList.add('text-capitalize', 'text-warning');
+        espDiv.classList.add('text-capitalize', 'text-warning', 'h-100');
+        /* espDiv.style.flexGrow=1 */
         const espHeader=document.createElement('h1');
         espHeader.textContent = `${especialidad}:             pagina 1 de 2`;
         espDiv.appendChild(espHeader);

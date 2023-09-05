@@ -1,0 +1,67 @@
+body {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+}
+
+.container-fluid {
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+}
+
+.row{
+    flex-grow: 1;
+}
+
+.pantallaCambiante {
+    flex-grow: 1; /* Esto hará que ocupe todo el espacio disponible */
+    display: flex;
+    flex-direction: column;
+}
+
+.especialidad {
+    flex-grow: 1; /* Esto hará que ocupe todo el espacio disponible */
+    display: flex;
+    flex-direction: column;
+}
+
+.especialidadContenedor{
+    flex-grow: 1;
+}
+
+.HSA {
+    background-color: rgba(255, 255, 255, 0.2); /* Cambia el valor de 0.5 según tu preferencia */
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(25px);
+}
+
+.bordeRedondeado {
+    border-radius: 20px;
+}
+
+.bordeSuperiorRedondeado {
+    border-top-right-radius: 20px;
+    border-top-left-radius: 20px;
+}
+
+.bordeDerechoRedondeado {
+    border-top-right-radius: 20px;
+    border-bottom-right-radius: 20px;
+}
+
+.bordeIzquierdoRedondeado {
+    border-top-left-radius: 20px;
+    border-bottom-left-radius: 20px;
+}
+
+.logoEstatico{
+    background-color: rgba(255, 255, 255, 0.05); /* Cambia el valor de 0.5 según tu preferencia */
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(25px);
+}
+
+.textoEspecialidad{
+    color: red;
+}

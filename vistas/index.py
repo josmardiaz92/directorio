@@ -20,6 +20,7 @@ head='''
     <link rel="stylesheet" href="../estilos/bootstrap/bootstrap.min.css">
     <link rel="stylesheet" href="../estilos/iconos/css/all.min.css">
     <link rel="stylesheet" href="../estilos/personal/vistas_interfaz.css">
+    <link rel="stylesheet" href="../estilos/personal/vistas.css">
     <link rel="stylesheet" href="../estilos/personal/tranciciones.css">
     <link rel="icon" href="../imagenes/logovertical.png" type="image/x-icon">
     <title>Directorio</title>
@@ -42,8 +43,16 @@ for datos in divisas:
     for str_data in datos:
         listaDivisas=str_data.strip('()').split(',')
         d.cod_div,d.nom_div,d.val_div,d.fec_div,d.est_div=listaDivisas
-        valor=float(d.val_div)
-        valor=round(valor, 2)
+        if d.nom_div=='USD':
+            valorDolar=float(d.val_div)
+            valorDolar=round(valorDolar, 2)
+        else:
+            valorDolar=''
+        if d.nom_div=='EUR':
+            valorEuro=float(d.val_div)
+            valorEuro=round(valorEuro, 2)
+        else:
+            valorEuro==''
 body=f""" 
 <div class="col-3 d-flex text-capitalize text-warning d-block border">
                 <div class="row">
@@ -72,13 +81,13 @@ body=f"""
                         <div class="row">
                             <div class="col" id="tasa">
                                 <h2>
-                                    USD/Bs {valor if d.nom_div == 'USD' else ''}
+                                    USD/Bs {valorDolar if valorDolar != '' else ''}
                                 </h2>
                                 <h2>
-                                    EUR/Bs {valor if d.nom_div == 'EUR' else ''}
+                                    EUR/Bs {valorEuro if valorEuro != '' else ''}
                                 </h2>
                                 <h2>
-                                    COP/Bs {valor if d.nom_div == 'COP' else ''}
+                                    COP/Bs 
                                 </h2>
                             </div>
                         </div>

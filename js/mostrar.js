@@ -34,7 +34,7 @@ fetch('../php/turno_listar.php')
             }
             especialidadSeleccionada = Object.keys(especialidades)[contador];
             imprimir(especialidadSeleccionada);
-        }, 300000);
+        }, 3000);
 
     })
     .catch(error => { console.error(`Atención ${error}`) });
@@ -108,46 +108,7 @@ function imprimir(especialidad){
             hr.classList.add('mx-5','mt-0');
             especialidadContenedor.appendChild(hr);
         }
-        const elementos = Array.from(especialidadContenedor.querySelectorAll('.lineaDirectorio'));
-        const totalElementos = elementos.length;
-
-        // Verifica si hay más elementos que el límite
-        if (totalElementos > elementosPorPagina) {
-            // Divide los elementos en grupos de acuerdo al límite
-            const paginas = [];
-            for (let i = 0; i < totalElementos; i += elementosPorPagina) {
-                paginas.push(elementos.slice(i, i + elementosPorPagina));
-            }
-
-            // Muestra la primera página
-            mostrarPagina(paginas, 0);
-            setInterval(() => {
-                mostrarSiguientePagina(paginas);
-            }, intervaloPaginas);
-
-            
-        } else {
-            // Si no hay más elementos que el límite, muestra todos los elementos
-            for (const elemento of elementos) {
-                especialidadContenedor.appendChild(elemento);
-            }
-        }
+        contenedorDirectorio.appendChild(especialidadContenedor)
     }
-}
-
-function mostrarPagina(paginas,indice) {
-    if (indice >= 0 && indice < paginas.length) {
-        paginaActual = indice;
-        const paginaActualElementos = paginas[indice];
-        contenedorDirectorio.innerHTML = ''; // Limpia el contenedor
-        for (const elemento of paginaActualElementos) {
-            contenedorDirectorio.appendChild(elemento);
-        }
-    }
-}
-
-function mostrarSiguientePagina(paginas) {
-    paginaActual = (paginaActual + 1) % paginas.length;
-    mostrarPagina(paginas, paginaActual);
 }
 

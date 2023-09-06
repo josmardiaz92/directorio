@@ -1,5 +1,10 @@
+const contenedorDirectorio=document.getElementById('contenedorDirectorio');
+const elementosPorPagina=3;
 const especialidades = {};
 let contador=0;
+let paginaActual = 0;
+let intervaloPaginas=3000;
+
 
 fetch('../php/turno_listar.php')
     .then(respuesta => respuesta.json())
@@ -16,13 +21,11 @@ fetch('../php/turno_listar.php')
                 }
                 especialidades[especialidad][nombre].push(horario);
             }
-        });
-        console.log(especialidades)
+        });        
 
-        /* const cantidadEspecialidades = Object.keys(especialidades).length;
-        let especialidadSeleccionada = Object.keys(especialidades)[contador]; */
-        //imprimirtodo();
-        /* imprimirSolo(especialidadSeleccionada);
+        const cantidadEspecialidades = Object.keys(especialidades).length;
+        let especialidadSeleccionada = Object.keys(especialidades)[contador];
+        imprimir(especialidadSeleccionada);
         setInterval(() => {
             if(contador==(cantidadEspecialidades-1)){
                 contador=0;
@@ -30,118 +33,121 @@ fetch('../php/turno_listar.php')
                 contador++;
             }
             especialidadSeleccionada = Object.keys(especialidades)[contador];
-            imprimirSolo(especialidadSeleccionada);
-        }, 30000); */
+            imprimir(especialidadSeleccionada);
+        }, 300000);
 
     })
     .catch(error => { console.error(`Atención ${error}`) });
 
-/* function imprimirtodo(){
-    // Update the HTML with the grouped horarios
-    const especialidadesContainer = document.getElementById('cabeza');
+function imprimir(especialidad){
+    contenedorDirectorio.innerHTML='';
+    const hr=document.createElement('hr');
+    hr.classList.add('mt-0','text-warning');
 
-    for (const especialidad in especialidades) {
-        const especialidadDiv = document.createElement('div');
-        especialidadDiv.classList.add('text-capitalize', 'text-warning', 'mt-5');
-        
-        const especialidadHeader = document.createElement('h1');
-        especialidadHeader.textContent = `${especialidad}:`;
-        especialidadDiv.appendChild(especialidadHeader);
+    if (especialidades[especialidad]) {
+        const especialidadContenedor = document.createElement('div');
+        especialidadContenedor.classList.add('col-12', 'bg-dark', 'bordeRedondeado', 'especialidadContenedor');
+
+        const cabezaDirectorio=document.createElement('div');
+        cabezaDirectorio.classList.add('row', 'text-uppercase', 'textoEspecialidad', 'mt-5', 'ms-2');
+        cabezaDirectorio.id='cabezaDirectorio';
+        especialidadContenedor.appendChild(cabezaDirectorio);
+
+        const especialidadDirectorio=document.createElement('div');
+        especialidadDirectorio.classList.add('col-10');
+        especialidadDirectorio.id='especialidadDirectorio';
+        cabezaDirectorio.appendChild(especialidadDirectorio);
+        const nombreEspecialidad=document.createElement('h1');
+        nombreEspecialidad.textContent = `${especialidad}`;
+        especialidadDirectorio.appendChild(nombreEspecialidad);
+
+        const numeroPaginaDirectorio=document.createElement('div');
+        numeroPaginaDirectorio.classList.add('col','text-center');
+        numeroPaginaDirectorio.id='numeroPaginaDirectorio';
+        cabezaDirectorio.appendChild(numeroPaginaDirectorio);
+        const pagina=document.createElement('p');
+        pagina.textContent='pagina 1/2';
+        numeroPaginaDirectorio.appendChild(pagina);
+
+        cabezaDirectorio.appendChild(hr);
+
 
         for (const medico in especialidades[especialidad]) {
-            const medicoDiv = document.createElement('div');
-            medicoDiv.classList.add('row', 'mt-5');
-            
-            const medicoNameDiv = document.createElement('div');
-            medicoNameDiv.classList.add('col-12', 'col-lg-6', 'align-self-center', 'ps-lg-4', 'text-center', 'text-lg-start', 'doctor');
-            const medicoName = document.createElement('h2');
-            medicoName.textContent = medico;
-            medicoNameDiv.appendChild(medicoName);
-            medicoDiv.appendChild(medicoNameDiv);
+            const medicoDirectorio = document.createElement('div');
+            medicoDirectorio.classList.add('row','mt-5');
 
-            const horariosDiv = document.createElement('div');
-            horariosDiv.classList.add('col-12', 'col-lg-3', 'text-center', 'text-lg-start', 'pt-1');
+            const medicoNombreDivDirectorio = document.createElement('div');
+            medicoNombreDivDirectorio.classList.add('col-12', 'col-lg-5', 'align-self-center', 'ps-lg-4', 'text-center', 'text-lg-start', 'doctorDirectorio');
+            const medicoNombreDirectorio = document.createElement('h2');
+            medicoNombreDirectorio.textContent = medico;
+            medicoNombreDivDirectorio.appendChild(medicoNombreDirectorio);
+            medicoDirectorio.appendChild(medicoNombreDivDirectorio);
+
+            const horariosDirectorio = document.createElement('div');
+            horariosDirectorio.classList.add('col-12', 'col-lg-4', 'text-center', 'text-lg-start', 'align-self-center');
             for (const horario of especialidades[especialidad][medico]) {
-                const horarioP = document.createElement('p');
-                horarioP.textContent = horario;
-                horariosDiv.appendChild(horarioP);
+                const horarioDirectorio = document.createElement('p');
+                horarioDirectorio.classList.add('fs-5','lineaDirectorio')
+                horarioDirectorio.textContent = horario;
+                horariosDirectorio.appendChild(horarioDirectorio);
             }
-            medicoDiv.appendChild(horariosDiv);
+            medicoDirectorio.appendChild(horariosDirectorio);
 
-            // Consultorio
-            const consultorioDiv = document.createElement('div');
-            consultorioDiv.classList.add('col-12', 'col-lg-2', 'align-self-center');
-            const consultorioH2 = document.createElement('h2');
-            consultorioH2.classList.add('text-center');
-            consultorioH2.textContent = 'consultorio: 02';
-            consultorioDiv.appendChild(consultorioH2);
-            medicoDiv.appendChild(consultorioDiv);
+            const consultorioDirectorio = document.createElement('div');
+            consultorioDirectorio.classList.add('col-12', 'col-lg-2', 'align-self-center');
+            const consultorioNombreDirectorio = document.createElement('h2');
+            consultorioNombreDirectorio.classList.add('text-center');
+            consultorioNombreDirectorio.textContent = 'consultorio: 02';
+            consultorioDirectorio.appendChild(consultorioNombreDirectorio);
+            medicoDirectorio.appendChild(consultorioDirectorio);
 
-            especialidadDiv.appendChild(medicoDiv);
+            especialidadContenedor.appendChild(medicoDirectorio);
 
             // Agrega la línea horizontal después de cada médico
             const hr = document.createElement('hr');
-            hr.classList.add('mx-5')
-            especialidadDiv.appendChild(hr);
+            hr.classList.add('mx-5','mt-0');
+            especialidadContenedor.appendChild(hr);
         }
-        
-        especialidadesContainer.appendChild(especialidadDiv);
+        const elementos = Array.from(especialidadContenedor.querySelectorAll('.lineaDirectorio'));
+        const totalElementos = elementos.length;
+
+        // Verifica si hay más elementos que el límite
+        if (totalElementos > elementosPorPagina) {
+            // Divide los elementos en grupos de acuerdo al límite
+            const paginas = [];
+            for (let i = 0; i < totalElementos; i += elementosPorPagina) {
+                paginas.push(elementos.slice(i, i + elementosPorPagina));
+            }
+
+            // Muestra la primera página
+            mostrarPagina(paginas, 0);
+            setInterval(() => {
+                mostrarSiguientePagina(paginas);
+            }, intervaloPaginas);
+
+            
+        } else {
+            // Si no hay más elementos que el límite, muestra todos los elementos
+            for (const elemento of elementos) {
+                especialidadContenedor.appendChild(elemento);
+            }
+        }
     }
 }
 
-function imprimirSolo(especialidad){
-    // Update the HTML with the grouped horarios
-    const especialidadesContainer = document.getElementById('cabeza');
-    especialidadesContainer.innerHTML='';
-
-    if (especialidades[especialidad]) {
-        const especialidadDiv = document.createElement('div');
-        especialidadDiv.classList.add('text-capitalize', 'text-warning');
-
-        const especialidadHeader = document.createElement('h1');
-        especialidadHeader.classList.add('textoEspecialidad', 'mt-2', 'ms-2', 'text-uppercase')
-        especialidadHeader.textContent = `${especialidad}`;
-        especialidadDiv.appendChild(especialidadHeader);
-
-        for (const medico in especialidades[especialidad]) {
-            const medicoDiv = document.createElement('div');
-            medicoDiv.classList.add('row', 'mt-5');
-
-            const medicoNameDiv = document.createElement('div');
-            medicoNameDiv.classList.add('col-12', 'col-lg-5', 'align-self-center', 'ps-lg-4', 'text-center', 'text-lg-start', 'doctor');
-            const medicoName = document.createElement('h2');
-            medicoName.textContent = medico;
-            medicoNameDiv.appendChild(medicoName);
-            medicoDiv.appendChild(medicoNameDiv);
-
-            const horariosDiv = document.createElement('div');
-            horariosDiv.classList.add('col-12', 'col-lg-4', 'text-center', 'text-lg-start', 'align-self-center');
-            for (const horario of especialidades[especialidad][medico]) {
-                const horarioP = document.createElement('p');
-                horarioP.classList.add('fs-5')
-                horarioP.textContent = horario;
-                horariosDiv.appendChild(horarioP);
-            }
-            medicoDiv.appendChild(horariosDiv);
-
-            // Consultorio
-            const consultorioDiv = document.createElement('div');
-            consultorioDiv.classList.add('col-12', 'col-lg-2', 'align-self-center');
-            const consultorioH2 = document.createElement('h2');
-            consultorioH2.classList.add('text-center');
-            consultorioH2.textContent = 'consultorio: 02';
-            consultorioDiv.appendChild(consultorioH2);
-            medicoDiv.appendChild(consultorioDiv);
-
-            especialidadDiv.appendChild(medicoDiv);
-
-            // Agrega la línea horizontal después de cada médico
-            const hr = document.createElement('hr');
-            hr.classList.add('mx-5');
-            especialidadDiv.appendChild(hr);
+function mostrarPagina(paginas,indice) {
+    if (indice >= 0 && indice < paginas.length) {
+        paginaActual = indice;
+        const paginaActualElementos = paginas[indice];
+        contenedorDirectorio.innerHTML = ''; // Limpia el contenedor
+        for (const elemento of paginaActualElementos) {
+            contenedorDirectorio.appendChild(elemento);
         }
-
-        especialidadesContainer.appendChild(especialidadDiv);
     }
-} */
+}
+
+function mostrarSiguientePagina(paginas) {
+    paginaActual = (paginaActual + 1) % paginas.length;
+    mostrarPagina(paginas, paginaActual);
+}
 

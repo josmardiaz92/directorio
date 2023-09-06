@@ -1,9 +1,5 @@
-
 const especialidades = {};
-const contenedor = document.getElementById('contenedor');
 let contador=0;
-
-
 
 fetch('../php/turno_listar.php')
     .then(respuesta => respuesta.json())
@@ -21,11 +17,12 @@ fetch('../php/turno_listar.php')
                 especialidades[especialidad][nombre].push(horario);
             }
         });
+        console.log(especialidades)
 
-        const cantidadEspecialidades = Object.keys(especialidades).length;
-        let especialidadSeleccionada = Object.keys(especialidades)[contador];
+        /* const cantidadEspecialidades = Object.keys(especialidades).length;
+        let especialidadSeleccionada = Object.keys(especialidades)[contador]; */
         //imprimirtodo();
-        imprimirSolo(especialidadSeleccionada);
+        /* imprimirSolo(especialidadSeleccionada);
         setInterval(() => {
             if(contador==(cantidadEspecialidades-1)){
                 contador=0;
@@ -34,12 +31,12 @@ fetch('../php/turno_listar.php')
             }
             especialidadSeleccionada = Object.keys(especialidades)[contador];
             imprimirSolo(especialidadSeleccionada);
-        }, 30000);
+        }, 30000); */
 
     })
     .catch(error => { console.error(`Atención ${error}`) });
 
-function imprimirtodo(){
+/* function imprimirtodo(){
     // Update the HTML with the grouped horarios
     const especialidadesContainer = document.getElementById('cabeza');
 
@@ -146,5 +143,5 @@ function imprimirSolo(especialidad){
 
         especialidadesContainer.appendChild(especialidadDiv);
     }
-}
+} */
 

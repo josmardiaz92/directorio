@@ -4,6 +4,7 @@ const especialidades = {};
 let contador=0;
 let paginaActual = 0;
 let intervaloPaginas=3000;
+let a=0;
 
 
 fetch('../php/turno_listar.php')
@@ -21,8 +22,7 @@ fetch('../php/turno_listar.php')
                 }
                 especialidades[especialidad][nombre].push(horario);
             }
-        });        
-
+        });     
         const cantidadEspecialidades = Object.keys(especialidades).length;
         let especialidadSeleccionada = Object.keys(especialidades)[contador];
         imprimir(especialidadSeleccionada);
@@ -40,6 +40,8 @@ fetch('../php/turno_listar.php')
     .catch(error => { console.error(`Atención ${error}`) });
 
 function imprimir(especialidad){
+    a=Object.keys(especialidades[especialidad]).length;
+    
     contenedorDirectorio.innerHTML='';
     const hr=document.createElement('hr');
     hr.classList.add('mt-0','text-warning');

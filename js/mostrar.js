@@ -2,9 +2,11 @@ const contenedorDirectorio=document.getElementById('contenedorDirectorio');
 const elementosPorPagina=3;
 const especialidades = {};
 let contador=0;
-let paginaActual = 0;
 let intervaloPaginas=3000;
-let a=0;
+let cantidadDoctores=0;
+let paginas=0;
+let paginaActual=0;
+
 
 
 fetch('../php/turno_listar.php')
@@ -40,8 +42,9 @@ fetch('../php/turno_listar.php')
     .catch(error => { console.error(`Atención ${error}`) });
 
 function imprimir(especialidad){
-    a=Object.keys(especialidades[especialidad]).length;
-    
+    cantidadDoctores=Object.keys(especialidades[especialidad]).length;
+    paginas=cantidadDoctores/elementosPorPagina;
+    paginas=Math.ceil(paginas);
     contenedorDirectorio.innerHTML='';
     const hr=document.createElement('hr');
     hr.classList.add('mt-0','text-warning');
@@ -63,13 +66,16 @@ function imprimir(especialidad){
         nombreEspecialidad.textContent = `${especialidad}`;
         especialidadDirectorio.appendChild(nombreEspecialidad);
 
-        const numeroPaginaDirectorio=document.createElement('div');
-        numeroPaginaDirectorio.classList.add('col','text-center');
-        numeroPaginaDirectorio.id='numeroPaginaDirectorio';
-        cabezaDirectorio.appendChild(numeroPaginaDirectorio);
-        const pagina=document.createElement('p');
-        pagina.textContent='pagina 1/2';
-        numeroPaginaDirectorio.appendChild(pagina);
+        if(paginas>=2){
+            const numeroPaginaDirectorio=document.createElement('div');
+            numeroPaginaDirectorio.classList.add('col','text-center');
+            numeroPaginaDirectorio.id='numeroPaginaDirectorio';
+            cabezaDirectorio.appendChild(numeroPaginaDirectorio);
+            const pagina=document.createElement('p');
+            pagina.textContent=`pagina ${paginaActual}/${paginas}`;
+            numeroPaginaDirectorio.appendChild(pagina);
+        }
+        
 
         cabezaDirectorio.appendChild(hr);
 

@@ -79,6 +79,8 @@ class divisa(bd.base_datos):
                 self.nom_div = moneda
                 self.val_div = valor
                 self.agregar()
+            else:
+                informacion_divisas='Las divisas estan al dia'
         return informacion_divisas
 
 

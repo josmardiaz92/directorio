@@ -1,9 +1,9 @@
-const contenedorModal=document.getElementById('containerModal');
+/* const contenedorModal=document.getElementById('contenedorConsulta');
 let accionEjecutableAnterior='';
 let accionEjecutable='';
 
 setInterval(() => {
-    tomarAcciones()
+    //tomarAcciones()
 }, 1000);
 
 function tomarAcciones() {
@@ -17,8 +17,8 @@ function tomarAcciones() {
                 accionEjecutable=''
             }
             if(accionEjecutableAnterior!=accionEjecutable){
-                mostrarModal(accionEjecutable.trim());
-                imprimir(accionEjecutable.trim());
+                //mostrarConsulta(accionEjecutable.trim());
+                //imprimir(accionEjecutable.trim());
                 accionEjecutableAnterior=accionEjecutable;
                 console.log(accionEjecutable,accionEjecutableAnterior)
             }
@@ -28,7 +28,7 @@ function tomarAcciones() {
         });
 }
 
-function mostrarModal(accionEjecutable){
+function mostrarConsulta(accionEjecutable){
     let valido=false;
     if(accionEjecutable!=''){
         valido=true;
@@ -43,7 +43,6 @@ function imprimir(especialidad){
     if(especialidades[especialidad]){
         const espDiv=document.createElement('div');
         espDiv.classList.add('text-capitalize', 'text-warning', 'h-100');
-        /* espDiv.style.flexGrow=1 */
         const espHeader=document.createElement('h1');
         espHeader.textContent = `${especialidad}:             pagina 1 de 2`;
         espDiv.appendChild(espHeader);
@@ -80,4 +79,31 @@ function imprimir(especialidad){
         }
     contenedorModal.appendChild(espDiv);
     }
+} */
+
+const contenedorModal=document.getElementById('contenedorConsulta');
+let accionEjecutableAnterior='';
+let accionEjecutable='';
+
+/* setInterval(() => {
+    consultarAcciones()
+}, 1000); */
+
+function consultarAcciones(){
+    axios({
+        method: 'GET',
+        url: '..py/controladores/accion_listar.py'
+    })
+    .then(respuesta=>{
+        accionEjecutable=respuesta.data;
+        if(accionEjecutable.trim()=='None'){
+            accionEjecutable='';
+        }
+        if(accionEjecutableAnterior!=accionEjecutable){
+            accionEjecutableAnterior=accionEjecutable;
+            console.log(accionEjecutable, accionEjecutableAnterior);
+        }
+    })
+    .catch((error)=>{console.log(error);
+    });
 }

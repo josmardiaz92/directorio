@@ -1,6 +1,7 @@
 #!C:/Python311/python.exe
 import cgi
 import cgitb
+import json
 cgitb.enable()
 import sys
 sys.path.append('c:\\xampp\\htdocs\\Github\\directorio')
@@ -12,4 +13,5 @@ print('Content-type: text\html\n\n') #*aca aclaramos el tipo de contenido que se
 
 p=esp.divisa()
 total=p.obtenerDivisas()
-print(total)
+resultados_json = json.dumps(total)
+print(resultados_json)

@@ -6,6 +6,7 @@ let intervaloPaginas=3000;
 let cantidadDoctores=0;
 let paginas=0;
 let paginaActual=0;
+let doctor=0;
 
 
 
@@ -119,4 +120,3 @@ function imprimir(especialidad){
         contenedorDirectorio.appendChild(especialidadContenedor)
     }
 }
-

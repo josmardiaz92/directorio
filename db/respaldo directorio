@@ -1,0 +1,1670 @@
+--
+-- PostgreSQL database dump
+--
+
+-- Dumped from database version 15.3
+-- Dumped by pg_dump version 15.3
+
+-- Started on 2023-09-08 10:56:52
+
+SET statement_timeout = 0;
+SET lock_timeout = 0;
+SET idle_in_transaction_session_timeout = 0;
+SET client_encoding = 'UTF8';
+SET standard_conforming_strings = on;
+SELECT pg_catalog.set_config('search_path', '', false);
+SET check_function_bodies = false;
+SET xmloption = content;
+SET client_min_messages = warning;
+SET row_security = off;
+
+--
+-- TOC entry 934 (class 1247 OID 18076)
+-- Name: accion_estructura; Type: TYPE; Schema: public; Owner: postgres
+--
+
+CREATE TYPE public.accion_estructura AS (
+	cod_acc integer,
+	nom_acc character varying,
+	est_acc character(1),
+	fec_acc time with time zone
+);
+
+
+ALTER TYPE public.accion_estructura OWNER TO postgres;
+
+--
+-- TOC entry 910 (class 1247 OID 17972)
+-- Name: consultorio_estructura; Type: TYPE; Schema: public; Owner: postgres
+--
+
+CREATE TYPE public.consultorio_estructura AS (
+	cod_con integer,
+	nom_con character varying,
+	est_con character(1)
+);
+
+
+ALTER TYPE public.consultorio_estructura OWNER TO postgres;
+
+--
+-- TOC entry 913 (class 1247 OID 17976)
+-- Name: dia_laborable_estructura; Type: TYPE; Schema: public; Owner: postgres
+--
+
+CREATE TYPE public.dia_laborable_estructura AS (
+	cod_dia integer,
+	nom_dia character varying,
+	est_dia character(1)
+);
+
+
+ALTER TYPE public.dia_laborable_estructura OWNER TO postgres;
+
+--
+-- TOC entry 928 (class 1247 OID 18058)
+-- Name: divisa_estructura; Type: TYPE; Schema: public; Owner: postgres
+--
+
+CREATE TYPE public.divisa_estructura AS (
+	cod_div integer,
+	nom_div character varying,
+	val_div numeric,
+	fec_div timestamp without time zone,
+	est_div character(1)
+);
+
+
+ALTER TYPE public.divisa_estructura OWNER TO postgres;
+
+--
+-- TOC entry 919 (class 1247 OID 18005)
+-- Name: doctores_estructura; Type: TYPE; Schema: public; Owner: postgres
+--
+
+CREATE TYPE public.doctores_estructura AS (
+	cod_doc integer,
+	doctor character varying,
+	fky_esp integer,
+	especialidad character varying,
+	estatus character(1)
+);
+
+
+ALTER TYPE public.doctores_estructura OWNER TO postgres;
+
+--
+-- TOC entry 916 (class 1247 OID 17980)
+-- Name: especialidad_estructura; Type: TYPE; Schema: public; Owner: postgres
+--
+
+CREATE TYPE public.especialidad_estructura AS (
+	cod_esp integer,
+	nom_esp character varying,
+	est_esp character(1)
+);
+
+
+ALTER TYPE public.especialidad_estructura OWNER TO postgres;
+
+--
+-- TOC entry 922 (class 1247 OID 18014)
+-- Name: turnos_estructura; Type: TYPE; Schema: public; Owner: postgres
+--
+
+CREATE TYPE public.turnos_estructura AS (
+	turnos integer,
+	fky_doc integer,
+	doctor character varying,
+	fky_esp integer,
+	especialidad character varying,
+	fky_con integer,
+	consultorio character varying,
+	fky_dia integer,
+	dia character varying,
+	desde character varying,
+	hasta character varying,
+	estatus character(1)
+);
+
+
+ALTER TYPE public.turnos_estructura OWNER TO postgres;
+
+--
+-- TOC entry 280 (class 1255 OID 18081)
+-- Name: accion_eliminar(character varying); Type: FUNCTION; Schema: public; Owner: postgres
+--
+
+CREATE FUNCTION public.accion_eliminar(p1_nom_acc character varying) RETURNS integer
+    LANGUAGE plpgsql
+    AS $$
+DECLARE 
+    valor integer;
+BEGIN
+
+UPDATE public.accion
+	SET est_acc='I', fec_acc=now()
+	WHERE nom_acc=p1_nom_acc
+	returning cod_acc into valor;
+    
+    RETURN valor;
+END;
+$$;
+
+
+ALTER FUNCTION public.accion_eliminar(p1_nom_acc character varying) OWNER TO postgres;
+
+--
+-- TOC entry 282 (class 1255 OID 18077)
+-- Name: accion_listar(); Type: FUNCTION; Schema: public; Owner: postgres
+--
+
+CREATE FUNCTION public.accion_listar() RETURNS SETOF public.accion_estructura
+    LANGUAGE plpgsql
+    AS $$
+
+declare
+    fila public.accion_estructura%rowtype;
+begin
+    for fila in 
+    select * from public.accion
+	order by fec_acc asc
+
+loop 
+  return next fila;
+end loop;
+
+return;
+end;
+$$;
+
+
+ALTER FUNCTION public.accion_listar() OWNER TO postgres;
+
+--
+-- TOC entry 281 (class 1255 OID 18080)
+-- Name: accion_reanudar(character varying); Type: FUNCTION; Schema: public; Owner: postgres
+--
+
+CREATE FUNCTION public.accion_reanudar(p1_nom_acc character varying) RETURNS integer
+    LANGUAGE plpgsql
+    AS $$
+DECLARE 
+    valor integer;
+BEGIN
+
+UPDATE public.accion
+	SET est_acc='A', fec_acc=now()
+	WHERE nom_acc=p1_nom_acc
+	returning cod_acc into valor;
+    
+    RETURN valor;
+END;
+$$;
+
+
+ALTER FUNCTION public.accion_reanudar(p1_nom_acc character varying) OWNER TO postgres;
+
+--
+-- TOC entry 245 (class 1255 OID 17943)
+-- Name: consultorio_agregar(character varying); Type: FUNCTION; Schema: public; Owner: postgres
+--
+
+CREATE FUNCTION public.consultorio_agregar(p1_nom_con character varying) RETURNS integer
+    LANGUAGE plpgsql
+    AS $$
+DECLARE 
+    valor integer;
+BEGIN
+    INSERT INTO public.consultorio(
+	nom_con)
+	VALUES (p1_nom_con)
+	returning cod_con into valor;
+    
+    RETURN valor;
+END;
+$$;
+
+
+ALTER FUNCTION public.consultorio_agregar(p1_nom_con character varying) OWNER TO postgres;
+
+--
+-- TOC entry 274 (class 1255 OID 17964)
+-- Name: consultorio_eliminar(integer); Type: FUNCTION; Schema: public; Owner: postgres
+--
+
+CREATE FUNCTION public.consultorio_eliminar(p1_cod_con integer) RETURNS integer
+    LANGUAGE plpgsql
+    AS $$
+DECLARE 
+    valor integer;
+BEGIN
+
+UPDATE public.consultorio
+	SET est_con='I'
+	WHERE cod_con=p1_cod_con
+	returning cod_con into valor;
+    
+    RETURN valor;
+END;
+$$;
+
+
+ALTER FUNCTION public.consultorio_eliminar(p1_cod_con integer) OWNER TO postgres;
+
+--
+-- TOC entry 253 (class 1255 OID 18060)
+-- Name: consultorio_eliminar_definitivo(integer); Type: FUNCTION; Schema: public; Owner: postgres
+--
+
+CREATE FUNCTION public.consultorio_eliminar_definitivo(p1_cod_con integer) RETURNS character varying
+    LANGUAGE plpgsql
+    AS $$
+DECLARE 
+    valor character varying;
+BEGIN
+    DELETE FROM public.consultorio
+	where cod_con=p1_cod_con
+	returning 'hecho' into valor;
+    
+    RETURN valor;
+END;
+$$;
+
+
+ALTER FUNCTION public.consultorio_eliminar_definitivo(p1_cod_con integer) OWNER TO postgres;
+
+--
+-- TOC entry 238 (class 1255 OID 17973)
+-- Name: consultorio_listar(); Type: FUNCTION; Schema: public; Owner: postgres
+--
+
+CREATE FUNCTION public.consultorio_listar() RETURNS SETOF public.consultorio_estructura
+    LANGUAGE plpgsql
+    AS $$
+
+declare
+    fila public.consultorio_estructura%rowtype;
+begin
+    for fila in 
+    select * from public.consultorio order by cod_con
+
+loop 
+  return next fila;
+end loop;
+
+return;
+end;
+$$;
+
+
+ALTER FUNCTION public.consultorio_listar() OWNER TO postgres;
+
+--
+-- TOC entry 249 (class 1255 OID 17951)
+-- Name: consultorio_modificar(character varying, character, integer); Type: FUNCTION; Schema: public; Owner: postgres
+--
+
+CREATE FUNCTION public.consultorio_modificar(p1_nom_con character varying, p2_est_con character, p3_cod_con integer) RETURNS integer
+    LANGUAGE plpgsql
+    AS $$
+DECLARE 
+    valor integer;
+BEGIN
+    UPDATE public.consultorio
+	SET nom_con=p1_nom_con, est_con=p2_est_con
+	WHERE cod_con=p3_cod_con
+	returning cod_con into valor;
+    
+    RETURN valor;
+END;
+$$;
+
+
+ALTER FUNCTION public.consultorio_modificar(p1_nom_con character varying, p2_est_con character, p3_cod_con integer) OWNER TO postgres;
+
+--
+-- TOC entry 275 (class 1255 OID 17965)
+-- Name: consultorio_reanudar(integer); Type: FUNCTION; Schema: public; Owner: postgres
+--
+
+CREATE FUNCTION public.consultorio_reanudar(p1_cod_con integer) RETURNS integer
+    LANGUAGE plpgsql
+    AS $$
+DECLARE 
+    valor integer;
+BEGIN
+
+UPDATE public.consultorio
+	SET est_con='A'
+	WHERE cod_con=p1_cod_con
+	returning cod_con into valor;
+    
+    RETURN valor;
+END;
+$$;
+
+
+ALTER FUNCTION public.consultorio_reanudar(p1_cod_con integer) OWNER TO postgres;
+
+--
+-- TOC entry 272 (class 1255 OID 17962)
+-- Name: dia_laborable_eliminar(integer); Type: FUNCTION; Schema: public; Owner: postgres
+--
+
+CREATE FUNCTION public.dia_laborable_eliminar(p1_cod_dia integer) RETURNS integer
+    LANGUAGE plpgsql
+    AS $$
+DECLARE 
+    valor integer;
+BEGIN
+
+UPDATE public.dia_laborable
+	SET est_dia='I'
+	WHERE cod_dia=p1_cod_dia
+	returning cod_dia into valor;
+    
+    RETURN valor;
+END;
+$$;
+
+
+ALTER FUNCTION public.dia_laborable_eliminar(p1_cod_dia integer) OWNER TO postgres;
+
+--
+-- TOC entry 276 (class 1255 OID 18061)
+-- Name: dia_laborable_eliminar_definitivo(integer); Type: FUNCTION; Schema: public; Owner: postgres
+--
+
+CREATE FUNCTION public.dia_laborable_eliminar_definitivo(p1_cod_dia integer) RETURNS character varying
+    LANGUAGE plpgsql
+    AS $$
+DECLARE 
+    valor character varying;
+BEGIN
+    DELETE FROM public.dia_laborable
+	where cod_dia=p1_cod_dia
+	returning 'hecho' into valor;
+    
+    RETURN valor;
+END;
+$$;
+
+
+ALTER FUNCTION public.dia_laborable_eliminar_definitivo(p1_cod_dia integer) OWNER TO postgres;
+
+--
+-- TOC entry 239 (class 1255 OID 17977)
+-- Name: dia_laborable_listar(); Type: FUNCTION; Schema: public; Owner: postgres
+--
+
+CREATE FUNCTION public.dia_laborable_listar() RETURNS SETOF public.dia_laborable_estructura
+    LANGUAGE plpgsql
+    AS $$
+
+declare
+    fila public.dia_laborable_estructura%rowtype;
+begin
+    for fila in 
+    select * from public.dia_laborable order by cod_dia
+
+loop 
+  return next fila;
+end loop;
+
+return;
+end;
+$$;
+
+
+ALTER FUNCTION public.dia_laborable_listar() OWNER TO postgres;
+
+--
+-- TOC entry 273 (class 1255 OID 17963)
+-- Name: dia_laborable_reanudar(integer); Type: FUNCTION; Schema: public; Owner: postgres
+--
+
+CREATE FUNCTION public.dia_laborable_reanudar(p1_cod_dia integer) RETURNS integer
+    LANGUAGE plpgsql
+    AS $$
+DECLARE 
+    valor integer;
+BEGIN
+
+UPDATE public.dia_laborable
+	SET est_dia='A'
+	WHERE cod_dia=p1_cod_dia
+	returning cod_dia into valor;
+    
+    RETURN valor;
+END;
+$$;
+
+
+ALTER FUNCTION public.dia_laborable_reanudar(p1_cod_dia integer) OWNER TO postgres;
+
+--
+-- TOC entry 283 (class 1255 OID 18083)
+-- Name: dias_laborables(integer); Type: FUNCTION; Schema: public; Owner: postgres
+--
+
+CREATE FUNCTION public.dias_laborables(p1_cod_doc integer) RETURNS character varying
+    LANGUAGE plpgsql
+    AS $$
+DECLARE 
+    dias character varying;
+BEGIN
+    SELECT STRING_AGG(d.nom_dia, ', ')
+    INTO dias
+    FROM turno t
+    JOIN dia_laborable d ON t.fky_dia = d.cod_dia
+    WHERE t.fky_doc = p1_cod_doc;
+    
+    RETURN dias;
+END;
+$$;
+
+
+ALTER FUNCTION public.dias_laborables(p1_cod_doc integer) OWNER TO postgres;
+
+--
+-- TOC entry 248 (class 1255 OID 18051)
+-- Name: divisa_agregar(character varying, numeric); Type: FUNCTION; Schema: public; Owner: postgres
+--
+
+CREATE FUNCTION public.divisa_agregar(p1_nom_div character varying, p2_val_div numeric) RETURNS integer
+    LANGUAGE plpgsql
+    AS $$
+DECLARE 
+    valor integer;
+BEGIN
+    INSERT INTO public.divisa(
+	nom_div, val_div)
+	VALUES (p1_nom_div, p2_val_div)
+    returning cod_div into valor;
+    
+    RETURN valor;
+END;
+$$;
+
+
+ALTER FUNCTION public.divisa_agregar(p1_nom_div character varying, p2_val_div numeric) OWNER TO postgres;
+
+--
+-- TOC entry 251 (class 1255 OID 18059)
+-- Name: divisa_listar(); Type: FUNCTION; Schema: public; Owner: postgres
+--
+
+CREATE FUNCTION public.divisa_listar() RETURNS SETOF public.divisa_estructura
+    LANGUAGE plpgsql
+    AS $$
+
+declare
+    fila public.divisa_estructura%rowtype;
+begin
+    for fila in 
+    SELECT * FROM public.divisa
+	WHERE DATE(fec_div) = CURRENT_DATE
+	ORDER BY cod_div
+
+loop 
+  return next fila;
+end loop;
+
+return;
+end;
+$$;
+
+
+ALTER FUNCTION public.divisa_listar() OWNER TO postgres;
+
+--
+-- TOC entry 243 (class 1255 OID 18017)
+-- Name: doctor_agregar(character varying, integer); Type: FUNCTION; Schema: public; Owner: postgres
+--
+
+CREATE FUNCTION public.doctor_agregar(p1_nom_doc character varying, p2_fky_esp integer) RETURNS integer
+    LANGUAGE plpgsql
+    AS $$
+DECLARE 
+    valor integer;
+BEGIN
+    INSERT INTO public.doctor(
+	nom_doc, fky_esp)
+	VALUES (p1_nom_doc, p2_fky_esp)
+	returning cod_doc into valor;
+    
+    RETURN valor;
+END;
+$$;
+
+
+ALTER FUNCTION public.doctor_agregar(p1_nom_doc character varying, p2_fky_esp integer) OWNER TO postgres;
+
+--
+-- TOC entry 270 (class 1255 OID 17960)
+-- Name: doctor_eliminar(integer); Type: FUNCTION; Schema: public; Owner: postgres
+--
+
+CREATE FUNCTION public.doctor_eliminar(p1_cod_doc integer) RETURNS integer
+    LANGUAGE plpgsql
+    AS $$
+DECLARE 
+    valor integer;
+BEGIN
+
+UPDATE public.doctor
+	SET est_doc='I'
+	WHERE cod_doc=p1_cod_doc
+	returning cod_doc into valor;
+    
+    RETURN valor;
+END;
+$$;
+
+
+ALTER FUNCTION public.doctor_eliminar(p1_cod_doc integer) OWNER TO postgres;
+
+--
+-- TOC entry 277 (class 1255 OID 18062)
+-- Name: doctor_eliminar_definitivo(integer); Type: FUNCTION; Schema: public; Owner: postgres
+--
+
+CREATE FUNCTION public.doctor_eliminar_definitivo(p1_cod_doc integer) RETURNS character varying
+    LANGUAGE plpgsql
+    AS $$
+DECLARE 
+    valor character varying;
+BEGIN
+    DELETE FROM public.doctor
+	where cod_doc=p1_cod_doc
+	returning 'hecho' into valor;
+    
+    RETURN valor;
+END;
+$$;
+
+
+ALTER FUNCTION public.doctor_eliminar_definitivo(p1_cod_doc integer) OWNER TO postgres;
+
+--
+-- TOC entry 250 (class 1255 OID 17953)
+-- Name: doctor_modificar(character varying, integer, character, integer); Type: FUNCTION; Schema: public; Owner: postgres
+--
+
+CREATE FUNCTION public.doctor_modificar(p1_nom_doc character varying, p2_fky_esp integer, p3_est_doc character, p4_cod_doc integer) RETURNS integer
+    LANGUAGE plpgsql
+    AS $$
+DECLARE 
+    valor integer;
+BEGIN
+    UPDATE public.doctor
+	SET nom_doc=p1_nom_doc, fky_esp=p2_fky_esp, est_doc=p3_est_doc
+	WHERE cod_doc=p4_cod_doc
+	returning cod_doc into valor;
+    
+    RETURN valor;
+END;
+$$;
+
+
+ALTER FUNCTION public.doctor_modificar(p1_nom_doc character varying, p2_fky_esp integer, p3_est_doc character, p4_cod_doc integer) OWNER TO postgres;
+
+--
+-- TOC entry 244 (class 1255 OID 17942)
+-- Name: doctor_nuevo(character varying, integer, integer, integer, character varying, character varying); Type: FUNCTION; Schema: public; Owner: postgres
+--
+
+CREATE FUNCTION public.doctor_nuevo(p1_nom_doc character varying, p2_fky_esp integer, p3_fky_con integer, p4_fky_dia integer, p5_ent_tur character varying, p6_sal_tur character varying) RETURNS integer
+    LANGUAGE plpgsql
+    AS $$
+DECLARE 
+    valor integer;
+BEGIN
+    WITH nuevo_doctor AS (
+		INSERT INTO doctor (nom_doc, fky_esp)
+		VALUES (p1_nom_doc,p2_fky_esp)
+		RETURNING cod_doc)
+	INSERT INTO turno (fky_doc, fky_con, fky_dia, ent_tur, sal_tur)
+	SELECT cod_doc, p3_fky_con, p4_fky_dia, p5_ent_tur, p6_sal_tur
+	FROM nuevo_doctor returning cod_tur into valor;
+    
+    RETURN valor;
+END;
+$$;
+
+
+ALTER FUNCTION public.doctor_nuevo(p1_nom_doc character varying, p2_fky_esp integer, p3_fky_con integer, p4_fky_dia integer, p5_ent_tur character varying, p6_sal_tur character varying) OWNER TO postgres;
+
+--
+-- TOC entry 271 (class 1255 OID 17961)
+-- Name: doctor_reanudar(integer); Type: FUNCTION; Schema: public; Owner: postgres
+--
+
+CREATE FUNCTION public.doctor_reanudar(p1_cod_doc integer) RETURNS integer
+    LANGUAGE plpgsql
+    AS $$
+DECLARE 
+    valor integer;
+BEGIN
+
+UPDATE public.doctor
+	SET est_doc='A'
+	WHERE cod_doc=p1_cod_doc
+	returning cod_doc into valor;
+    
+    RETURN valor;
+END;
+$$;
+
+
+ALTER FUNCTION public.doctor_reanudar(p1_cod_doc integer) OWNER TO postgres;
+
+--
+-- TOC entry 241 (class 1255 OID 18006)
+-- Name: doctores_listar(); Type: FUNCTION; Schema: public; Owner: postgres
+--
+
+CREATE FUNCTION public.doctores_listar() RETURNS SETOF public.doctores_estructura
+    LANGUAGE plpgsql
+    AS $$
+
+declare
+    fila public.doctores_estructura%rowtype;
+begin
+    for fila in 
+    select * from public.doctores
+
+loop 
+  return next fila;
+end loop;
+
+return;
+end;
+$$;
+
+
+ALTER FUNCTION public.doctores_listar() OWNER TO postgres;
+
+--
+-- TOC entry 246 (class 1255 OID 17950)
+-- Name: especialidad_agregar(character varying); Type: FUNCTION; Schema: public; Owner: postgres
+--
+
+CREATE FUNCTION public.especialidad_agregar(p1_nom_esp character varying) RETURNS integer
+    LANGUAGE plpgsql
+    AS $$
+DECLARE 
+    valor integer;
+BEGIN
+    INSERT INTO public.especialidad(
+	nom_esp)
+	VALUES (p1_nom_esp)
+	returning cod_esp into valor;
+    
+    RETURN valor;
+END;
+$$;
+
+
+ALTER FUNCTION public.especialidad_agregar(p1_nom_esp character varying) OWNER TO postgres;
+
+--
+-- TOC entry 268 (class 1255 OID 17958)
+-- Name: especialidad_eliminar(integer); Type: FUNCTION; Schema: public; Owner: postgres
+--
+
+CREATE FUNCTION public.especialidad_eliminar(p1_cod_esp integer) RETURNS integer
+    LANGUAGE plpgsql
+    AS $$
+DECLARE 
+    valor integer;
+BEGIN
+
+UPDATE public.especialidad
+	SET est_esp='I'
+	WHERE cod_esp=p1_cod_esp
+	returning cod_esp into valor;
+    
+    RETURN valor;
+END;
+$$;
+
+
+ALTER FUNCTION public.especialidad_eliminar(p1_cod_esp integer) OWNER TO postgres;
+
+--
+-- TOC entry 278 (class 1255 OID 18063)
+-- Name: especialidad_eliminar_definitivo(integer); Type: FUNCTION; Schema: public; Owner: postgres
+--
+
+CREATE FUNCTION public.especialidad_eliminar_definitivo(p1_cod_esp integer) RETURNS character varying
+    LANGUAGE plpgsql
+    AS $$
+DECLARE 
+    valor character varying;
+BEGIN
+    DELETE FROM public.especialidad
+	where cod_esp=p1_cod_esp
+	returning 'hecho' into valor;
+    
+    RETURN valor;
+END;
+$$;
+
+
+ALTER FUNCTION public.especialidad_eliminar_definitivo(p1_cod_esp integer) OWNER TO postgres;
+
+--
+-- TOC entry 240 (class 1255 OID 17981)
+-- Name: especialidad_listar(); Type: FUNCTION; Schema: public; Owner: postgres
+--
+
+CREATE FUNCTION public.especialidad_listar() RETURNS SETOF public.especialidad_estructura
+    LANGUAGE plpgsql
+    AS $$
+
+declare
+    fila public.especialidad_estructura%rowtype;
+begin
+    for fila in 
+    select * from public.especialidad order by cod_esp
+
+loop 
+  return next fila;
+end loop;
+
+return;
+end;
+$$;
+
+
+ALTER FUNCTION public.especialidad_listar() OWNER TO postgres;
+
+--
+-- TOC entry 252 (class 1255 OID 17954)
+-- Name: especialidad_modificar(character varying, character, integer); Type: FUNCTION; Schema: public; Owner: postgres
+--
+
+CREATE FUNCTION public.especialidad_modificar(p1_nom_esp character varying, p2_est_esp character, p3_cod_esp integer) RETURNS integer
+    LANGUAGE plpgsql
+    AS $$
+DECLARE 
+    valor integer;
+BEGIN
+    UPDATE public.especialidad
+	SET nom_esp=p1_nom_esp, est_esp=p2_est_esp
+	WHERE cod_esp=p3_cod_esp
+	returning cod_esp into valor;
+    
+    RETURN valor;
+END;
+$$;
+
+
+ALTER FUNCTION public.especialidad_modificar(p1_nom_esp character varying, p2_est_esp character, p3_cod_esp integer) OWNER TO postgres;
+
+--
+-- TOC entry 269 (class 1255 OID 17959)
+-- Name: especialidad_reanudar(integer); Type: FUNCTION; Schema: public; Owner: postgres
+--
+
+CREATE FUNCTION public.especialidad_reanudar(p1_cod_esp integer) RETURNS integer
+    LANGUAGE plpgsql
+    AS $$
+DECLARE 
+    valor integer;
+BEGIN
+
+UPDATE public.especialidad
+	SET est_esp='A'
+	WHERE cod_esp=p1_cod_esp
+	returning cod_esp into valor;
+    
+    RETURN valor;
+END;
+$$;
+
+
+ALTER FUNCTION public.especialidad_reanudar(p1_cod_esp integer) OWNER TO postgres;
+
+--
+-- TOC entry 247 (class 1255 OID 18018)
+-- Name: turno_agregar(integer, integer, integer, character varying, character varying); Type: FUNCTION; Schema: public; Owner: postgres
+--
+
+CREATE FUNCTION public.turno_agregar(p1_fky_doc integer, p2_fky_con integer, p3_fky_dia integer, p4_ent_tur character varying, p5_sal_tur character varying) RETURNS integer
+    LANGUAGE plpgsql
+    AS $$
+DECLARE 
+    valor integer;
+BEGIN
+    INSERT INTO public.turno(
+	fky_doc, fky_con, fky_dia, ent_tur, sal_tur)
+	VALUES (p1_fky_doc,p2_fky_con,p3_fky_dia,p4_ent_tur,p5_sal_tur)
+	returning cod_tur into valor;
+    
+    RETURN valor;
+END;
+$$;
+
+
+ALTER FUNCTION public.turno_agregar(p1_fky_doc integer, p2_fky_con integer, p3_fky_dia integer, p4_ent_tur character varying, p5_sal_tur character varying) OWNER TO postgres;
+
+--
+-- TOC entry 259 (class 1255 OID 17956)
+-- Name: turno_eliminar(integer); Type: FUNCTION; Schema: public; Owner: postgres
+--
+
+CREATE FUNCTION public.turno_eliminar(p1_cod_tur integer) RETURNS integer
+    LANGUAGE plpgsql
+    AS $$
+DECLARE 
+    valor integer;
+BEGIN
+
+UPDATE public.turno
+	SET est_tur='I'
+	WHERE cod_tur=p1_cod_tur
+	returning cod_tur into valor;
+    
+    RETURN valor;
+END;
+$$;
+
+
+ALTER FUNCTION public.turno_eliminar(p1_cod_tur integer) OWNER TO postgres;
+
+--
+-- TOC entry 279 (class 1255 OID 18064)
+-- Name: turno_eliminar_definitivo(integer); Type: FUNCTION; Schema: public; Owner: postgres
+--
+
+CREATE FUNCTION public.turno_eliminar_definitivo(p1_cod_tur integer) RETURNS character varying
+    LANGUAGE plpgsql
+    AS $$
+DECLARE 
+    valor character varying;
+BEGIN
+    DELETE FROM public.turno
+	where cod_tur=p1_cod_tur
+	returning 'hecho' into valor;
+    
+    RETURN valor;
+END;
+$$;
+
+
+ALTER FUNCTION public.turno_eliminar_definitivo(p1_cod_tur integer) OWNER TO postgres;
+
+--
+-- TOC entry 254 (class 1255 OID 17955)
+-- Name: turno_modificar(integer, integer, integer, character varying, character varying, character, integer); Type: FUNCTION; Schema: public; Owner: postgres
+--
+
+CREATE FUNCTION public.turno_modificar(p1_fky_doc integer, p2_fky_con integer, p3_fky_dia integer, p4_ent_tur character varying, p5_sal_tur character varying, p6_est_tur character, p7_cod_tur integer) RETURNS integer
+    LANGUAGE plpgsql
+    AS $$
+DECLARE 
+    valor integer;
+BEGIN
+   UPDATE public.turno
+	SET fky_doc=p1_fky_doc, fky_con=p2_fky_con, fky_dia=p3_fky_dia, ent_tur=p4_ent_tur, sal_tur=p5_sal_tur, est_tur=p6_est_tur
+	WHERE cod_tur=p7_cod_tur
+	returning cod_tur into valor;
+    
+    RETURN valor;
+END;
+$$;
+
+
+ALTER FUNCTION public.turno_modificar(p1_fky_doc integer, p2_fky_con integer, p3_fky_dia integer, p4_ent_tur character varying, p5_sal_tur character varying, p6_est_tur character, p7_cod_tur integer) OWNER TO postgres;
+
+--
+-- TOC entry 266 (class 1255 OID 17957)
+-- Name: turno_reanudar(integer); Type: FUNCTION; Schema: public; Owner: postgres
+--
+
+CREATE FUNCTION public.turno_reanudar(p1_cod_tur integer) RETURNS integer
+    LANGUAGE plpgsql
+    AS $$
+DECLARE 
+    valor integer;
+BEGIN
+
+UPDATE public.turno
+	SET est_tur='A'
+	WHERE cod_tur=p1_cod_tur
+	returning cod_tur into valor;
+    
+    RETURN valor;
+END;
+$$;
+
+
+ALTER FUNCTION public.turno_reanudar(p1_cod_tur integer) OWNER TO postgres;
+
+--
+-- TOC entry 242 (class 1255 OID 18015)
+-- Name: turnos_listar(); Type: FUNCTION; Schema: public; Owner: postgres
+--
+
+CREATE FUNCTION public.turnos_listar() RETURNS SETOF public.turnos_estructura
+    LANGUAGE plpgsql
+    AS $$
+
+declare
+    fila public.turnos_estructura%rowtype;
+begin
+    for fila in 
+    select * from public.turnos
+
+loop 
+  return next fila;
+end loop;
+
+return;
+end;
+$$;
+
+
+ALTER FUNCTION public.turnos_listar() OWNER TO postgres;
+
+SET default_tablespace = '';
+
+SET default_table_access_method = heap;
+
+--
+-- TOC entry 233 (class 1259 OID 18067)
+-- Name: accion; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE public.accion (
+    cod_acc integer NOT NULL,
+    nom_acc character varying(40) NOT NULL,
+    est_acc "char" DEFAULT 'I'::"char",
+    fec_acc time with time zone DEFAULT now()
+);
+
+
+ALTER TABLE public.accion OWNER TO postgres;
+
+--
+-- TOC entry 3466 (class 0 OID 0)
+-- Dependencies: 233
+-- Name: TABLE accion; Type: COMMENT; Schema: public; Owner: postgres
+--
+
+COMMENT ON TABLE public.accion IS 'acciones';
+
+
+--
+-- TOC entry 232 (class 1259 OID 18066)
+-- Name: accion_cod_acc_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE public.accion_cod_acc_seq
+    AS integer
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.accion_cod_acc_seq OWNER TO postgres;
+
+--
+-- TOC entry 3467 (class 0 OID 0)
+-- Dependencies: 232
+-- Name: accion_cod_acc_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+--
+
+ALTER SEQUENCE public.accion_cod_acc_seq OWNED BY public.accion.cod_acc;
+
+
+--
+-- TOC entry 217 (class 1259 OID 17884)
+-- Name: consultorio; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE public.consultorio (
+    cod_con integer NOT NULL,
+    nom_con character varying(20) NOT NULL,
+    est_con "char" DEFAULT 'A'::"char"
+);
+
+
+ALTER TABLE public.consultorio OWNER TO postgres;
+
+--
+-- TOC entry 3468 (class 0 OID 0)
+-- Dependencies: 217
+-- Name: TABLE consultorio; Type: COMMENT; Schema: public; Owner: postgres
+--
+
+COMMENT ON TABLE public.consultorio IS 'consultorio o area en la que el doctor puede atender a los pasientes';
+
+
+--
+-- TOC entry 3469 (class 0 OID 0)
+-- Dependencies: 217
+-- Name: COLUMN consultorio.nom_con; Type: COMMENT; Schema: public; Owner: postgres
+--
+
+COMMENT ON COLUMN public.consultorio.nom_con IS 'nombre o numero del consultorio';
+
+
+--
+-- TOC entry 216 (class 1259 OID 17883)
+-- Name: consulltorio_cod_con_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE public.consulltorio_cod_con_seq
+    AS integer
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.consulltorio_cod_con_seq OWNER TO postgres;
+
+--
+-- TOC entry 3470 (class 0 OID 0)
+-- Dependencies: 216
+-- Name: consulltorio_cod_con_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+--
+
+ALTER SEQUENCE public.consulltorio_cod_con_seq OWNED BY public.consultorio.cod_con;
+
+
+--
+-- TOC entry 219 (class 1259 OID 17892)
+-- Name: dia_laborable; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE public.dia_laborable (
+    cod_dia integer NOT NULL,
+    nom_dia character varying(10) NOT NULL,
+    est_dia "char" DEFAULT 'A'::"char"
+);
+
+
+ALTER TABLE public.dia_laborable OWNER TO postgres;
+
+--
+-- TOC entry 3471 (class 0 OID 0)
+-- Dependencies: 219
+-- Name: TABLE dia_laborable; Type: COMMENT; Schema: public; Owner: postgres
+--
+
+COMMENT ON TABLE public.dia_laborable IS 'dias laborables';
+
+
+--
+-- TOC entry 3472 (class 0 OID 0)
+-- Dependencies: 219
+-- Name: COLUMN dia_laborable.nom_dia; Type: COMMENT; Schema: public; Owner: postgres
+--
+
+COMMENT ON COLUMN public.dia_laborable.nom_dia IS 'dias de la semana';
+
+
+--
+-- TOC entry 218 (class 1259 OID 17891)
+-- Name: dia_laborable_cod_dia_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE public.dia_laborable_cod_dia_seq
+    AS integer
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.dia_laborable_cod_dia_seq OWNER TO postgres;
+
+--
+-- TOC entry 3473 (class 0 OID 0)
+-- Dependencies: 218
+-- Name: dia_laborable_cod_dia_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+--
+
+ALTER SEQUENCE public.dia_laborable_cod_dia_seq OWNED BY public.dia_laborable.cod_dia;
+
+
+--
+-- TOC entry 235 (class 1259 OID 18084)
+-- Name: dias; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE public.dias (
+    string_agg text
+);
+
+
+ALTER TABLE public.dias OWNER TO postgres;
+
+--
+-- TOC entry 223 (class 1259 OID 17913)
+-- Name: turno; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE public.turno (
+    cod_tur integer NOT NULL,
+    fky_doc integer NOT NULL,
+    fky_con integer NOT NULL,
+    tur_tur character varying(10) NOT NULL,
+    est_tur "char" DEFAULT 'A'::"char",
+    dia_tur character varying(255) NOT NULL
+);
+
+
+ALTER TABLE public.turno OWNER TO postgres;
+
+--
+-- TOC entry 3474 (class 0 OID 0)
+-- Dependencies: 223
+-- Name: TABLE turno; Type: COMMENT; Schema: public; Owner: postgres
+--
+
+COMMENT ON TABLE public.turno IS 'tabla de union, donde se coloca los doctores con sus dias laborales';
+
+
+--
+-- TOC entry 3475 (class 0 OID 0)
+-- Dependencies: 223
+-- Name: COLUMN turno.fky_doc; Type: COMMENT; Schema: public; Owner: postgres
+--
+
+COMMENT ON COLUMN public.turno.fky_doc IS 'doctor + especialidad';
+
+
+--
+-- TOC entry 3476 (class 0 OID 0)
+-- Dependencies: 223
+-- Name: COLUMN turno.fky_con; Type: COMMENT; Schema: public; Owner: postgres
+--
+
+COMMENT ON COLUMN public.turno.fky_con IS 'consultorio';
+
+
+--
+-- TOC entry 3477 (class 0 OID 0)
+-- Dependencies: 223
+-- Name: COLUMN turno.tur_tur; Type: COMMENT; Schema: public; Owner: postgres
+--
+
+COMMENT ON COLUMN public.turno.tur_tur IS 'hora de entrada del doc, expresada HH:MM AM o PM';
+
+
+--
+-- TOC entry 222 (class 1259 OID 17912)
+-- Name: directorio_cod_dir_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE public.directorio_cod_dir_seq
+    AS integer
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.directorio_cod_dir_seq OWNER TO postgres;
+
+--
+-- TOC entry 3478 (class 0 OID 0)
+-- Dependencies: 222
+-- Name: directorio_cod_dir_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+--
+
+ALTER SEQUENCE public.directorio_cod_dir_seq OWNED BY public.turno.cod_tur;
+
+
+--
+-- TOC entry 230 (class 1259 OID 18040)
+-- Name: divisa; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE public.divisa (
+    cod_div integer NOT NULL,
+    nom_div character varying,
+    val_div numeric,
+    fec_div timestamp without time zone DEFAULT now(),
+    est_div character varying DEFAULT 'A'::character varying
+);
+
+
+ALTER TABLE public.divisa OWNER TO postgres;
+
+--
+-- TOC entry 229 (class 1259 OID 18039)
+-- Name: divisiones_cod_div_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE public.divisiones_cod_div_seq
+    AS integer
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.divisiones_cod_div_seq OWNER TO postgres;
+
+--
+-- TOC entry 3479 (class 0 OID 0)
+-- Dependencies: 229
+-- Name: divisiones_cod_div_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+--
+
+ALTER SEQUENCE public.divisiones_cod_div_seq OWNED BY public.divisa.cod_div;
+
+
+--
+-- TOC entry 221 (class 1259 OID 17900)
+-- Name: doctor; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE public.doctor (
+    cod_doc integer NOT NULL,
+    nom_doc character varying(50) NOT NULL,
+    fky_esp integer NOT NULL,
+    est_doc "char" DEFAULT 'A'::"char"
+);
+
+
+ALTER TABLE public.doctor OWNER TO postgres;
+
+--
+-- TOC entry 3480 (class 0 OID 0)
+-- Dependencies: 221
+-- Name: TABLE doctor; Type: COMMENT; Schema: public; Owner: postgres
+--
+
+COMMENT ON TABLE public.doctor IS 'doctores parte del personal de la institucion';
+
+
+--
+-- TOC entry 3481 (class 0 OID 0)
+-- Dependencies: 221
+-- Name: COLUMN doctor.nom_doc; Type: COMMENT; Schema: public; Owner: postgres
+--
+
+COMMENT ON COLUMN public.doctor.nom_doc IS 'nombre del doctor';
+
+
+--
+-- TOC entry 3482 (class 0 OID 0)
+-- Dependencies: 221
+-- Name: COLUMN doctor.fky_esp; Type: COMMENT; Schema: public; Owner: postgres
+--
+
+COMMENT ON COLUMN public.doctor.fky_esp IS 'especialidad del doctor';
+
+
+--
+-- TOC entry 220 (class 1259 OID 17899)
+-- Name: doctor_cod_doc_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE public.doctor_cod_doc_seq
+    AS integer
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.doctor_cod_doc_seq OWNER TO postgres;
+
+--
+-- TOC entry 3483 (class 0 OID 0)
+-- Dependencies: 220
+-- Name: doctor_cod_doc_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+--
+
+ALTER SEQUENCE public.doctor_cod_doc_seq OWNED BY public.doctor.cod_doc;
+
+
+--
+-- TOC entry 215 (class 1259 OID 17876)
+-- Name: especialidad; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE public.especialidad (
+    cod_esp integer NOT NULL,
+    nom_esp character varying(30) NOT NULL,
+    est_esp "char" DEFAULT 'A'::"char"
+);
+
+
+ALTER TABLE public.especialidad OWNER TO postgres;
+
+--
+-- TOC entry 3484 (class 0 OID 0)
+-- Dependencies: 215
+-- Name: TABLE especialidad; Type: COMMENT; Schema: public; Owner: postgres
+--
+
+COMMENT ON TABLE public.especialidad IS 'especialidades medicas que dispone el hospital y que se le asignaran a los medicos';
+
+
+--
+-- TOC entry 3485 (class 0 OID 0)
+-- Dependencies: 215
+-- Name: COLUMN especialidad.nom_esp; Type: COMMENT; Schema: public; Owner: postgres
+--
+
+COMMENT ON COLUMN public.especialidad.nom_esp IS 'nombre de la especialidad medica';
+
+
+--
+-- TOC entry 237 (class 1259 OID 18104)
+-- Name: doctores; Type: VIEW; Schema: public; Owner: postgres
+--
+
+CREATE VIEW public.doctores AS
+ SELECT d.cod_doc,
+    d.nom_doc AS doctor,
+    d.fky_esp,
+    e.nom_esp AS especialidad,
+    d.est_doc AS estatud
+   FROM (public.doctor d
+     JOIN public.especialidad e ON ((e.cod_esp = d.fky_esp)))
+  ORDER BY d.cod_doc;
+
+
+ALTER TABLE public.doctores OWNER TO postgres;
+
+--
+-- TOC entry 214 (class 1259 OID 17875)
+-- Name: especialidad_cod_esp_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE public.especialidad_cod_esp_seq
+    AS integer
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.especialidad_cod_esp_seq OWNER TO postgres;
+
+--
+-- TOC entry 3486 (class 0 OID 0)
+-- Dependencies: 214
+-- Name: especialidad_cod_esp_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+--
+
+ALTER SEQUENCE public.especialidad_cod_esp_seq OWNED BY public.especialidad.cod_esp;
+
+
+--
+-- TOC entry 236 (class 1259 OID 18099)
+-- Name: turnos; Type: VIEW; Schema: public; Owner: postgres
+--
+
+CREATE VIEW public.turnos AS
+ SELECT t.cod_tur AS turno,
+    t.fky_doc,
+    d.nom_doc AS doctor,
+    d.fky_esp,
+    e.nom_esp AS especialidad,
+    t.fky_con,
+    c.nom_con AS consultorio,
+    t.dia_tur AS dia,
+    t.tur_tur AS horario,
+    t.est_tur AS estatus
+   FROM (((public.turno t
+     JOIN public.doctor d ON ((d.cod_doc = t.fky_doc)))
+     JOIN public.especialidad e ON ((e.cod_esp = d.fky_esp)))
+     JOIN public.consultorio c ON ((c.cod_con = t.fky_con)))
+  ORDER BY t.cod_tur;
+
+
+ALTER TABLE public.turnos OWNER TO postgres;
+
+--
+-- TOC entry 3291 (class 2604 OID 18070)
+-- Name: accion cod_acc; Type: DEFAULT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.accion ALTER COLUMN cod_acc SET DEFAULT nextval('public.accion_cod_acc_seq'::regclass);
+
+
+--
+-- TOC entry 3280 (class 2604 OID 17887)
+-- Name: consultorio cod_con; Type: DEFAULT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.consultorio ALTER COLUMN cod_con SET DEFAULT nextval('public.consulltorio_cod_con_seq'::regclass);
+
+
+--
+-- TOC entry 3282 (class 2604 OID 17895)
+-- Name: dia_laborable cod_dia; Type: DEFAULT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.dia_laborable ALTER COLUMN cod_dia SET DEFAULT nextval('public.dia_laborable_cod_dia_seq'::regclass);
+
+
+--
+-- TOC entry 3288 (class 2604 OID 18043)
+-- Name: divisa cod_div; Type: DEFAULT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.divisa ALTER COLUMN cod_div SET DEFAULT nextval('public.divisiones_cod_div_seq'::regclass);
+
+
+--
+-- TOC entry 3284 (class 2604 OID 17903)
+-- Name: doctor cod_doc; Type: DEFAULT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.doctor ALTER COLUMN cod_doc SET DEFAULT nextval('public.doctor_cod_doc_seq'::regclass);
+
+
+--
+-- TOC entry 3278 (class 2604 OID 17879)
+-- Name: especialidad cod_esp; Type: DEFAULT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.especialidad ALTER COLUMN cod_esp SET DEFAULT nextval('public.especialidad_cod_esp_seq'::regclass);
+
+
+--
+-- TOC entry 3286 (class 2604 OID 17916)
+-- Name: turno cod_tur; Type: DEFAULT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.turno ALTER COLUMN cod_tur SET DEFAULT nextval('public.directorio_cod_dir_seq'::regclass);
+
+
+--
+-- TOC entry 3313 (class 2606 OID 18073)
+-- Name: accion accion_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.accion
+    ADD CONSTRAINT accion_pkey PRIMARY KEY (cod_acc);
+
+
+--
+-- TOC entry 3299 (class 2606 OID 17890)
+-- Name: consultorio consulltorio_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.consultorio
+    ADD CONSTRAINT consulltorio_pkey PRIMARY KEY (cod_con);
+
+
+--
+-- TOC entry 3303 (class 2606 OID 17898)
+-- Name: dia_laborable dia_laborable_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.dia_laborable
+    ADD CONSTRAINT dia_laborable_pkey PRIMARY KEY (cod_dia);
+
+
+--
+-- TOC entry 3309 (class 2606 OID 17919)
+-- Name: turno directorio_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.turno
+    ADD CONSTRAINT directorio_pkey PRIMARY KEY (cod_tur);
+
+
+--
+-- TOC entry 3311 (class 2606 OID 18049)
+-- Name: divisa divisiones_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.divisa
+    ADD CONSTRAINT divisiones_pkey PRIMARY KEY (cod_div);
+
+
+--
+-- TOC entry 3307 (class 2606 OID 17906)
+-- Name: doctor doctor_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.doctor
+    ADD CONSTRAINT doctor_pkey PRIMARY KEY (cod_doc);
+
+
+--
+-- TOC entry 3295 (class 2606 OID 17882)
+-- Name: especialidad especialidad_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.especialidad
+    ADD CONSTRAINT especialidad_pkey PRIMARY KEY (cod_esp);
+
+
+--
+-- TOC entry 3301 (class 2606 OID 17945)
+-- Name: consultorio unq_nom_con; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.consultorio
+    ADD CONSTRAINT unq_nom_con UNIQUE (nom_con);
+
+
+--
+-- TOC entry 3487 (class 0 OID 0)
+-- Dependencies: 3301
+-- Name: CONSTRAINT unq_nom_con ON consultorio; Type: COMMENT; Schema: public; Owner: postgres
+--
+
+COMMENT ON CONSTRAINT unq_nom_con ON public.consultorio IS 'nombre de consultorio unico';
+
+
+--
+-- TOC entry 3305 (class 2606 OID 17947)
+-- Name: dia_laborable unq_nom_dia; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.dia_laborable
+    ADD CONSTRAINT unq_nom_dia UNIQUE (nom_dia);
+
+
+--
+-- TOC entry 3488 (class 0 OID 0)
+-- Dependencies: 3305
+-- Name: CONSTRAINT unq_nom_dia ON dia_laborable; Type: COMMENT; Schema: public; Owner: postgres
+--
+
+COMMENT ON CONSTRAINT unq_nom_dia ON public.dia_laborable IS 'nombre de dia unico';
+
+
+--
+-- TOC entry 3297 (class 2606 OID 17949)
+-- Name: especialidad unq_nom_esp; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.especialidad
+    ADD CONSTRAINT unq_nom_esp UNIQUE (nom_esp);
+
+
+--
+-- TOC entry 3489 (class 0 OID 0)
+-- Dependencies: 3297
+-- Name: CONSTRAINT unq_nom_esp ON especialidad; Type: COMMENT; Schema: public; Owner: postgres
+--
+
+COMMENT ON CONSTRAINT unq_nom_esp ON public.especialidad IS 'nombre de especialidad unico';
+
+
+--
+-- TOC entry 3315 (class 2606 OID 17925)
+-- Name: turno fky_con; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.turno
+    ADD CONSTRAINT fky_con FOREIGN KEY (fky_con) REFERENCES public.consultorio(cod_con) ON UPDATE CASCADE ON DELETE RESTRICT;
+
+
+--
+-- TOC entry 3490 (class 0 OID 0)
+-- Dependencies: 3315
+-- Name: CONSTRAINT fky_con ON turno; Type: COMMENT; Schema: public; Owner: postgres
+--
+
+COMMENT ON CONSTRAINT fky_con ON public.turno IS 'consultorio donde atiende el doc';
+
+
+--
+-- TOC entry 3316 (class 2606 OID 17920)
+-- Name: turno fky_doc; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.turno
+    ADD CONSTRAINT fky_doc FOREIGN KEY (fky_doc) REFERENCES public.doctor(cod_doc) ON UPDATE CASCADE ON DELETE RESTRICT;
+
+
+--
+-- TOC entry 3491 (class 0 OID 0)
+-- Dependencies: 3316
+-- Name: CONSTRAINT fky_doc ON turno; Type: COMMENT; Schema: public; Owner: postgres
+--
+
+COMMENT ON CONSTRAINT fky_doc ON public.turno IS 'doctor + especialidad';
+
+
+--
+-- TOC entry 3314 (class 2606 OID 17907)
+-- Name: doctor fky_esp; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.doctor
+    ADD CONSTRAINT fky_esp FOREIGN KEY (fky_esp) REFERENCES public.especialidad(cod_esp) ON UPDATE CASCADE ON DELETE RESTRICT NOT VALID;
+
+
+--
+-- TOC entry 3492 (class 0 OID 0)
+-- Dependencies: 3314
+-- Name: CONSTRAINT fky_esp ON doctor; Type: COMMENT; Schema: public; Owner: postgres
+--
+
+COMMENT ON CONSTRAINT fky_esp ON public.doctor IS 'especialidad del doctor';
+
+
+-- Completed on 2023-09-08 10:56:52
+
+--
+-- PostgreSQL database dump complete
+--
+

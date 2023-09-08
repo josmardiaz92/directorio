@@ -303,8 +303,8 @@ function consultarTurno(index,element,status){
                                     <td id="${element.nombre}">${element.nombre}</td>
                                     <td id="especialidad${element.codigoespecialidad}">${element.especialidad}</td>
                                     <td id="consultorio${element.codigoconsultorio}">${element.consultorio}</td>
-                                    <td id="dia${element.codigodia}">${element.dia}</td>
-                                    <td id="horario${index}">${element.desde} - ${element.hasta}</td>
+                                    <td id="dia${index}">${element.dia}</td>
+                                    <td id="horario${index}">${element.horario}</td>
                                     <td class="${element.estatus}">
                                     <div class="form-check form-switch d-flex justify-content-center">
                                         <input class="form-check-input estadoElemento" type="checkbox" role="switch" id="${element.codigo}">
@@ -331,8 +331,8 @@ function consultarTurno(index,element,status){
                                     <td id="${element.nombre}">${element.nombre}</td>
                                     <td id="especialidad${element.codigoespecialidad}">${element.especialidad}</td>
                                     <td id="consultorio${element.codigoconsultorio}">${element.consultorio}</td>
-                                    <td id="dia${element.codigodia}">${element.dia}</td>
-                                    <td id="horario${index}">${element.desde} - ${element.hasta}</td>
+                                    <td id="dia${index}">${element.dia}</td>
+                                    <td id="horario${index}">${element.horario}</td>
                                     <td class="${element.estatus}">
                                     <div class="form-check form-switch d-flex justify-content-center">
                                         <input class="form-check-input estadoElemento" type="checkbox" role="switch" id="${element.codigo}">
@@ -358,8 +358,8 @@ function consultarTurno(index,element,status){
                                     <td id="${element.nombre}">${element.nombre}</td>
                                     <td id="especialidad${element.codigoespecialidad}">${element.especialidad}</td>
                                     <td id="consultorio${element.codigoconsultorio}">${element.consultorio}</td>
-                                    <td id="dia${element.codigodia}">${element.dia}</td>
-                                    <td id="horario${index}">${element.desde} - ${element.hasta}</td>
+                                    <td id="dia${index}">${element.dia}</td>
+                                    <td id="horario${index}">${element.horario}</td>
                                     <td class="${element.estatus}">
                                     <div class="form-check form-switch d-flex justify-content-center">
                                         <input class="form-check-input estadoElemento" type="checkbox" role="switch" id="${element.codigo}">

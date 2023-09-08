@@ -1,24 +1,51 @@
 const contenedorDirectorio=document.getElementById('contenedorDirectorio');
 const especialidades = {};
+const especialidadConsultorio={};
 let contador=0;
 let intervaloEspecialidades;
 let medicosPorGrupo;
 const pausaEntreGrupos = 10000;
+const horarioTarde='de 01:00 PM a 05:00 PM';
+const horarioMañana='de 06:30 AM a 12:00 PM';
+const horarioEco='de 07:00 AM a 01:00 PM';
+const horarioDia='de 07:00 AM a 05:00 PM';
+const horarioEmergencia='de 05:00 AM a 12:00 AM'
 
 fetch('../php/turno_listar.php')
     .then(respuesta => respuesta.json())
     .then(arregloJson => {
         arregloJson.forEach((dato, index) => {
             if (dato.estatus == 'A') {
-                const { nombre, especialidad, dia, desde, hasta } = dato;
-                const horario = `${dia} ${desde} a ${hasta}`;
+                let { nombre, especialidad, consultorio, dia, horario,  } = dato;
+                switch (horario) {
+                    case 'mañana':
+                        horario=`${dia} ${horarioMañana}`
+                        break;
+                    case 'tarde':
+                        horario=`${dia} ${horarioTarde}`
+                        break;
+                    case 'medio dia':
+                        horario=`${dia} ${horarioEco}`
+                        break;
+                    case 'todo el dia':
+                        horario=`${dia} ${horarioDia}`
+                        break;
+                    case 'emergencia':
+                            horario=`${dia} ${horarioDia}`
+                            break;
+                    default:
+                        break;
+                }
                 if (!especialidades[especialidad]) {
                     especialidades[especialidad] = {};
+                    especialidadConsultorio[especialidad]={};
                 }
                 if (!especialidades[especialidad][nombre]) {
                     especialidades[especialidad][nombre] = [];
+                    especialidadConsultorio[especialidad][nombre]=[];
                 }
                 especialidades[especialidad][nombre].push(horario);
+                especialidadConsultorio[especialidad][nombre].push(consultorio);
             }
         });     
         const cantidadEspecialidades = Object.keys(especialidades).length;
@@ -105,10 +132,20 @@ function imprimir(especialidad){
     
                 const consultorioDirectorio = document.createElement('div');
                 consultorioDirectorio.classList.add('col-12', 'col-lg-2', 'align-self-center');
-                const consultorioNombreDirectorio = document.createElement('h2');
-                consultorioNombreDirectorio.classList.add('text-center');
-                consultorioNombreDirectorio.textContent = 'consultorio: 02';
-                consultorioDirectorio.appendChild(consultorioNombreDirectorio);
+                let consultorioAnterior='';
+                for(const consultorio of especialidadConsultorio[especialidad][medico]){
+                    const consultorioNombreDirectorio = document.createElement('h2');
+                    consultorioNombreDirectorio.classList.add('text-center');
+                    if(isNaN(parseInt(consultorio))){
+                        consultorioNombreDirectorio.innerHTML=consultorio;
+                    }else{
+                        consultorioNombreDirectorio.innerHTML=`consultorio N° ${consultorio}`;
+                    }
+                    if(consultorioAnterior!=consultorio){
+                        consultorioDirectorio.appendChild(consultorioNombreDirectorio);
+                        consultorioAnterior=consultorio;
+                    }
+                }
                 medicoDirectorio.appendChild(consultorioDirectorio);
     
                 especialidadContenedor.appendChild(medicoDirectorio);

@@ -133,10 +133,20 @@ function imprimirConsulta(especialidad){
     
                 const consultorioConsulta = document.createElement('div');
                 consultorioConsulta.classList.add('col-12', 'col-lg-2', 'align-self-center');
-                const consultorioNombreConsulta = document.createElement('h2');
-                consultorioNombreConsulta.classList.add('text-center');
-                consultorioNombreConsulta.textContent = 'consultorio: 02';
-                consultorioConsulta.appendChild(consultorioNombreConsulta);
+                let consultorioAnterior='';
+                for(const consultorio of especialidadConsultorio[especialidad][medico]){
+                    const consultorioNombreConsulta = document.createElement('h2');
+                    consultorioNombreConsulta.classList.add('text-center');
+                    if(isNaN(parseInt(consultorio))){
+                        consultorioNombreConsulta.innerHTML=consultorio;
+                    }else{
+                        consultorioNombreConsulta.innerHTML=`consultorio N° ${consultorio}`;
+                    }
+                    if(consultorioAnterior!=consultorio){
+                        consultorioConsulta.appendChild(consultorioNombreConsulta);
+                        consultorioAnterior=consultorio;
+                    }
+                }
                 medicoConsulta.appendChild(consultorioConsulta);
     
                 especialidadContenedor.appendChild(medicoConsulta);

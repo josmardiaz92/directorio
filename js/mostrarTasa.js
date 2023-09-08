@@ -5,12 +5,15 @@ const fecha = mostrarFecha();
 const contenedorFecha=document.getElementById('fecha');
 contenedorFecha.innerHTML=fecha;
 
-
-fetch('../py/controladores/divisa_obtener.py')
+/* fetch('../py/controladores/divisa_obtener.py')
     .then(respuesta=>respuesta.json())
     .then(respuesta=>{
         console.log(respuesta);
-        fetch('../py/controladores/divisa_listar.py')
+    })
+    .catch(error => { console.error(`Atención ${error}`)}); */
+
+setTimeout(() => {
+    fetch('../py/controladores/divisa_listar.py')
         .then(respuesta=>respuesta.json())
         .then(arregloJson=>{
             if('USD' in arregloJson){
@@ -27,8 +30,7 @@ fetch('../py/controladores/divisa_obtener.py')
             }
         })
         .catch(error => { console.error(`Atención ${error}`) });
-    })
-    .catch(error => { console.error(`Atención ${error}`)});
+}, 1000);
 
 function mostrarFecha() {
     const fechaActual = new Date();

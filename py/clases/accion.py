@@ -6,6 +6,7 @@ class accion(bd.base_datos):
         self.cod_acc=''
         self.nom_acc=''
         self.est_acc=''
+        self.fec_acc=''
     def listar(self):
         #*Llamamos a la funcion para listar en la base de datos
         sql=f"""select public.accion_listar()"""

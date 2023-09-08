@@ -2,7 +2,7 @@ const contenedorDirectorio=document.getElementById('contenedorDirectorio');
 const especialidades = {};
 let contador=0;
 let intervaloEspecialidades;
-const medicosPorGrupo = 8;
+let medicosPorGrupo;
 const pausaEntreGrupos = 10000;
 
 fetch('../php/turno_listar.php')

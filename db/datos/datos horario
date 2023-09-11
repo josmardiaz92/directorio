@@ -1,0 +1,5 @@
+('mañana','de 01:00 PM a 05:00 PM'),
+('tarde','de 06:30 AM a 12:00 PM'),
+('sabado','de 07:00 AM a 01:00 PM'),
+('medio dia','de 07:00 AM a 05:00 PM'),
+('emergencia','de 05:00 AM a 12:00 AM')

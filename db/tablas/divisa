@@ -1,0 +1,24 @@
+-- Table: divisa
+
+-- DROP TABLE divisa;
+
+CREATE TABLE divisa
+(
+  cod_div serial NOT NULL,
+  nom_div character varying(20) NOT NULL,
+  val_div numeric NOT NULL, -- valor de la dicisa con respecto al bolivar
+  fec_val time with time zone DEFAULT now(),
+  est_div character(1) DEFAULT 'A'::bpchar,
+  CONSTRAINT cod_div PRIMARY KEY (cod_div)
+)
+WITH (
+  OIDS=FALSE
+);
+ALTER TABLE divisa
+  OWNER TO postgres;
+GRANT ALL ON TABLE divisa TO postgres;
+GRANT ALL ON TABLE divisa TO public;
+COMMENT ON TABLE divisa
+  IS 'valor de las divisas con respecto al bolivar';
+COMMENT ON COLUMN divisa.val_div IS 'valor de la dicisa con respecto al bolivar';
+

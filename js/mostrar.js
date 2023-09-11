@@ -9,7 +9,7 @@ const horarioTarde='de 01:00 PM a 05:00 PM';
 const horarioMañana='de 06:30 AM a 12:00 PM';
 const horarioEco='de 07:00 AM a 01:00 PM';
 const horarioDia='de 07:00 AM a 05:00 PM';
-const horarioEmergencia='de 05:00 AM a 12:00 AM'
+const horarioEmergencia='de 05:00 AM a 12:00 AM';
 
 fetch('../php/turno_listar.php')
     .then(respuesta => respuesta.json())
@@ -34,6 +34,7 @@ fetch('../php/turno_listar.php')
                             horario=`${dia} ${horarioDia}`
                             break;
                     default:
+
                         break;
                 }
                 if (!especialidades[especialidad]) {

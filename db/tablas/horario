@@ -1,0 +1,25 @@
+-- Table: horario
+
+-- DROP TABLE horario;
+
+CREATE TABLE horario
+(
+  cod_hor serial NOT NULL,
+  nom_hor character varying(20) NOT NULL, -- referencia del horario
+  def_hor character varying(40) NOT NULL, -- descripcion del horario donde se marca desde cuando hasta cuando es el horario
+  est_hor character(1) DEFAULT 'A'::bpchar, -- estatus
+  CONSTRAINT cod_hor PRIMARY KEY (cod_hor)
+)
+WITH (
+  OIDS=FALSE
+);
+ALTER TABLE horario
+  OWNER TO postgres;
+GRANT ALL ON TABLE horario TO postgres;
+GRANT ALL ON TABLE horario TO public;
+COMMENT ON TABLE horario
+  IS 'horarios o grupos de horarios con las referencias de horas';
+COMMENT ON COLUMN horario.nom_hor IS 'referencia del horario';
+COMMENT ON COLUMN horario.def_hor IS 'descripcion del horario donde se marca desde cuando hasta cuando es el horario';
+COMMENT ON COLUMN horario.est_hor IS 'estatus';
+

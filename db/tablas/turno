@@ -1,0 +1,45 @@
+-- Table: turno
+
+-- DROP TABLE turno;
+
+CREATE TABLE turno
+(
+  cod_tur serial NOT NULL,
+  fky_doc integer NOT NULL, -- fky a la tabla doctor
+  fky_esp integer NOT NULL, -- fky a la tabla especialidad
+  dia_tur character varying(100) NOT NULL, -- dias de la semana que corresponde el horario separados por comas
+  fky_hor integer NOT NULL, -- fky a la tabla horario
+  fky_con integer NOT NULL, -- fky a la tabla consultorio donde atendera el doctor
+  est_tur character(1) DEFAULT 'A'::bpchar, -- estatus
+  d15_tur character(1) DEFAULT 'I'::bpchar, -- si esta activo, quiere decir que atiende cada 15 dias
+  CONSTRAINT cod_tur PRIMARY KEY (cod_tur),
+  CONSTRAINT fky_con FOREIGN KEY (fky_con)
+      REFERENCES consultorio (cod_con) MATCH SIMPLE
+      ON UPDATE CASCADE ON DELETE RESTRICT,
+  CONSTRAINT fky_doc FOREIGN KEY (fky_doc)
+      REFERENCES doctor (cod_doc) MATCH SIMPLE
+      ON UPDATE CASCADE ON DELETE RESTRICT,
+  CONSTRAINT fky_esp FOREIGN KEY (fky_esp)
+      REFERENCES especialidad (cod_esp) MATCH SIMPLE
+      ON UPDATE CASCADE ON DELETE RESTRICT,
+  CONSTRAINT fky_hor FOREIGN KEY (fky_hor)
+      REFERENCES horario (cod_hor) MATCH SIMPLE
+      ON UPDATE CASCADE ON DELETE RESTRICT
+)
+WITH (
+  OIDS=FALSE
+);
+ALTER TABLE turno
+  OWNER TO postgres;
+GRANT ALL ON TABLE turno TO postgres;
+GRANT ALL ON TABLE turno TO public;
+COMMENT ON TABLE turno
+  IS 'turnos dados a los doctores segun su especialidad, dias de atencion y horario de los mismos';
+COMMENT ON COLUMN turno.fky_doc IS 'fky a la tabla doctor';
+COMMENT ON COLUMN turno.fky_esp IS 'fky a la tabla especialidad';
+COMMENT ON COLUMN turno.dia_tur IS 'dias de la semana que corresponde el horario separados por comas';
+COMMENT ON COLUMN turno.fky_hor IS 'fky a la tabla horario';
+COMMENT ON COLUMN turno.fky_con IS 'fky a la tabla consultorio donde atendera el doctor';
+COMMENT ON COLUMN turno.est_tur IS 'estatus';
+COMMENT ON COLUMN turno.d15_tur IS 'si esta activo, quiere decir que atiende cada 15 dias';
+

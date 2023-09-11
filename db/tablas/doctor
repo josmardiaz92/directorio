@@ -1,0 +1,18 @@
+-- Table: doctor
+
+-- DROP TABLE doctor;
+
+CREATE TABLE doctor
+(
+  cod_doc serial NOT NULL,
+  nom_doc character varying(50) NOT NULL,
+  est_doc character(1) DEFAULT 'A'::bpchar,
+  CONSTRAINT cod_doc PRIMARY KEY (cod_doc)
+)
+WITH (
+  OIDS=FALSE
+);
+ALTER TABLE doctor
+  OWNER TO postgres;
+GRANT ALL ON TABLE doctor TO postgres;
+GRANT ALL ON TABLE doctor TO public;

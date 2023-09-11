@@ -1,0 +1,23 @@
+-- Table: consultorio
+
+-- DROP TABLE consultorio;
+
+CREATE TABLE consultorio
+(
+  cod_con serial NOT NULL,
+  nom_con character varying(20) NOT NULL, -- nombre del consultorio
+  est_con character(1) DEFAULT 'A'::bpchar, -- estatus
+  CONSTRAINT cod_con PRIMARY KEY (cod_con)
+)
+WITH (
+  OIDS=FALSE
+);
+ALTER TABLE consultorio
+  OWNER TO postgres;
+GRANT ALL ON TABLE consultorio TO postgres;
+GRANT ALL ON TABLE consultorio TO public;
+COMMENT ON TABLE consultorio
+  IS 'consultorios de atencion';
+COMMENT ON COLUMN consultorio.nom_con IS 'nombre del consultorio';
+COMMENT ON COLUMN consultorio.est_con IS 'estatus';
+

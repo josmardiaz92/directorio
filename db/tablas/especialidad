@@ -1,0 +1,21 @@
+-- Table: especialidad
+
+-- DROP TABLE especialidad;
+
+CREATE TABLE especialidad
+(
+  cod_esp serial NOT NULL,
+  nom_esp character varying(30) NOT NULL, -- nombr de la especialidad
+  est_esp character(1) DEFAULT 'A'::bpchar,
+  CONSTRAINT cod_esp PRIMARY KEY (cod_esp),
+  CONSTRAINT nom_esp UNIQUE (nom_esp)
+)
+WITH (
+  OIDS=FALSE
+);
+ALTER TABLE especialidad
+  OWNER TO postgres;
+GRANT ALL ON TABLE especialidad TO postgres;
+GRANT ALL ON TABLE especialidad TO public;
+COMMENT ON COLUMN especialidad.nom_esp IS 'nombr de la especialidad';
+

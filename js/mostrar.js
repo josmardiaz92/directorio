@@ -88,17 +88,19 @@ function imprimir(especialidad){
                 const medico = medicos[i];
             
                 const medicoDirectorio = document.createElement('div');
-                medicoDirectorio.classList.add('row','mt-5');
-    
-                const medicoNombreDivDirectorio = document.createElement('div');
-                medicoNombreDivDirectorio.classList.add('col-12', 'col-lg-5', 'align-self-center', 'ps-lg-4', 'text-center', 'text-lg-start', 'doctorDirectorio');
-                const medicoNombreDirectorio = document.createElement('h2');
-                medicoNombreDirectorio.textContent = medico;
-                medicoNombreDivDirectorio.appendChild(medicoNombreDirectorio);
-                medicoDirectorio.appendChild(medicoNombreDivDirectorio);
+                medicoDirectorio.classList.add('row','mt-5','justify-content-center');
+                if(medico!=''){
+                    const medicoNombreDivDirectorio = document.createElement('div');
+                    medicoNombreDivDirectorio.classList.add('col-12', 'col-lg-4', 'align-self-center', 'ps-lg-4', 'text-center', 'text-lg-start', 'doctorDirectorio');
+                    const medicoNombreDirectorio = document.createElement('h2');
+                    medicoNombreDirectorio.textContent = medico;
+                    medicoNombreDivDirectorio.appendChild(medicoNombreDirectorio);
+                    medicoDirectorio.appendChild(medicoNombreDivDirectorio);
+                }
+                
     
                 const horariosDirectorio = document.createElement('div');
-                horariosDirectorio.classList.add('col-12', 'col-lg-4', 'text-center', 'text-lg-start', 'align-self-center');
+                horariosDirectorio.classList.add('col-12', 'col-lg-5', 'text-center', 'text-lg-end', 'align-self-center', 'me-5');
                 for (const horario of especialidades[especialidad][medico]) {
                     const horarioDirectorio = document.createElement('p');
                     horarioDirectorio.classList.add('fs-5','lineaDirectorio')

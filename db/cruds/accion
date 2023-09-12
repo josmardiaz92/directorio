@@ -1,0 +1,59 @@
+//estructura y funcion listar de accion
+create type public.accion_estructura as 
+    (
+        cod_acc integer,
+        nom_acc character varying,
+        est_acc character
+    );
+
+create or replace function public.accion_listar() returns setof public.accion_estructura language 'plpgsql' as $accion$
+
+declare
+    fila public.accion_estructura%rowtype;
+begin
+    for fila in 
+    select * from public.accion
+
+loop 
+  return next fila;
+end loop;
+
+return;
+end;
+$accion$
+
+//eliminar accion
+CREATE OR REPLACE FUNCTION public.accion_eliminar(p1_cod_acc integer)
+RETURNS integer
+LANGUAGE plpgsql
+AS $accion_eliminar$
+DECLARE 
+    valor integer;
+BEGIN
+
+UPDATE public.accion
+	SET est_acc='I'
+	WHERE cod_acc=p1_cod_acc
+	returning cod_acc into valor;
+    
+    RETURN valor;
+END;
+$accion_eliminar$;
+
+//reanudar accion
+CREATE OR REPLACE FUNCTION public.accion_reanudar(p1_cod_acc integer)
+RETURNS integer
+LANGUAGE plpgsql
+AS $accion_reanudar$
+DECLARE 
+    valor integer;
+BEGIN
+
+UPDATE public.accion
+	SET est_acc='A'
+	WHERE cod_acc=p1_cod_acc
+	returning cod_acc into valor;
+    
+    RETURN valor;
+END;
+$accion_reanudar$;

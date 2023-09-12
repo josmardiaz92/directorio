@@ -1,0 +1,114 @@
+//funcion para agregar turno
+CREATE OR REPLACE FUNCTION public.turno_agregar(p1_fky_doc integer, p2_fky_esp integer, p3_dia_tur character varying, p4_fky_hor integer, p5_fky_con integer, p6_d15_tur character)
+RETURNS integer
+LANGUAGE plpgsql
+AS $consultorio_agregar$
+DECLARE 
+    valor integer;
+BEGIN
+    INSERT INTO public.turno(
+	fky_doc, fky_esp, dia_tur, fky_hor, fky_con, d15_tur)
+	VALUES (p1_fky_doc, p2_fky_esp, p3_dia_tur, p4_fky_hor, p5_fky_con, p6_d15_tur)
+	returning cod_tur into valor;
+    
+    RETURN valor;
+END;
+$consultorio_agregar$;
+
+//funcion para modificar las turnoes
+CREATE OR REPLACE FUNCTION public.turno_modificar(p1_fky_doc integer, p2_fky_esp integer, p3_dia_tur character varying, p4_fky_hor integer, p5_fky_con integer, p6_est_tur character, p7_d15_tur character, p8_cod_tur integer)
+RETURNS integer
+LANGUAGE plpgsql
+AS $turno_modificar$
+DECLARE 
+    valor integer;
+BEGIN
+    UPDATE public.turno
+	SET fky_doc=p1_fky_doc, fky_esp=p2_fky_esp, dia_tur=p3_dia_tur, fky_hor=p4_fky_hor, fky_con=p5_fky_con, est_tur=p6_est_tur, d15_tur=p7_d15_tur
+	WHERE cod_tur=p8_cod_tur
+	returning cod_tur into valor;
+    
+    RETURN valor;
+END;
+$turno_modificar$;
+
+//eliminar turno
+CREATE OR REPLACE FUNCTION public.turno_eliminar(p1_cod_tur integer)
+RETURNS integer
+LANGUAGE plpgsql
+AS $turno_eliminar$
+DECLARE 
+    valor integer;
+BEGIN
+
+UPDATE public.turno
+	SET est_tur='I'
+	WHERE cod_tur=p1_cod_tur
+	returning cod_tur into valor;
+    
+    RETURN valor;
+END;
+$turno_eliminar$;
+
+//reanudar turno
+CREATE OR REPLACE FUNCTION public.turno_reanudar(p1_cod_tur integer)
+RETURNS integer
+LANGUAGE plpgsql
+AS $turno_reanudar$
+DECLARE 
+    valor integer;
+BEGIN
+
+UPDATE public.turno
+	SET est_tur='A'
+	WHERE cod_tur=p1_cod_tur
+	returning cod_tur into valor;
+    
+    RETURN valor;
+END;
+$turno_reanudar$;
+
+//Eliminar fisico turno
+CREATE OR REPLACE FUNCTION public.turno_eliminar_definitivo(p1_cod_tur integer)
+RETURNS character varying
+LANGUAGE plpgsql
+AS $turno_eliminar_definitivo$
+DECLARE 
+    valor character varying;
+BEGIN
+    DELETE FROM public.turno
+	where cod_tur=p1_cod_tur
+	returning 'hecho' into valor;
+    
+    RETURN valor;
+END;
+$turno_eliminar_definitivo$;
+
+//estructura y funcion para ver la tabla turno
+create type public.turno_estructura as 
+    (
+        cod_tur integer,
+        fky_doc integer,
+        fky_esp integer,
+        dia_tur character varying,
+        fky_hor integer,
+        fky_con integer,
+        est_tur character,
+        d15_tur character
+    );
+
+create or replace function public.turno_listar() returns setof public.turno_estructura language 'plpgsql' as $turno$
+
+declare
+    fila public.turno_estructura%rowtype;
+begin
+    for fila in 
+    select * from public.turno order by cod_tur
+
+loop 
+    return next fila;
+end loop;
+
+return;
+end;
+$turno$

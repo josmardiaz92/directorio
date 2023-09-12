@@ -1,0 +1,128 @@
+//funcion agregar
+CREATE OR REPLACE FUNCTION public.doctor_agregar(p1_nom_doc character varying)
+RETURNS integer
+LANGUAGE plpgsql
+AS $doctor_agregar$
+DECLARE 
+    valor integer;
+BEGIN
+    INSERT INTO public.doctor(
+	nom_doc)
+	VALUES (p1_nom_doc)
+	returning cod_doc into valor;
+    
+    RETURN valor;
+END;
+$doctor_agregar$;
+
+//funcion para modificar al doctor
+CREATE OR REPLACE FUNCTION public.doctor_modificar(p1_nom_doc character varying, p2_est_doc character, p3_cod_doc integer)
+RETURNS integer
+LANGUAGE plpgsql
+AS $doctor_modificar$
+DECLARE 
+    valor integer;
+BEGIN
+    UPDATE public.doctor
+	SET nom_doc=p1_nom_doc, est_doc=p2_est_doc
+	WHERE cod_doc=p3_cod_doc
+	returning cod_doc into valor;
+    
+    RETURN valor;
+END;
+$doctor_modificar$;
+
+//eliminar doctor
+CREATE OR REPLACE FUNCTION public.doctor_eliminar(p1_cod_doc integer)
+RETURNS integer
+LANGUAGE plpgsql
+AS $doctor_eliminar$
+DECLARE 
+    valor integer;
+BEGIN
+
+UPDATE public.doctor
+	SET est_doc='I'
+	WHERE cod_doc=p1_cod_doc
+	returning cod_doc into valor;
+    
+    RETURN valor;
+END;
+$doctor_eliminar$;
+
+//reanudar doctor
+CREATE OR REPLACE FUNCTION public.doctor_reanudar(p1_cod_doc integer)
+RETURNS integer
+LANGUAGE plpgsql
+AS $doctor_reanudar$
+DECLARE 
+    valor integer;
+BEGIN
+
+UPDATE public.doctor
+	SET est_doc='A'
+	WHERE cod_doc=p1_cod_doc
+	returning cod_doc into valor;
+    
+    RETURN valor;
+END;
+$doctor_reanudar$;
+
+//Eliminar fisico doctor
+CREATE OR REPLACE FUNCTION public.doctor_eliminar_definitivo(p1_cod_doc integer)
+RETURNS character varying
+LANGUAGE plpgsql
+AS $doctor_eliminar_definitivo$
+DECLARE 
+    valor character varying;
+BEGIN
+    DELETE FROM public.doctor
+	where cod_doc=p1_cod_doc
+	returning 'hecho' into valor;
+    
+    RETURN valor;
+END;
+$doctor_eliminar_definitivo$;
+
+//estructura y funcion para ver la vista doctor
+create type public.doctor_estructura as 
+    (
+        cod_doc integer,
+        nom_doc character varying,
+        est_doc character
+    );
+
+create or replace function public.doctor_listar() returns setof public.doctor_estructura language 'plpgsql' as $doctor$
+
+declare
+    fila public.doctor_estructura%rowtype;
+begin
+    for fila in 
+    select * from public.doctor
+    order by nom_doc
+
+loop 
+    return next fila;
+end loop;
+
+return;
+end;
+$doctor$
+
+//funcion buscar
+create or replace function public.doctor_buscar(p1_cod_doc integer) returns setof public.doctor_estructura language 'plpgsql' as $doctor$
+
+declare
+    fila public.doctor_estructura%rowtype;
+begin
+    for fila in 
+    select * from public.doctor
+    where cod_doc=p1_cod_doc
+
+loop 
+    return next fila;
+end loop;
+
+return;
+end;
+$doctor$

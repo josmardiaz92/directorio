@@ -1,0 +1,126 @@
+//funcion para agregar especialidad
+CREATE OR REPLACE FUNCTION public.especialidad_agregar(p1_nom_esp character varying)
+RETURNS integer
+LANGUAGE plpgsql
+AS $consultorio_agregar$
+DECLARE 
+    valor integer;
+BEGIN
+    INSERT INTO public.especialidad(
+	nom_esp)
+	VALUES (p1_nom_esp)
+	returning cod_esp into valor;
+    
+    RETURN valor;
+END;
+$consultorio_agregar$;
+
+//funcion para modificar las especialidades
+CREATE OR REPLACE FUNCTION public.especialidad_modificar(p1_nom_esp character varying, p2_est_esp character, p3_cod_esp integer)
+RETURNS integer
+LANGUAGE plpgsql
+AS $especialidad_modificar$
+DECLARE 
+    valor integer;
+BEGIN
+    UPDATE public.especialidad
+	SET nom_esp=p1_nom_esp, est_esp=p2_est_esp
+	WHERE cod_esp=p3_cod_esp
+	returning cod_esp into valor;
+    
+    RETURN valor;
+END;
+$especialidad_modificar$;
+
+//eliminar especialidad
+CREATE OR REPLACE FUNCTION public.especialidad_eliminar(p1_cod_esp integer)
+RETURNS integer
+LANGUAGE plpgsql
+AS $especialidad_eliminar$
+DECLARE 
+    valor integer;
+BEGIN
+
+UPDATE public.especialidad
+	SET est_esp='I'
+	WHERE cod_esp=p1_cod_esp
+	returning cod_esp into valor;
+    
+    RETURN valor;
+END;
+$especialidad_eliminar$;
+
+//reanudar especialidad
+CREATE OR REPLACE FUNCTION public.especialidad_reanudar(p1_cod_esp integer)
+RETURNS integer
+LANGUAGE plpgsql
+AS $especialidad_reanudar$
+DECLARE 
+    valor integer;
+BEGIN
+
+UPDATE public.especialidad
+	SET est_esp='A'
+	WHERE cod_esp=p1_cod_esp
+	returning cod_esp into valor;
+    
+    RETURN valor;
+END;
+$especialidad_reanudar$;
+
+//Eliminar fisico especialidad
+CREATE OR REPLACE FUNCTION public.especialidad_eliminar_definitivo(p1_cod_esp integer)
+RETURNS character varying
+LANGUAGE plpgsql
+AS $especialidad_eliminar_definitivo$
+DECLARE 
+    valor character varying;
+BEGIN
+    DELETE FROM public.especialidad
+	where cod_esp=p1_cod_esp
+	returning 'hecho' into valor;
+    
+    RETURN valor;
+END;
+$especialidad_eliminar_definitivo$;
+
+//estructura y funcion para ver la tabla especialidad
+create type public.especialidad_estructura as 
+    (
+        cod_esp integer,
+        nom_esp character varying,
+        est_esp character
+    );
+
+create or replace function public.especialidad_listar() returns setof public.especialidad_estructura language 'plpgsql' as $especialidad$
+
+declare
+    fila public.especialidad_estructura%rowtype;
+begin
+    for fila in 
+    select * from public.especialidad order by cod_esp
+
+loop 
+    return next fila;
+end loop;
+
+return;
+end;
+$especialidad$
+
+//buscar especialidad
+create or replace function public.especialidad_buscar(p1_cod_esp integer) returns setof public.especialidad_estructura language 'plpgsql' as $especialidad$
+
+declare
+    fila public.especialidad_estructura%rowtype;
+begin
+    for fila in 
+    select * from public.especialidad where cod_esp=p1_cod_esp order by cod_esp
+
+loop 
+    return next fila;
+end loop;
+
+return;
+end;
+$especialidad$

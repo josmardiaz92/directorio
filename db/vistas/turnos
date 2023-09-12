@@ -1,0 +1,19 @@
+-- View: turnos
+
+-- DROP VIEW turnos;
+
+CREATE OR REPLACE VIEW turnos AS 
+ SELECT t.cod_tur AS turno, t.fky_doc, d.nom_doc, t.fky_esp, e.nom_esp, 
+    t.dia_tur, t.fky_hor, h.nom_hor, h.def_hor, t.fky_con, c.nom_con, t.est_tur, 
+    t.d15_tur
+   FROM turno t
+   JOIN doctor d ON d.cod_doc = t.fky_doc
+   JOIN especialidad e ON e.cod_esp = t.fky_esp
+   JOIN consultorio c ON c.cod_con = t.fky_con
+   JOIN horario h ON h.cod_hor = t.fky_hor
+  ORDER BY t.cod_tur;
+
+ALTER TABLE turnos
+  OWNER TO postgres;
+GRANT ALL ON TABLE turnos TO postgres;
+GRANT ALL ON TABLE turnos TO public;

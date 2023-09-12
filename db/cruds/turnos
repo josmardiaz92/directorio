@@ -1,0 +1,33 @@
+//estructura y funcion para ver la vista turnos
+create type public.turnos_estructura as 
+    (
+        turno integer,
+        fky_doc integer,
+		nom_doc character varying,
+        fky_esp integer,
+		nom_esp character varying,
+		dia_tur character varying,
+        fky_hor integer,
+		nom_hor character varying,
+		def_hor character varying,
+        fky_con integer,
+        nom_con character varying,
+        est_tur character,
+        d15_tur character
+    );
+
+create or replace function public.turnos_listar() returns setof public.turnos_estructura language 'plpgsql' as $turnos$
+
+declare
+    fila public.turnos_estructura%rowtype;
+begin
+    for fila in 
+    select * from public.turnos
+
+loop 
+  return next fila;
+end loop;
+
+return;
+end;
+$turnos$

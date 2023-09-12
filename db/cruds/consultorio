@@ -1,0 +1,125 @@
+//funcion agregar consultorios
+CREATE OR REPLACE FUNCTION public.consultorio_agregar(p1_nom_con character varying)
+RETURNS integer
+LANGUAGE plpgsql
+AS $consultorio_agregar$
+DECLARE 
+    valor integer;
+BEGIN
+    INSERT INTO public.consultorio(
+	nom_con)
+	VALUES (p1_nom_con)
+	returning cod_con into valor;
+    
+    RETURN valor;
+END;
+$consultorio_agregar$;
+
+//funcion dpara modificar el consultorio
+CREATE OR REPLACE FUNCTION public.consultorio_modificar(p1_nom_con character varying, p2_est_con character, p3_cod_con integer)
+RETURNS integer
+LANGUAGE plpgsql
+AS $consultorio_modificar$
+DECLARE 
+    valor integer;
+BEGIN
+    UPDATE public.consultorio
+	SET nom_con=p1_nom_con, est_con=p2_est_con
+	WHERE cod_con=p3_cod_con
+	returning cod_con into valor;
+    
+    RETURN valor;
+END;
+$consultorio_modificar$;
+
+//eliminar consultorio
+CREATE OR REPLACE FUNCTION public.consultorio_eliminar(p1_cod_con integer)
+RETURNS integer
+LANGUAGE plpgsql
+AS $consultorio_eliminar$
+DECLARE 
+    valor integer;
+BEGIN
+    UPDATE public.consultorio
+	SET est_con='I'
+	WHERE cod_con=p1_cod_con
+	returning cod_con into valor;
+    
+    RETURN valor;
+END;
+$consultorio_eliminar$;
+
+//reanudar consultorio
+CREATE OR REPLACE FUNCTION public.consultorio_reanudar(p1_cod_con integer)
+RETURNS integer
+LANGUAGE plpgsql
+AS $consultorio_reanudar$
+DECLARE 
+    valor integer;
+BEGIN
+
+UPDATE public.consultorio
+	SET est_con='A'
+	WHERE cod_con=p1_cod_con
+	returning cod_con into valor;
+    
+    RETURN valor;
+END;
+$consultorio_reanudar$;
+
+//Eliminar fisico consultorio
+CREATE OR REPLACE FUNCTION public.consultorio_eliminar_definitivo(p1_cod_con integer)
+RETURNS character varying
+LANGUAGE plpgsql
+AS $consultorio_eliminar_definitivo$
+DECLARE 
+    valor character varying;
+BEGIN
+    DELETE FROM public.consultorio
+	where cod_con=p1_cod_con
+	returning 'hecho' into valor;
+    
+    RETURN valor;
+END;
+$consultorio_eliminar_definitivo$;
+
+//estructura y funcion para ver la tabla consultorio
+create type public.consultorio_estructura as 
+    (
+        cod_con integer,
+        nom_con character varying,
+        est_con character
+    );
+
+create or replace function public.consultorio_listar() returns setof public.consultorio_estructura language 'plpgsql' as $consultorio$
+
+declare
+    fila public.consultorio_estructura%rowtype;
+begin
+    for fila in 
+    select * from public.consultorio order by cod_con
+
+loop 
+    return next fila;
+end loop;
+
+return;
+end;
+$consultorio$
+
+//Funcion buscar consultorio
+create or replace function public.consultorio_buscar(p1_cod_con integer) returns setof public.consultorio_estructura language 'plpgsql' as $consultorio$
+
+declare
+    fila public.consultorio_estructura%rowtype;
+begin
+    for fila in 
+    select * from public.consultorio where cod_con=p1_cod_con order by cod_con
+
+loop 
+    return next fila;
+end loop;
+
+return;
+end;
+$consultorio$

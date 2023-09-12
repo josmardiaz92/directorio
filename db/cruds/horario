@@ -1,0 +1,127 @@
+//funcion para agregar horario
+CREATE OR REPLACE FUNCTION public.horario_agregar(p1_nom_hor character varying, p2_def_hor character varying)
+RETURNS integer
+LANGUAGE plpgsql
+AS $consultorio_agregar$
+DECLARE 
+    valor integer;
+BEGIN
+    INSERT INTO public.horario(
+	nom_hor, def_hor)
+	VALUES (p1_nom_hor, p2_def_hor)
+	returning cod_hor into valor;
+    
+    RETURN valor;
+END;
+$consultorio_agregar$;
+
+//funcion para modificar las horarioes
+CREATE OR REPLACE FUNCTION public.horario_modificar(p1_nom_hor character varying, p2_def_hor character varying, p3_est_hor character, p4_cod_hor integer)
+RETURNS integer
+LANGUAGE plpgsql
+AS $horario_modificar$
+DECLARE 
+    valor integer;
+BEGIN
+    UPDATE public.horario
+	SET nom_hor=p1_nom_hor, def_hor=p2_def_hor, est_hor=p3_est_hor
+	WHERE cod_hor=p4_cod_hor
+	returning cod_hor into valor;
+    
+    RETURN valor;
+END;
+$horario_modificar$;
+
+//eliminar horario
+CREATE OR REPLACE FUNCTION public.horario_eliminar(p1_cod_hor integer)
+RETURNS integer
+LANGUAGE plpgsql
+AS $horario_eliminar$
+DECLARE 
+    valor integer;
+BEGIN
+
+UPDATE public.horario
+	SET est_hor='I'
+	WHERE cod_hor=p1_cod_hor
+	returning cod_hor into valor;
+    
+    RETURN valor;
+END;
+$horario_eliminar$;
+
+//reanudar horario
+CREATE OR REPLACE FUNCTION public.horario_reanudar(p1_cod_hor integer)
+RETURNS integer
+LANGUAGE plpgsql
+AS $horario_reanudar$
+DECLARE 
+    valor integer;
+BEGIN
+
+UPDATE public.horario
+	SET est_hor='A'
+	WHERE cod_hor=p1_cod_hor
+	returning cod_hor into valor;
+    
+    RETURN valor;
+END;
+$horario_reanudar$;
+
+//Eliminar fisico horario
+CREATE OR REPLACE FUNCTION public.horario_eliminar_definitivo(p1_cod_hor integer)
+RETURNS character varying
+LANGUAGE plpgsql
+AS $horario_eliminar_definitivo$
+DECLARE 
+    valor character varying;
+BEGIN
+    DELETE FROM public.horario
+	where cod_hor=p1_cod_hor
+	returning 'hecho' into valor;
+    
+    RETURN valor;
+END;
+$horario_eliminar_definitivo$;
+
+//estructura y funcion para ver la tabla horario
+create type public.horario_estructura as 
+    (
+        cod_hor integer,
+        nom_hor character varying,
+        def_hor character varying,
+        est_hor character
+    );
+
+create or replace function public.horario_listar() returns setof public.horario_estructura language 'plpgsql' as $horario$
+
+declare
+    fila public.horario_estructura%rowtype;
+begin
+    for fila in 
+    select * from public.horario order by cod_hor
+
+loop 
+    return next fila;
+end loop;
+
+return;
+end;
+$horario$
+
+//buscar horario
+create or replace function public.horario_buscar(p1_cod_hor integer) returns setof public.horario_estructura language 'plpgsql' as $horario$
+
+declare
+    fila public.horario_estructura%rowtype;
+begin
+    for fila in 
+    select * from public.horario where cod_hor=p1_cod_hor order by cod_hor
+
+loop 
+    return next fila;
+end loop;
+
+return;
+end;
+$horario$

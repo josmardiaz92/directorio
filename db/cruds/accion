@@ -23,7 +23,7 @@ end;
 $accion$
 
 //eliminar accion
-CREATE OR REPLACE FUNCTION public.accion_eliminar(p1_cod_acc integer)
+CREATE OR REPLACE FUNCTION public.accion_eliminar(p1_nom_acc character varying)
 RETURNS integer
 LANGUAGE plpgsql
 AS $accion_eliminar$
@@ -33,7 +33,7 @@ BEGIN
 
 UPDATE public.accion
 	SET est_acc='I'
-	WHERE cod_acc=p1_cod_acc
+	WHERE nom_acc=p1_nom_acc
 	returning cod_acc into valor;
     
     RETURN valor;
@@ -41,7 +41,7 @@ END;
 $accion_eliminar$;
 
 //reanudar accion
-CREATE OR REPLACE FUNCTION public.accion_reanudar(p1_cod_acc integer)
+CREATE OR REPLACE FUNCTION public.accion_reanudar(p1_nom_acc character varying)
 RETURNS integer
 LANGUAGE plpgsql
 AS $accion_reanudar$
@@ -51,7 +51,7 @@ BEGIN
 
 UPDATE public.accion
 	SET est_acc='A'
-	WHERE cod_acc=p1_cod_acc
+	WHERE nom_acc=p1_nom_acc
 	returning cod_acc into valor;
     
     RETURN valor;

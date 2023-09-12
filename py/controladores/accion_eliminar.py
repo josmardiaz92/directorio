@@ -12,7 +12,7 @@ print('Content-type: text/html\n\n')  # Aquí corregí la sintaxis, debe ser tex
 form = cgi.FieldStorage()
 
 # Obtenemos el valor del campo 'accion' enviado desde la vista (JavaScript)
-accion = form.getvalue('accion')
+accion = 'cardiologia'
 
 # Verificamos si se recibió la acción correctamente
 if accion:

@@ -2,41 +2,17 @@ const contenedorDirectorio=document.getElementById('contenedorDirectorio');
 const especialidades = {};
 const especialidadConsultorio={};
 let contador=0;
-let intervaloEspecialidades;
+let intervaloEspecialidades=0;
 let medicosPorGrupo;
 const pausaEntreGrupos = 10000;
-const horarioTarde='de 01:00 PM a 05:00 PM';
-const horarioMañana='de 06:30 AM a 12:00 PM';
-const horarioEco='de 07:00 AM a 01:00 PM';
-const horarioDia='de 07:00 AM a 05:00 PM';
-const horarioEmergencia='de 05:00 AM a 12:00 AM';
 
 fetch('../php/turno_listar.php')
     .then(respuesta => respuesta.json())
     .then(arregloJson => {
         arregloJson.forEach((dato, index) => {
             if (dato.estatus == 'A') {
-                let { nombre, especialidad, consultorio, dia, horario,  } = dato;
-                switch (horario) {
-                    case 'mañana':
-                        horario=`${dia} ${horarioMañana}`
-                        break;
-                    case 'tarde':
-                        horario=`${dia} ${horarioTarde}`
-                        break;
-                    case 'medio dia':
-                        horario=`${dia} ${horarioEco}`
-                        break;
-                    case 'todo el dia':
-                        horario=`${dia} ${horarioDia}`
-                        break;
-                    case 'emergencia':
-                            horario=`${dia} ${horarioDia}`
-                            break;
-                    default:
-
-                        break;
-                }
+                let {nombre, especialidad, dia, horario, consultorio, d15_tur} = dato;
+                horario=`${dia} ${horario}`
                 if (!especialidades[especialidad]) {
                     especialidades[especialidad] = {};
                     especialidadConsultorio[especialidad]={};

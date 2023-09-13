@@ -10,8 +10,8 @@
     <title>Interfaz</title>
 </head>
 <body class="bg-secondary bg-opacity-50">
-    <input type="text" value="dia_laborable" class="d-none" id="identificador">
-    <input type="text" value="cod_dia" class="d-none" id="nombreCodigo">
+    <input type="text" value="horario" class="d-none" id="identificador">
+    <input type="text" value="cod_hor" class="d-none" id="nombreCodigo">
 
     <div class="contenedor-modal" id="contenedor-modal-agregar">
         <div class="modal fade" id="modalAgregar" tabindex="-1" aria-labelledby="modalLabel" aria-hidden="true">
@@ -96,10 +96,10 @@
                                 <a href="consultorio.html" class="nav-link">consultorios</a>
                             </li>
                             <li class="nav-item">
-                                <a href="especialidad.html" class="nav-link">especialidads</a>
+                                <a href="especialidad.html" class="nav-link">especialidades</a>
                             </li>
                             <li class="nav-item">
-                                <a href="dia_laborable.html" class="nav-link">dias</a>
+                                <a href="horario.html" class="nav-link">horarios</a>
                             </li>
                             <li class="nav-item">
                                 <a href="doctor.html" class="nav-link">doctor</a>
@@ -120,7 +120,10 @@
                                 <thead class="text-center">
                                     <tr>
                                         <th>Nombre</th>
+                                        <th>Definición</th>
                                         <th>Estado</th>
+                                        <th>acción</th>
+
                                     </tr>
                                 </thead>
                                 <tbody id="cuerpoTabla">

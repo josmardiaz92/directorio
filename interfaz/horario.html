@@ -27,10 +27,21 @@
                         <form>
                             <div class="row m-3 d-flex justify-content-center align-items-end">
                                 <div class="col-sm-12 col-md-5">
-                                    <label class="form-label" for="nom_con">Nombre:</label>
+                                    <label class="form-label" for="nom_hor">Nombre:</label>
                                 </div>
                                 <div class="col-sm-12 col-md-7">
-                                    <input class="form-control" type="text" id="nom_con" name="nom_con" size="16" maxlength="20" placeholder="Ingrese Nombre del consultorio">
+                                    <input class="form-control agregar casilla validar" type="text" id="nom_hor" name="nom_hor" size="16" maxlength="20" placeholder="Nombre del Horario" title="Solo letras">
+                                    <span></span>
+                                </div>
+                                
+                            </div>
+                            <div class="row m-3 d-flex justify-content-center align-items-end">
+                                <div class="col-sm-12 col-md-5">
+                                    <label class="form-label" for="def_hor">Definicón:</label>
+                                </div>
+                                <div class="col-sm-12 col-md-7">
+                                    <input class="form-control agregar casilla validar" type="text" id="def_hor" name="def_hor" size="16" maxlength="100" placeholder="Definición del Horario" title="El formato del horario deberia ser: 'de 00:00 AM/PM a 00:00 AM/PM'">
+                                    <span></span>
                                 </div>
                             </div>
                         </form>
@@ -135,6 +146,10 @@
         </div>
         <div class="pies" id="pies">
             <div class="row m-5 d-flex justify-content-center">
+                <div class="col-sm-12 col-md-10 col-lg-8 body-personal d-flex justify-content-center">
+                    <a role="button" class="btn btn-secondary" data-bs-toggle="modal" data-bs-target="#modalAgregar" data-bs-whatever='agregarConsultorio'>Agregar</a>
+                    </a>
+                </div>
                 <div class="fixed-bottom d-flex justify-content-end mb-3">
                     <div class="col1">
                         <select name="filtro" id="filtro" class="form-select">
@@ -155,5 +170,7 @@
     <script src="../js/consultar.js"></script>
     <script src="../js/activarDesactivar.js"></script>
     <script src="../js/eliminar.js"></script>
+    <script src="../js/agregar.js"></script>
+    <script src="../js/validar.js"></script>
 </body>
 </html>

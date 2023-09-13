@@ -7,14 +7,14 @@ $password = '240296';
 try {
     if ($_SERVER["REQUEST_METHOD"] === "POST") {
         $nombre=$_POST["nombre"];
-        $especialidad=$_POST["especialidad"];
+        $definicion=$_POST["definicion"];
         $consulta=$_POST["consulta"];
         $pdo = new PDO("pgsql:host=$host;dbname=$database", $user, $password);
         $nombre_consulta = $_POST["consulta"];
         
-        $stmt = $pdo->prepare("select $nombre_consulta(:nombre, :especialidad)");
+        $stmt = $pdo->prepare("select $nombre_consulta(:nombre, :definicion)");
         $stmt->bindParam(':nombre', $nombre);
-        $stmt->bindParam(':especialidad', $especialidad);
+        $stmt->bindParam(':definicion', $definicion);
         $result = $stmt->execute();
 
         if ($result) {

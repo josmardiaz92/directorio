@@ -5,7 +5,7 @@ const expresionesRegulares = {
     nom_esp: /^[A-Za-zÀ-ÖØ-öø-ÿ\s']+$/i,
     nom_doc: /^[A-Za-zÀ-ÖØ-öø-ÿ\s']+$/i,
     nom_hor: /^[A-Za-zÀ-ÖØ-öø-ÿ\s']+$/i,
-    def_hor: /^de [0-2][0-9]:[0-5][0-9] (AM|PM) a [0-2][0-9]:[0-5][0-9] (AM|PM)$/
+    def_hor: /^de [0-2][0-9]:[0-5][0-9] (AM|PM) a [0-2][0-9]:[0-5][0-9] (AM|PM)$/i
 };
 
 //TODO Aca tomamos todos los elementos a usar
@@ -102,5 +102,3 @@ campoText.innerText=text;
     }
 })();
 }
-
-console.log(elementos)

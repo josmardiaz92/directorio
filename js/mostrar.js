@@ -1,6 +1,7 @@
 const contenedorDirectorio=document.getElementById('contenedorDirectorio');
 const especialidades = {};
 const especialidadConsultorio={};
+const especialidadC15={};
 let contador=0;
 let intervaloEspecialidades=0;
 let medicosPorGrupo;
@@ -16,13 +17,16 @@ fetch('../php/turno_listar.php')
                 if (!especialidades[especialidad]) {
                     especialidades[especialidad] = {};
                     especialidadConsultorio[especialidad]={};
+                    especialidadC15[especialidad]={}
                 }
                 if (!especialidades[especialidad][nombre]) {
                     especialidades[especialidad][nombre] = [];
                     especialidadConsultorio[especialidad][nombre]=[];
+                    especialidadC15[especialidad][nombre]=[];
                 }
                 especialidades[especialidad][nombre].push(horario);
                 especialidadConsultorio[especialidad][nombre].push(consultorio);
+                especialidadC15[especialidad][nombre].push(d15_tur);
             }
         });     
         const cantidadEspecialidades = Object.keys(especialidades).length;
@@ -106,6 +110,13 @@ function imprimir(especialidad){
                     horarioDirectorio.classList.add('fs-5','lineaDirectorio')
                     horarioDirectorio.textContent = horario;
                     horariosDirectorio.appendChild(horarioDirectorio);
+                }
+                for(const c15 of especialidadC15[especialidad][medico]){
+                    if(c15=='A'){
+                        const c15Directorio=document.createElement('p');
+                        c15Directorio.textContent='Cada 15 Días';
+                        horariosDirectorio.appendChild(c15Directorio);
+                    }
                 }
                 medicoDirectorio.appendChild(horariosDirectorio);
     

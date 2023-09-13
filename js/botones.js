@@ -1,5 +1,5 @@
 const btnContenedor=document.getElementById('contenedorBtn')
-const especialidades=[];
+let especialidades=[];
 let btns;
 
 fetch('../php/turno_listar.php')
@@ -13,10 +13,11 @@ fetch('../php/turno_listar.php')
             }
         });
         btnContenedor.innerHTML='';
+        especialidades=especialidades.sort()
         especialidades.forEach((dato,index)=>{
             btnContenedor.innerHTML+=`
             <button type="button" class="btn btn-outline-warning mt-3">
-                <h1 class="btnEspecialidad" id="${dato}">
+                <h1 class="btnEspecialidad text-uppercase" id="${dato}">
                     ${dato}
                 </h1>
             </button>`;
@@ -25,7 +26,6 @@ fetch('../php/turno_listar.php')
         modal()
     })
     .catch(error => { console.error(`Atención ${error}`) });
-
 
 
 function modal(){

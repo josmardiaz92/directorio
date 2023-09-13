@@ -111,53 +111,61 @@ function imprimirConsulta(especialidad){
             for (let i = grupoInicio; i < grupoFin; i++) {
                 const medico = medicos[i];
             
-                const medicoDirectorio = document.createElement('div');
-                medicoDirectorio.classList.add('row','mt-5','justify-content-center');
+                const medicoConsulta = document.createElement('div');
+                medicoConsulta.classList.add('row','mt-5','justify-content-center');
                 if(medico!=''){
-                    const medicoNombreDivDirectorio = document.createElement('div');
-                    medicoNombreDivDirectorio.classList.add('col-12', 'col-lg-4', 'align-self-center', 'ps-lg-4', 'text-center', 'text-lg-start', 'doctorDirectorio');
-                    const medicoNombreDirectorio = document.createElement('h2');
-                    medicoNombreDirectorio.textContent = medico;
-                    medicoNombreDivDirectorio.appendChild(medicoNombreDirectorio);
-                    medicoDirectorio.appendChild(medicoNombreDivDirectorio);
+                    const medicoNombreDivConsulta = document.createElement('div');
+                    medicoNombreDivConsulta.classList.add('col-12', 'col-lg-4', 'align-self-center', 'ps-lg-4', 'text-center', 'text-lg-start', 'doctorConsulta');
+                    const medicoNombreConsulta = document.createElement('h2');
+                    medicoNombreConsulta.textContent = medico;
+                    medicoNombreDivConsulta.appendChild(medicoNombreConsulta);
+                    medicoConsulta.appendChild(medicoNombreDivConsulta);
                 }
                 
     
-                const horariosDirectorio = document.createElement('div');
-                horariosDirectorio.classList.add('col-12', 'col-lg-5', 'text-center', 'text-lg-end', 'align-self-center', 'me-5');
+                const horariosConsulta = document.createElement('div');
+                horariosConsulta.classList.add('col-12', 'col-lg-5', 'text-center', 'text-lg-end', 'align-self-center', 'me-5');
                 for (const horario of especialidades[especialidad][medico]) {
-                    const horarioDirectorio = document.createElement('p');
-                    horarioDirectorio.classList.add('fs-5','lineaDirectorio')
-                    horarioDirectorio.textContent = horario;
-                    horariosDirectorio.appendChild(horarioDirectorio);
+                    const horarioConsulta = document.createElement('p');
+                    horarioConsulta.classList.add('fs-5','lineaConsulta')
+                    horarioConsulta.textContent = horario;
+                    horariosConsulta.appendChild(horarioConsulta);
                 }
-                medicoDirectorio.appendChild(horariosDirectorio);
+                for(const c15 of especialidadC15[especialidad][medico]){
+                    if(c15=='A'){
+                        const c15Consulta=document.createElement('p');
+                        c15Consulta.textContent='Cada 15 Días';
+                        horariosConsulta.appendChild(c15Consulta);
+                    }
+                    
+                }
+                medicoConsulta.appendChild(horariosConsulta);
     
-                const consultorioDirectorio = document.createElement('div');
-                consultorioDirectorio.classList.add('col-12', 'col-lg-2', 'align-self-center');
+                const consultorioConsulta = document.createElement('div');
+                consultorioConsulta.classList.add('col-12', 'col-lg-2', 'align-self-center');
                 let consultorioAnterior='';
                 for(const consultorio of especialidadConsultorio[especialidad][medico]){
-                    const consultorioNombreDirectorio = document.createElement('h2');
-                    consultorioNombreDirectorio.classList.add('text-center');
+                    const consultorioNombreConsulta = document.createElement('h2');
+                    consultorioNombreConsulta.classList.add('text-center');
                     if(isNaN(parseInt(consultorio))){
-                        consultorioNombreDirectorio.innerHTML=consultorio;
+                        consultorioNombreConsulta.innerHTML=consultorio;
                     }else{
-                        consultorioNombreDirectorio.innerHTML=`consultorio N° ${consultorio}`;
+                        consultorioNombreConsulta.innerHTML=`consultorio N° ${consultorio}`;
                     }
                     if(consultorioAnterior!=consultorio){
-                        consultorioDirectorio.appendChild(consultorioNombreDirectorio);
+                        consultorioConsulta.appendChild(consultorioNombreConsulta);
                         consultorioAnterior=consultorio;
                     }
                 }
-                medicoDirectorio.appendChild(consultorioDirectorio);
+                medicoConsulta.appendChild(consultorioConsulta);
     
-                especialidadContenedor.appendChild(medicoDirectorio);
+                especialidadContenedor.appendChild(medicoConsulta);
     
                 const hr = document.createElement('hr');
                 hr.classList.add('mx-5','mt-0');
                 especialidadContenedor.appendChild(hr);
             
-                especialidadContenedor.appendChild(medicoDirectorio);
+                especialidadContenedor.appendChild(medicoConsulta);
             }
             
             if (grupoFin < medicos.length) {

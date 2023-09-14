@@ -7,7 +7,7 @@ CREATE TABLE accion
   cod_acc serial NOT NULL,
   nom_acc character varying(40) NOT NULL, -- nombre de la accion
   est_acc character(1) DEFAULT 'I'::bpchar, -- estatus
-  fec_acc time with time zone DEFAULT now(),
+  fec_acc timestamp without time zone DEFAULT now(),
   CONSTRAINT cod_acc PRIMARY KEY (cod_acc),
   CONSTRAINT nom_acc UNIQUE (nom_acc)
 )
@@ -22,3 +22,4 @@ COMMENT ON TABLE accion
   IS 'acciones a realizar en el sistema';
 COMMENT ON COLUMN accion.nom_acc IS 'nombre de la accion';
 COMMENT ON COLUMN accion.est_acc IS 'estatus';
+

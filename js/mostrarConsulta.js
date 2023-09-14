@@ -21,7 +21,7 @@ function consultarAcciones(){
                 accionEjecutableAnterior=accionEjecutable;
                 if(accionEjecutable!=''){
                     mostrarConsulta(accionEjecutable);
-                    imprimirConsulta(accionEjecutable);
+                    imprimirConsulta(especialidades,accionEjecutable);
                     setTimeout(() => {
                         // URL del script CGI en tu servidor
                         let url = "../py/controladores/accion_eliminar.py"; // Reemplaza con la ruta correcta a tu script
@@ -63,7 +63,7 @@ function mostrarConsulta(accionEjecutable){
     contenedorConsulta.classList.toggle('d-none', !valido);
 }
 
-function imprimirConsulta(especialidad){
+function imprimirConsulta(especialidades,especialidad){
     especialidad=especialidad.trim();
     let cantidadDoctores=Object.keys(especialidades[especialidad]).length;
     let paginas=cantidadDoctores/medicosPorGrupo;

@@ -82,5 +82,3 @@ class divisa(bd.base_datos):
             else:
                 informacion_divisas='Las divisas estan al dia'
         return informacion_divisas
-
-

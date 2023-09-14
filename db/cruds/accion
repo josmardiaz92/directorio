@@ -32,7 +32,7 @@ DECLARE
 BEGIN
 
 UPDATE public.accion
-	SET est_acc='I'
+	SET est_acc='I', fec_acc=now()
 	WHERE nom_acc=p1_nom_acc
 	returning cod_acc into valor;
     
@@ -50,7 +50,7 @@ DECLARE
 BEGIN
 
 UPDATE public.accion
-	SET est_acc='A'
+	SET est_acc='A', fec_acc=now()
 	WHERE nom_acc=p1_nom_acc
 	returning cod_acc into valor;
     

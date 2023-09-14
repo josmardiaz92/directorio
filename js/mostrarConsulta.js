@@ -2,7 +2,7 @@ const contenedorConsulta=document.getElementById('contenedorConsulta');
 const contenedorDirectorioC=document.getElementById('contenedorDirectorio')
 let accionEjecutableAnterior='';
 let accionEjecutable='';
-medicosPorGrupo = 8;
+medicosPorGrupo = 6;
 
 setInterval(() => {
     consultarAcciones();

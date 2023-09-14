@@ -25,7 +25,6 @@ function consultarAcciones(){
                     setTimeout(() => {
                         // URL del script CGI en tu servidor
                         let url = "../py/controladores/accion_eliminar.py"; // Reemplaza con la ruta correcta a tu script
-                        console.log('aqui'+accionEjecutable)
                         // Configuración de la solicitud fetch
                         let requestOptions = {
                             method: 'POST',

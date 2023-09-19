@@ -20,29 +20,31 @@ function consultarAcciones(){
             if(accionEjecutableAnterior!=accionEjecutable){
                 accionEjecutableAnterior=accionEjecutable;
                 if(accionEjecutable!=''){
-                    mostrarConsulta(accionEjecutable);
-                    imprimirConsulta(especialidades,accionEjecutable);
-                    setTimeout(() => {
-                        // URL del script CGI en tu servidor
-                        let url = "../py/controladores/accion_eliminar.py"; // Reemplaza con la ruta correcta a tu script
-                        // Configuración de la solicitud fetch
-                        let requestOptions = {
-                            method: 'POST',
-                            headers: {
-                                'Content-Type': 'application/x-www-form-urlencoded', // El tipo de contenido debe coincidir con lo que espera el script CGI
-                            },
-                            body: "accion=" + accionEjecutable, // Datos que se envían al script, en este caso, el valor de 'accion'
-                        };
-                
-                        // Realizar la solicitud fetch
-                        fetch(url, requestOptions)
-                            .then(response => response.text()) // Obtener la respuesta como texto
-                            .then(result => {
-                                console.log('eliminado'); // Resultado devuelto por el script CGI
-                            })
-                            .catch(error => {console.error('Error:', error);
-                        });
-                    }, intervaloEspecialidades);
+                    if(accionEjecutable!='recargar'){
+                        mostrarConsulta(accionEjecutable);
+                        imprimirConsulta(especialidades,accionEjecutable);
+                        setTimeout(() => {
+                            let url = "../py/controladores/accion_eliminar.py";
+                            let requestOptions = {
+                                method: 'POST',
+                                headers: {
+                                    'Content-Type': 'application/x-www-form-urlencoded',
+                                },
+                                body: "accion=" + accionEjecutable,
+                            };
+                            fetch(url, requestOptions)
+                                .then(response => response.text())
+                                .then(result => {
+                                    console.log('eliminado');
+                                })
+                                .catch(error => {console.error('Error:', error);
+                            });
+                        }, intervaloEspecialidades);
+                    }else{
+                        setTimeout(() => {
+                            hacerRecarga();
+                        }, 1000);
+                    }
                 }else{
                     mostrarConsulta(accionEjecutable);
                 }
@@ -54,7 +56,7 @@ function consultarAcciones(){
 
 function mostrarConsulta(accionEjecutable){
     let valido=false;
-    if(accionEjecutable!=''){
+    if(accionEjecutable!='' && accionEjecutable!='recargar'){
         valido=true;
     }else{
         valido=false;

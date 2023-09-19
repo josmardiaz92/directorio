@@ -30,7 +30,7 @@ setTimeout(() => {
             }
         })
         .catch(error => { console.error(`Atención ${error}`) });
-}, 1000);
+}, 5000);
 
 function mostrarFecha() {
     const fechaActual = new Date();

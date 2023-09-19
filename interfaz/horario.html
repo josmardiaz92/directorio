@@ -12,9 +12,48 @@
 <body class="bg-secondary bg-opacity-50">
     <input type="text" value="horario" class="d-none" id="identificador">
     <input type="text" value="cod_hor" class="d-none" id="nombreCodigo">
-
     <div class="contenedor-modal" id="contenedor-modal-agregar">
         <div class="modal fade" id="modalAgregar" tabindex="-1" aria-labelledby="modalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content bordeRedondeado">
+                    <div class="modal-header bg-secondary bordeSuperiorRedondeado">
+                        <h5 class="modal-title text-capitalize text-light" id="modalLabel">
+                            Agregar
+                        </h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <form>
+                            <div class="row m-3 d-flex justify-content-center align-items-end">
+                                <div class="col-sm-12 col-md-5">
+                                    <label class="form-label" for="nom_hor">Nombre:</label>
+                                </div>
+                                <div class="col-sm-12 col-md-7">
+                                    <input class="form-control agregar casilla validar" type="text" id="nom_hor" name="nom_hor" size="16" maxlength="20" placeholder="Nombre del Horario" title="Solo letras">
+                                    <span></span>
+                                </div>
+                                
+                            </div>
+                            <div class="row m-3 d-flex justify-content-center align-items-end">
+                                <div class="col-sm-12 col-md-5">
+                                    <label class="form-label" for="def_hor">Definicón:</label>
+                                </div>
+                                <div class="col-sm-12 col-md-7">
+                                    <input class="form-control agregar casilla validar" type="text" id="def_hor" name="def_hor" size="16" maxlength="100" placeholder="Definición del Horario" title="El formato del horario deberia ser: 'de 00:00 AM/PM a 00:00 AM/PM'">
+                                    <span></span>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                    <div class="modal-footer d-flex justify-content-center">
+                        <button type="button" class="btn btn-secondary" id="btnAgregar" disabled>Agregar</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="contenedor-modal" id="contenedor-modal-editar">
+        <div class="modal fade" id="modalEditar" tabindex="-1" aria-labelledby="modalLabel" aria-hidden="true">
             <div class="modal-dialog">
                 <div class="modal-content bordeRedondeado">
                     <div class="modal-header bg-secondary bordeSuperiorRedondeado">

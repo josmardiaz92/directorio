@@ -129,6 +129,123 @@
             </div>
         </div>
     </div>
+    <div class="contenedor-modal" id="contenedor-modal-editar">
+        <div class="modal fade" id="modalEditar" tabindex="-1" aria-labelledby="modalLabel" aria-hidden="true">
+            <div class="modal-dialog modal-xl">
+                <div class="modal-content bordeRedondeado">
+                    <div class="modal-header bg-secondary bordeSuperiorRedondeado">
+                        <h5 class="modal-title text-capitalize text-light" id="modalLabel">
+                            Agregar
+                        </h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <form>
+                            <div class="row m-3 d-flex justify-content-center align-items-end">
+                                <div class="col-sm-12 col-md-4">
+                                    <label for="fky_doc" class="col-form-label text-capitalize">
+                                        Doctor:
+                                    </label>
+                                </div>
+                                <div class="col-sm-12 col-md-8">
+                                    <select name="fky_doc" id="fky_doc" class="text-capitalize form-select casilla" required>
+                                        
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="row m-3 d-flex justify-content-center align-items-end">
+                                <div class="col-sm-12 col-md-4">
+                                    <label for="fky_esp" class="col-form-label text-capitalize">
+                                        Especialidad:
+                                    </label>
+                                </div>
+                                <div class="col-sm-12 col-md-8">
+                                    <select name="fky_esp" id="fky_esp" class="text-capitalize form-select casilla" required>
+                                        
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="row m-3 d-flex justify-content-center align-items-end">
+                                <div class="col-sm-12 col-md-4">
+                                    <p class="col-form-label text-capitalize">
+                                        Días:
+                                    </p>
+                                </div>
+                                <div class="col-sm-12 col-md-8">
+                                    <div class="form-check form-check-inline">
+                                        <input class="form-check-input diasSemana" type="checkbox" id="lunes" value="lunes" name="lunes">
+                                        <label class="form-check-label" for="lunes">Lunes</label>
+                                    </div>
+                                    <div class="form-check form-check-inline">
+                                        <input class="form-check-input diasSemana" type="checkbox" id="martes" value="martes" name="martes">
+                                        <label class="form-check-label" for="martes">Martes</label>
+                                    </div>
+                                    <div class="form-check form-check-inline">
+                                        <input class="form-check-input diasSemana" type="checkbox" id="miercoles" value="miercoles" name="miercoles">
+                                        <label class="form-check-label" for="miercoles">Miercoles</label>
+                                    </div>
+                                    <div class="form-check form-check-inline">
+                                        <input class="form-check-input diasSemana" type="checkbox" id="jueves" value="jueves" name="jueves">
+                                        <label class="form-check-label" for="jueves">Jueves</label>
+                                    </div>
+                                    <div class="form-check form-check-inline">
+                                        <input class="form-check-input diasSemana" type="checkbox" id="viernes" value="viernes" name="viernes">
+                                        <label class="form-check-label" for="viernes">Viernes</label>
+                                    </div>
+                                    <div class="form-check form-check-inline">
+                                        <input class="form-check-input diasSemana" type="checkbox" id="sabado" value="sabado" name="sabado">
+                                        <label class="form-check-label" for="sabado">Sabado</label>
+                                    </div>
+                                    <div class="form-check form-check-inline">
+                                        <input class="form-check-input diasSemana" type="checkbox" id="domingo" value="domingo" name="domingo">
+                                        <label class="form-check-label" for="domingo">Domingo</label>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row m-3 d-flex justify-content-center align-items-end">
+                                <div class="col-sm-12 col-md-4">
+                                    <label for="fky_hor" class="col-form-label text-capitalize">
+                                        Horario:
+                                    </label>
+                                </div>
+                                <div class="col-sm-12 col-md-8">
+                                    <select name="fky_hor" id="fky_hor" class="text-capitalize form-select casilla" required>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="row m-3 d-flex justify-content-center align-items-end">
+                                <div class="col-sm-12 col-md-4">
+                                    <label for="fky_con" class="col-form-label text-capitalize">
+                                        Consultorio:
+                                    </label>
+                                </div>
+                                <div class="col-sm-12 col-md-8">
+                                    <select name="fky_con" id="fky_con" class="text-capitalize form-select casilla" required>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="row m-3 d-flex justify-content-center align-items-end">
+                                <div class="col-sm-12 col-md-4">
+                                    <label for="d15_tur" class="col-form-label text-capitalize">
+                                        ¿Va cada 15 días?:
+                                    </label>
+                                </div>
+                                <div class="col-sm-12 col-md-8">
+                                    <select name="d15_tur" id="d15_tur" class="text-capitalize form-select casilla" required>
+                                        <option value="I">No</option>
+                                        <option value="A">Si</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                    <div class="modal-footer d-flex justify-content-center">
+                        <button type="button" class="btn btn-secondary" id="btnAgregar">Agregar</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
     <div class="position-absolute p-3 campoAlertas col-sm-12 col-md-6 col-lg-3">
         <div class="container-fluid d-none" id="alerta">
             <div class="row">

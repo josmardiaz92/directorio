@@ -42,6 +42,36 @@
             </div>
         </div>
     </div>
+    <div class="contenedor-modal" id="contenedor-modal-editar">
+        <div class="modal fade" id="modalEditar" tabindex="-1" aria-labelledby="modalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content bordeRedondeado">
+                    <div class="modal-header bg-secondary bordeSuperiorRedondeado">
+                        <h5 class="modal-title text-capitalize text-light" id="modalLabel">
+                            Agregar
+                        </h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <form>
+                            <div class="row m-3 d-flex justify-content-center align-items-end">
+                                <div class="col-sm-12 col-md-5">
+                                    <label class="form-label" for="nom_doc">Nombre:</label>
+                                </div>
+                                <div class="col-sm-12 col-md-7">
+                                    <input class="form-control agregar casilla validar" type="text" id="nom_doc" name="nom_doc" size="16" maxlength="50" placeholder="Nombre del consultorio" title="Solo letras">
+                                    <span></span>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                    <div class="modal-footer d-flex justify-content-center">
+                        <button type="button" class="btn btn-secondary" id="btnAgregar" disabled>Agregar</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
     <div class="position-absolute p-3 campoAlertas col-sm-12 col-md-6 col-lg-3">
         <div class="container-fluid d-none" id="alerta">
             <div class="row">

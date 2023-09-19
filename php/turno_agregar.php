@@ -7,19 +7,22 @@ $password = '240296';
 try {
     if ($_SERVER["REQUEST_METHOD"] === "POST") {
         $doctor=$_POST["doctor"];
+        $especialidad=$_POST["especialidad"];
+        $dias=$_POST["dias"];
+        $horario=$_POST["horario"];
         $consultorio=$_POST["consultorio"];
-        $dia=$_POST["dia"];
-        $desde=$_POST["desde"];
-        $hasta=$_POST["hasta"];
+        $d15=$_POST["d15"];
+        $consulta=$_POST["consulta"];
         $pdo = new PDO("pgsql:host=$host;dbname=$database", $user, $password);
         $nombre_consulta = $_POST["consulta"];
         
-        $stmt = $pdo->prepare("select $nombre_consulta(:doctor, :consultorio, :dia, :desde, :hasta)");
+        $stmt = $pdo->prepare("select $nombre_consulta(:doctor, :especialidad, :dias, :horario, :consultorio, :d15)");
         $stmt->bindParam(':doctor', $doctor);
+        $stmt->bindParam(':especialidad', $especialidad);
+        $stmt->bindParam(':dias', $dias);
+        $stmt->bindParam(':horario', $horario);
         $stmt->bindParam(':consultorio', $consultorio);
-        $stmt->bindParam(':dia', $dia);
-        $stmt->bindParam(':desde', $desde);
-        $stmt->bindParam(':hasta', $hasta);
+        $stmt->bindParam(':d15', $d15);
         $result = $stmt->execute();
 
         if ($result) {

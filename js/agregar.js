@@ -3,7 +3,7 @@ const btnAgregar=modalAgregar.querySelector('#btnAgregar');
 const elementosAgregar=modalAgregar.querySelector('.agregar');
 
 btnAgregar.addEventListener('click',()=>{
-    console.log('dada')
+    console.log('adada')
     switch (identificador) {
         case 'consultorio':
             agregarSimple();
@@ -73,26 +73,29 @@ function agregarHorario(){
 
 function agregarTurno(){
     const doctor=document.getElementById('fky_doc').value;
+    const especialidad=document.getElementById('fky_esp').value;
+    const dias=recolectarDias();
+    const horario=document.getElementById('fky_hor').value;
     const consultorio=document.getElementById('fky_con').value;
-    const dia=document.getElementById('fky_dia').value;
-    const desde=document.getElementById('ent_tur').value;
-    const hasta=document.getElementById('sal_tur').value;
+    const d15=document.getElementById('d15_tur').value;
     consulta=`${identificador}_agregar`;
-    console.log(consulta, doctor, consultorio, dia, desde, hasta);
+    console.log(doctor, especialidad, dias, horario, consultorio, d15, consulta)
 
     const formData = new FormData();
     formData.append("consulta",consulta);
     formData.append("doctor",doctor);
+    formData.append("especialidad",especialidad);
+    formData.append("dias",dias);
+    formData.append("horario",horario);
     formData.append("consultorio",consultorio);
-    formData.append("dia",dia);
-    formData.append("desde",desde);
-    formData.append("hasta",hasta);
+    formData.append("d15",d15);
     fetch("../php/turno_agregar.php",{
         method: "POST",
         body: formData
         })
         .then(response => response.json())
         .then(data => {
+            console.log(data)
             if (data.success) {
                 console.log('cambio realizado');
                 window.location.reload();
@@ -101,4 +104,16 @@ function agregarTurno(){
         .catch(error => {
             console.error("Hubo un error al hacer el cambio: ", error);
         });
+}
+
+function recolectarDias(){
+    const checkboxes = document.querySelectorAll('.diasSemana');
+    const diasSeleccionados = [];
+    checkboxes.forEach(checkbox => {
+        if (checkbox.checked) {
+        diasSeleccionados.push(checkbox.value);
+        }
+    });
+    const diasConcatenados = diasSeleccionados.join(', ');
+    return diasConcatenados;
 }

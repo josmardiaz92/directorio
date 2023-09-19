@@ -5,7 +5,7 @@ const btnFiltro=document.getElementById('filtro');
 const selectEspecialidad = document.querySelector('#fky_esp', null);
 const selectDoctor = document.querySelector('#fky_doc', null);
 const selectConsultorio = document.querySelector('#fky_con', null);
-const selectDia = document.querySelector('#fky_dia', null);
+const selectHorario = document.querySelector('#fky_hor', null);
 
 
 consultarContenido();
@@ -20,7 +20,7 @@ if(selectDoctor){
 if(selectConsultorio){
     consultarListaConsultorio();
 }
-if(selectDia){
+if(selectHorario){
     consultarListaHorario();
 }
 
@@ -373,13 +373,13 @@ function consultarListaConsultorio(){
 }
 
 function consultarListaHorario(){
-    selectDia.innerHTML='<option value="">Seleccione...</option>';
+    selectHorario.innerHTML='<option value="">Seleccione...</option>';
     fetch(`../php/horario_listar.php`)
     .then(respuesta=>respuesta.json())
     .then(arregloJson=>{
         arregloJson.forEach(element=>{
             if(element.estatus=='A'){
-                selectDia.innerHTML+=`<option value="${element.codigo}">${element.nombre}</option>`;
+                selectHorario.innerHTML+=`<option value="${element.codigo}">${element.nombre}</option>`;
             }
             })
 

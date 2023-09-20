@@ -125,7 +125,7 @@ function imprimirConsulta(especialidades,especialidad){
                 
     
                 const horariosConsulta = document.createElement('div');
-                horariosConsulta.classList.add('col-12', 'col-lg-5', 'text-center', 'text-lg-end', 'align-self-center', 'me-5');
+                horariosConsulta.classList.add('col-12', 'col-lg-6', 'text-center', 'text-lg-end', 'align-self-center');
                 for (const horario of especialidades[especialidad][medico]) {
                     const horarioConsulta = document.createElement('p');
                     horarioConsulta.classList.add('fs-5','lineaConsulta')

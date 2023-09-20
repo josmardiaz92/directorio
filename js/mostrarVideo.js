@@ -3,7 +3,7 @@ const botones=document.getElementById('botones');
 const video=document.getElementById('video');
 const source=video.querySelector('source');
 const body=document.querySelector('body');
-const tiempoInactividad = 60 * 1000 * 2;
+const tiempoInactividad = 60 * 1000 * 10;
 let temporizadorInactividad;
 
 // Función para reiniciar el temporizador

@@ -12,7 +12,7 @@ declare
     fila public.accion_estructura%rowtype;
 begin
     for fila in 
-    select * from public.accion
+    select * from public.accion order by fec_acc
 
 loop 
   return next fila;

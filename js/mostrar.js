@@ -107,7 +107,7 @@ function imprimir(especialidad){
                 horariosDirectorio.classList.add('col-12', 'col-lg-6', 'text-center', 'text-lg-end', 'align-self-center');
                 for (const horario of especialidades[especialidad][medico]) {
                     const horarioDirectorio = document.createElement('p');
-                    horarioDirectorio.classList.add('fs-5','lineaDirectorio')
+                    horarioDirectorio.classList.add('fs-4','lineaDirectorio')
                     horarioDirectorio.textContent = horario;
                     horariosDirectorio.appendChild(horarioDirectorio);
                 }

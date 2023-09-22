@@ -2,11 +2,12 @@ const identificador=document.getElementById('identificador').value;
 const ruta=`../php/${identificador}_listar.php`;
 let filtro='';
 const btnFiltro=document.getElementById('filtro');
-const selectEspecialidad = document.querySelector('#fky_esp', null);
-const selectDoctor = document.querySelector('#fky_doc', null);
-const selectConsultorio = document.querySelector('#fky_con', null);
-const selectHorario = document.querySelector('#fky_hor', null);
-
+const modalAgregar=document.getElementById('modalAgregar');
+const selectEspecialidad = modalAgregar.querySelector('#fky_esp', null);
+const selectDoctor = modalAgregar.querySelector('#fky_doc', null);
+const selectConsultorio = modalAgregar.querySelector('#fky_con', null);
+const selectHorario = modalAgregar.querySelector('#fky_hor', null);
+const modalEditar=document.getElementById('modalEditar');
 
 consultarContenido();
 btnFiltro.addEventListener('change',filtrar);
@@ -15,7 +16,8 @@ if(selectEspecialidad){
     consultarListaEspecialidad();
 }
 if(selectDoctor){
-    consultarListaDoctor();
+    let valor='';
+        consultarListaDoctor(valor,selectDoctor);
 }
 if(selectConsultorio){
     consultarListaConsultorio();
@@ -28,6 +30,7 @@ async function consultarContenido(){
     fetch(ruta)
     .then(respuesta=>respuesta.json())
     .then(arregloJson=>{
+        console.log(arregloJson)
         cuerpoTabla.innerHTML='';
         arregloJson.forEach((element,index)=>{
             let status='';
@@ -62,8 +65,12 @@ async function consultarContenido(){
                 default:
                     break;
             }
-            })
-
+        })
+        modalEditar.addEventListener('show.bs.modal',evento=>{
+            let boton=evento.relatedTarget;
+            let codigo=boton.getAttribute('data-bs-whatever');
+            consultarUno(codigo,arregloJson);
+        });
     })
     .catch(error=>{console.error(`Atención ${error}`)})
 }
@@ -97,7 +104,7 @@ function consultaSimple(index,element,status){
                                     </div>
                                     </td>
                                     <td id="ver${index}">
-                                    <button type="button" class="btn" data-bs-toggle="modal" data-bs-target="#modalEditar" data-bs-whatever=${element.codigo}><i class="fa-solid fa-pen-to-square" style="color: #001A6F;" data-bs-toggle="tooltip" data-bs-placement="top" title="Ver"></i></button>
+                                    <button type="button" class="btn" data-bs-toggle="modal" data-bs-target="#modalEditar" data-bs-whatever=${index}><i class="fa-solid fa-pen-to-square" style="color: #001A6F;" data-bs-toggle="tooltip" data-bs-placement="top" title="Ver"></i></button>
                                         <i class="btn fa-solid fa-trash eliminar" style="color: #001A6F" data-bs-toggle="tooltip" data-bs-placement="right" title="Borrar" id="${element.codigo}"></i>
                                     </td>
                                 </tr>`;
@@ -122,7 +129,7 @@ function consultaSimple(index,element,status){
                                     </div>
                                     </td>
                                     <td id="ver${index}">
-                                    <button type="button" class="btn" data-bs-toggle="modal" data-bs-target="#modalEditar" data-bs-whatever=${element.codigo}><i class="fa-solid fa-pen-to-square" style="color: #001A6F;" data-bs-toggle="tooltip" data-bs-placement="top" title="Ver"></i></button>
+                                    <button type="button" class="btn" data-bs-toggle="modal" data-bs-target="#modalEditar" data-bs-whatever=${index}><i class="fa-solid fa-pen-to-square" style="color: #001A6F;" data-bs-toggle="tooltip" data-bs-placement="top" title="Ver"></i></button>
                                         <i class="btn fa-solid fa-trash eliminar" style="color: #001A6F" data-bs-toggle="tooltip" data-bs-placement="right" title="Borrar" id="${element.codigo}"></i>
                                     </td>
                                 </tr>`;
@@ -146,7 +153,7 @@ function consultaSimple(index,element,status){
                                     </div>
                                     </td>
                                     <td id="ver${index}">
-                                    <button type="button" class="btn" data-bs-toggle="modal" data-bs-target="#modalEditar" data-bs-whatever=${element.codigo}><i class="fa-solid fa-pen-to-square" style="color: #001A6F;" data-bs-toggle="tooltip" data-bs-placement="top" title="Ver"></i></button>
+                                    <button type="button" class="btn" data-bs-toggle="modal" data-bs-target="#modalEditar" data-bs-whatever=${index}><i class="fa-solid fa-pen-to-square" style="color: #001A6F;" data-bs-toggle="tooltip" data-bs-placement="top" title="Ver"></i></button>
                                         <i class="btn fa-solid fa-trash eliminar" style="color: #001A6F" data-bs-toggle="tooltip" data-bs-placement="right" title="Borrar" id="${element.codigo}"></i>
                                     </td>
                                 </tr>`;
@@ -174,7 +181,7 @@ function consultaHorario(index,element,status){
                     </div>
                     </td>
                     <td id="ver${index}">
-                        <button type="button" class="btn" data-bs-toggle="modal" data-bs-target="#modalEditar" data-bs-whatever=${element.codigo}><i class="fa-solid fa-pen-to-square" style="color: #001A6F;" data-bs-toggle="tooltip" data-bs-placement="top" title="Ver"></i></button>
+                        <button type="button" class="btn" data-bs-toggle="modal" data-bs-target="#modalEditar" data-bs-whatever=${index}><i class="fa-solid fa-pen-to-square" style="color: #001A6F;" data-bs-toggle="tooltip" data-bs-placement="top" title="Ver"></i></button>
                         <i class="btn fa-solid fa-trash eliminar" style="color: #001A6F" data-bs-toggle="tooltip" data-bs-placement="right" title="Borrar" id="${element.codigo}"></i>
                     </td>
                 </tr>`;
@@ -200,7 +207,7 @@ function consultaHorario(index,element,status){
                     </div>
                     </td>
                     <td id="ver${index}">
-                        <button type="button" class="btn" data-bs-toggle="modal" data-bs-target="#modalEditar" data-bs-whatever=${element.codigo}><i class="fa-solid fa-pen-to-square" style="color: #001A6F;" data-bs-toggle="tooltip" data-bs-placement="top" title="Ver"></i></button>
+                        <button type="button" class="btn" data-bs-toggle="modal" data-bs-target="#modalEditar" data-bs-whatever=${index}><i class="fa-solid fa-pen-to-square" style="color: #001A6F;" data-bs-toggle="tooltip" data-bs-placement="top" title="Ver"></i></button>
                         <i class="btn fa-solid fa-trash eliminar" style="color: #001A6F" data-bs-toggle="tooltip" data-bs-placement="right" title="Borrar" id="${element.codigo}"></i>
                     </td>
                 </tr>`;
@@ -225,7 +232,7 @@ function consultaHorario(index,element,status){
                                     </div>
                                     </td>
                                     <td id="ver${index}">
-                                        <button type="button" class="btn" data-bs-toggle="modal" data-bs-target="#modalEditar" data-bs-whatever=${element.codigo}><i class="fa-solid fa-pen-to-square" style="color: #001A6F;" data-bs-toggle="tooltip" data-bs-placement="top" title="Ver"></i></button>
+                                        <button type="button" class="btn" data-bs-toggle="modal" data-bs-target="#modalEditar" data-bs-whatever=${index}><i class="fa-solid fa-pen-to-square" style="color: #001A6F;" data-bs-toggle="tooltip" data-bs-placement="top" title="Ver"></i></button>
                                         <i class="btn fa-solid fa-trash eliminar" style="color: #001A6F" data-bs-toggle="tooltip" data-bs-placement="right" title="Borrar" id="${element.codigo}"></i>
                                     </td>
                                 </tr>`;
@@ -256,7 +263,7 @@ function consultarTurno(index,element,status){
                                     </div>
                                     </td>
                                     <td id="ver${index}">
-                                    <button type="button" class="btn" data-bs-toggle="modal" data-bs-target="#modalEditar" data-bs-whatever=${element.codigo}><i class="fa-solid fa-pen-to-square" style="color: #001A6F;" data-bs-toggle="tooltip" data-bs-placement="top" title="Ver"></i></button>
+                                    <button type="button" class="btn" data-bs-toggle="modal" data-bs-target="#modalEditar" data-bs-whatever=${index}><i class="fa-solid fa-pen-to-square" style="color: #001A6F;" data-bs-toggle="tooltip" data-bs-placement="top" title="Ver"></i></button>
                                         <i class="btn fa-solid fa-trash eliminar" style="color: #001A6F" data-bs-toggle="tooltip" data-bs-placement="right" title="Borrar" id="${element.codigo}"></i>
                                     </td>
                                 </tr>`;
@@ -285,7 +292,7 @@ function consultarTurno(index,element,status){
                                     </div>
                                     </td>
                                     <td id="ver${index}">
-                                    <button type="button" class="btn" data-bs-toggle="modal" data-bs-target="#modalEditar" data-bs-whatever=${element.codigo}><i class="fa-solid fa-pen-to-square" style="color: #001A6F;" data-bs-toggle="tooltip" data-bs-placement="top" title="Ver"></i></button>
+                                    <button type="button" class="btn" data-bs-toggle="modal" data-bs-target="#modalEditar" data-bs-whatever=${index}><i class="fa-solid fa-pen-to-square" style="color: #001A6F;" data-bs-toggle="tooltip" data-bs-placement="top" title="Ver"></i></button>
                                         <i class="btn fa-solid fa-trash eliminar" style="color: #001A6F" data-bs-toggle="tooltip" data-bs-placement="right" title="Borrar" id="${element.codigo}"></i>
                                     </td>
                                 </tr>`;
@@ -313,7 +320,7 @@ function consultarTurno(index,element,status){
                                     </div>
                                     </td>
                                     <td id="ver${index}">
-                                    <button type="button" class="btn" data-bs-toggle="modal" data-bs-target="#modalEditar" data-bs-whatever=${element.codigo}><i class="fa-solid fa-pen-to-square" style="color: #001A6F;" data-bs-toggle="tooltip" data-bs-placement="top" title="Ver"></i></button>
+                                    <button type="button" class="btn" data-bs-toggle="modal" data-bs-target="#modalEditar" data-bs-whatever=${index}><i class="fa-solid fa-pen-to-square" style="color: #001A6F;" data-bs-toggle="tooltip" data-bs-placement="top" title="Ver"></i></button>
                                         <i class="btn fa-solid fa-trash eliminar" style="color: #001A6F" data-bs-toggle="tooltip" data-bs-placement="right" title="Borrar" id="${element.codigo}"></i>
                                     </td>
                                 </tr>`;
@@ -342,17 +349,22 @@ function consultarListaEspecialidad(){
     .catch(error=>{console.error(`Atención ${error}`)})
 }
 
-function consultarListaDoctor(){
-    selectDoctor.innerHTML='<option value="">Seleccione...</option>';
+function consultarListaDoctor(valor,select){
+    select.innerHTML='<option value="">Seleccione...</option>';
     fetch(`../php/doctor_listar.php`)
     .then(respuesta=>respuesta.json())
     .then(arregloJson=>{
-        arregloJson.forEach(element=>{
+        arregloJson.forEach((element,index)=>{
             if(element.estatus=='A'){
-                selectDoctor.innerHTML+=`<option value="${element.codigo}">${element.nombre}</option>`;
+                const option = document.createElement('option');
+                option.value = element.codigo;
+                option.textContent = element.nombre;
+                if(valor===element.codigo){
+                    option.selected=true;
+                }
+                select.appendChild(option);
             }
-            })
-
+        })
     })
     .catch(error=>{console.error(`Atención ${error}`)})
 }
@@ -385,4 +397,22 @@ function consultarListaHorario(){
 
     })
     .catch(error=>{console.error(`Atención ${error}`)})
+}
+
+function consultarUno(codigo,arregloJson){
+    const nombre=modalEditar.querySelector('#nombre', null);
+    const descripcion=modalEditar.querySelector('#def_hor', null);
+    const doctor=modalEditar.querySelector('#doctor', null);
+
+    if(nombre){
+        nombre.value=arregloJson[codigo].nombre;
+    }
+    if(descripcion){
+        descripcion.value=arregloJson[codigo].definicion;
+    }
+    if(doctor){
+        valor=arregloJson[codigo].codigodoctor;
+        consultarListaDoctor(valor,doctor);
+        console.log(arregloJson[codigo].codigodoctor)
+    }
 }

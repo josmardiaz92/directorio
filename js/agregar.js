@@ -1,4 +1,3 @@
-const modalAgregar=document.getElementById('modalAgregar');
 const btnAgregar=modalAgregar.querySelector('#btnAgregar');
 const elementosAgregar=modalAgregar.querySelector('.agregar');
 

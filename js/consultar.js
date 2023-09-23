@@ -13,17 +13,21 @@ consultarContenido();
 btnFiltro.addEventListener('change',filtrar);
 
 if(selectEspecialidad){
-    consultarListaEspecialidad();
+    let valor='';
+    consultarListaEspecialidad(valor,selectEspecialidad);
+
 }
 if(selectDoctor){
     let valor='';
-        consultarListaDoctor(valor,selectDoctor);
+    consultarListaDoctor(valor,selectDoctor);
 }
 if(selectConsultorio){
-    consultarListaConsultorio();
+    let valor='';
+    consultarListaConsultorio(valor,selectConsultorio);
 }
 if(selectHorario){
-    consultarListaHorario();
+    let valor='';
+    consultarListaHorario(valor,selectHorario);
 }
 
 async function consultarContenido(){
@@ -334,17 +338,22 @@ function consultarTurno(index,element,status){
         }
 }
 
-function consultarListaEspecialidad(){
-    selectEspecialidad.innerHTML='<option value="">Seleccione...</option>';
+function consultarListaEspecialidad(valor,select){
+    select.innerHTML='<option value="">Seleccione...</option>';
     fetch(`../php/especialidad_listar.php`)
     .then(respuesta=>respuesta.json())
     .then(arregloJson=>{
         arregloJson.forEach(element=>{
             if(element.estatus=='A'){
-                selectEspecialidad.innerHTML+=`<option value="${element.codigo}">${element.nombre}</option>`;
+                const option = document.createElement('option');
+                option.value = element.codigo;
+                option.textContent = element.nombre;
+                if(valor===element.codigo){
+                    option.selected=true;
+                }
+                select.appendChild(option);
             }
-            })
-
+        })
     })
     .catch(error=>{console.error(`Atención ${error}`)})
 }
@@ -369,32 +378,42 @@ function consultarListaDoctor(valor,select){
     .catch(error=>{console.error(`Atención ${error}`)})
 }
 
-function consultarListaConsultorio(){
-    selectConsultorio.innerHTML='<option value="">Seleccione...</option>';
+function consultarListaConsultorio(valor,select){
+    select.innerHTML='<option value="">Seleccione...</option>';
     fetch(`../php/consultorio_listar.php`)
     .then(respuesta=>respuesta.json())
     .then(arregloJson=>{
         arregloJson.forEach(element=>{
             if(element.estatus=='A'){
-                selectConsultorio.innerHTML+=`<option value="${element.codigo}">${element.nombre}</option>`;
+                const option = document.createElement('option');
+                option.value = element.codigo;
+                option.textContent = element.nombre;
+                if(valor===element.codigo){
+                    option.selected=true;
+                }
+                select.appendChild(option);
             }
-            })
-
+        })
     })
     .catch(error=>{console.error(`Atención ${error}`)})
 }
 
-function consultarListaHorario(){
-    selectHorario.innerHTML='<option value="">Seleccione...</option>';
+function consultarListaHorario(valor,select){
+    select.innerHTML='<option value="">Seleccione...</option>';
     fetch(`../php/horario_listar.php`)
     .then(respuesta=>respuesta.json())
     .then(arregloJson=>{
         arregloJson.forEach(element=>{
             if(element.estatus=='A'){
-                selectHorario.innerHTML+=`<option value="${element.codigo}">${element.nombre}</option>`;
+                const option = document.createElement('option');
+                option.value = element.codigo;
+                option.textContent = element.nombre;
+                if(valor===element.codigo){
+                    option.selected=true;
+                }
+                select.appendChild(option);
             }
-            })
-
+        })
     })
     .catch(error=>{console.error(`Atención ${error}`)})
 }
@@ -403,6 +422,10 @@ function consultarUno(codigo,arregloJson){
     const nombre=modalEditar.querySelector('#nombre', null);
     const descripcion=modalEditar.querySelector('#def_hor', null);
     const doctor=modalEditar.querySelector('#doctor', null);
+    const especialidad=modalEditar.querySelector('#especialidad', null);
+    const horario=modalEditar.querySelector('#horario', null);
+    const consultorio=modalEditar.querySelector('#consultorio', null);
+    const d15=modalEditar.querySelector('#d15', null);
 
     if(nombre){
         nombre.value=arregloJson[codigo].nombre;
@@ -413,6 +436,26 @@ function consultarUno(codigo,arregloJson){
     if(doctor){
         valor=arregloJson[codigo].codigodoctor;
         consultarListaDoctor(valor,doctor);
-        console.log(arregloJson[codigo].codigodoctor)
+    }
+    if(especialidad){
+        valor=arregloJson[codigo].codigoespecialidad;
+        consultarListaEspecialidad(valor,especialidad);
+    }
+    if(horario){
+        valor=arregloJson[codigo].codigohorario;
+        consultarListaHorario(valor,horario);
+    }
+    if(consultorio){
+        valor=arregloJson[codigo].codigoconsultorio;
+        consultarListaConsultorio(valor,consultorio);
+    }
+    if(d15){
+        valor=arregloJson[codigo].d15_tur;
+        const opciones=d15.querySelectorAll('option');
+        opciones.forEach(opcion=>{
+            if(opcion.value==valor){
+                opcion.selected=true;
+            }
+        })
     }
 }

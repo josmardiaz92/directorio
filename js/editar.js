@@ -1,40 +1,52 @@
-const btnAgregar=modalAgregar.querySelector('#btnAgregar');
-const elementosAgregar=modalAgregar.querySelector('.agregar');
+const btnEditar=modalEditar.querySelector('#btnEditar');
+const elementosEditar=modalEditar.querySelector('.editar');
+function obtenerCodigo(codigo,arregloJson){
+    let id=arregloJson[codigo].codigo;
+    return id
+}
+function obtenerStatus(codigo,arregloJson){
+    let estatus=arregloJson[codigo].estatus;
+    return estatus
+}
 
-btnAgregar.addEventListener('click',()=>{
+btnEditar.addEventListener('click',()=>{
     switch (identificador) {
         case 'consultorio':
-            agregarSimple();
+            editarSimple();
             break;
         case 'especialidad':
-            agregarSimple();
+            editarSimple();
             break;
         case 'doctor':
-            agregarSimple();
+            editarSimple();
             break;
         case 'turno':
-            agregarTurno();
+            editarTurno();
             break;
         case 'horario':
-            agregarHorario();
+            editarHorario();
             break;
         default:
             break;
     }
 });
 
-function agregarSimple(){
-    consulta=`${identificador}_agregar`;
-    const nombre=elementosAgregar.value;
+function editarSimple(){
+    consulta=`${identificador}_modificar`;
+    const nombre=elementosEditar.value;
     const formData = new FormData();
     formData.append("nombre",nombre);
+    formData.append("estatus",estatus);
+    formData.append("id",id);
     formData.append("consulta",consulta);
-    fetch("../php/agregar.php",{
+    console.log(nombre, estatus, id)
+    fetch("../php/editar.php",{
         method: "POST",
         body: formData
         })
         .then(response => response.json())
         .then(data => {
+            console.log(data)
             if (data.success) {
                 console.log('cambio realizado');
                 window.location.reload();
@@ -45,15 +57,17 @@ function agregarSimple(){
         });
 }
 
-function agregarHorario(){
-    const nombre=document.getElementById('nom_hor').value;
-    const definicion=document.getElementById('def_hor').value.toUpperCase();
-    consulta=`${identificador}_agregar`;
+function editarHorario(){
+    const nombre=modalEditar.querySelector('#nombre').value;
+    const definicion=modalEditar.querySelector('#definicion').value.toUpperCase();
+    consulta=`${identificador}_modificar`;
     const formData = new FormData();
     formData.append("consulta",consulta);
     formData.append("nombre",nombre);
     formData.append("definicion",definicion);
-    fetch("../php/horario_agregar.php",{
+    formData.append("estatus",estatus);
+    formData.append("id",id);
+    fetch("../php/horario_editar.php",{
         method: "POST",
         body: formData
         })
@@ -69,15 +83,14 @@ function agregarHorario(){
         });
 }
 
-function agregarTurno(){
-    const doctor=document.getElementById('fky_doc').value;
-    const especialidad=document.getElementById('fky_esp').value;
+function editarTurno(){
+    const doctor=modalEditar.querySelector('#doctor').value;
+    const especialidad=modalEditar.querySelector('#especialidad').value;
     const dias=recolectarDias();
-    const horario=document.getElementById('fky_hor').value;
-    const consultorio=document.getElementById('fky_con').value;
-    const d15=document.getElementById('d15_tur').value;
-    consulta=`${identificador}_agregar`;
-    console.log(doctor, especialidad, dias, horario, consultorio, d15, consulta)
+    const horario=modalEditar.querySelector('#horario').value;
+    const consultorio=modalEditar.querySelector('#consultorio').value;
+    const d15=modalEditar.querySelector('#d15').value;
+    consulta=`${identificador}_modificar`;
 
     const formData = new FormData();
     formData.append("consulta",consulta);
@@ -87,7 +100,9 @@ function agregarTurno(){
     formData.append("horario",horario);
     formData.append("consultorio",consultorio);
     formData.append("d15",d15);
-    fetch("../php/turno_agregar.php",{
+    formData.append("estatus",estatus);
+    formData.append("id",id);
+    fetch("../php/turno_editar.php",{
         method: "POST",
         body: formData
         })
@@ -105,7 +120,7 @@ function agregarTurno(){
 }
 
 function recolectarDias(){
-    const checkboxes = document.querySelectorAll('.diasSemana');
+    const checkboxes = modalEditar.querySelectorAll('.diasEditar');
     const diasSeleccionados = [];
     checkboxes.forEach(checkbox => {
         if (checkbox.checked) {

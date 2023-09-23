@@ -2,14 +2,15 @@
 //TODO en este array, debe agregarse la expresion regular necesario para cada espacio a validar con su id
 const expresionesRegulares = {
     nom_con: /^[A-Za-zÀ-ÖØ-öø-ÿ\s',0-9]+$/i,
+    nombre: /^[A-Za-zÀ-ÖØ-öø-ÿ\s',0-9]+$/i,
     nom_esp: /^[A-Za-zÀ-ÖØ-öø-ÿ\s']+$/i,
     nom_doc: /^[A-Za-zÀ-ÖØ-öø-ÿ\s']+$/i,
     nom_hor: /^[A-Za-zÀ-ÖØ-öø-ÿ\s']+$/i,
-    def_hor: /^de [0-2][0-9]:[0-5][0-9] (AM|PM) a [0-2][0-9]:[0-5][0-9] (AM|PM)$/i
+    def_hor: /^de [0-2][0-9]:[0-5][0-9] (AM|PM) a [0-2][0-9]:[0-5][0-9] (AM|PM)$/i,
+    definicion: /^de [0-2][0-9]:[0-5][0-9] (AM|PM) a [0-2][0-9]:[0-5][0-9] (AM|PM)$/i
 };
 
 //TODO Aca tomamos todos los elementos a usar
-const btnSubmit = document.getElementById("btnAgregar");
 const elementos=document.querySelectorAll('.validar');
 const instanciasValidar=[];
 const alerta=document.getElementById('alerta');
@@ -52,11 +53,17 @@ class validacion{
                         desaparecer(alerta2);
                     }, 3000);
             }
-            const casillasInvalidas=document.querySelectorAll('.is-invalid').length;
-            if(casillasInvalidas>0){
-                btnSubmit.disabled=true;
+            const casillasInvalidasAgregar=modalAgregar.querySelectorAll('.is-invalid').length;
+            const casillasInvalidasEditar=modalEditar.querySelectorAll('.is-invalid').length;
+            if(casillasInvalidasAgregar>0){
+                btnAgregar.disabled=true;
             }else{
-                btnSubmit.disabled=false;
+                btnAgregar.disabled=false;
+            }
+            if(casillasInvalidasEditar>0){
+                btnEditar.disabled=true;
+            }else{
+                btnEditar.disabled=false;
             }
         })
     }

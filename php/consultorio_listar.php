@@ -8,7 +8,7 @@ try {
     $connection = new PDO("pgsql:host=$host;dbname=$database", $user, $password);
     $connection->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 
-    $query = "select cod_con as codigo, nom_con as nombre, est_con as estatus from consultorio";
+    $query = "select cod_con as codigo, nom_con as nombre, est_con as estatus from consultorio order by codigo";
     $statement = $connection->query($query);
     $result = $statement->fetchAll(PDO::FETCH_ASSOC);
 

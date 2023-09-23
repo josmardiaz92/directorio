@@ -58,7 +58,7 @@
                 <div class="modal-content bordeRedondeado">
                     <div class="modal-header bg-secondary bordeSuperiorRedondeado">
                         <h5 class="modal-title text-capitalize text-light" id="modalLabel">
-                            Agregar
+                            editar
                         </h5>
                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
@@ -69,24 +69,24 @@
                                     <label class="form-label" for="nombre">Nombre:</label>
                                 </div>
                                 <div class="col-sm-12 col-md-7">
-                                    <input class="form-control agregar casilla validar" type="text" id="nombre" name="nombre" size="16" maxlength="20" placeholder="Nombre del Horario" title="Solo letras">
+                                    <input class="form-control editar casilla validar" type="text" id="nombre" name="nombre" size="16" maxlength="20" placeholder="Nombre del Horario" title="Solo letras">
                                     <span></span>
                                 </div>
                                 
                             </div>
                             <div class="row m-3 d-flex justify-content-center align-items-end">
                                 <div class="col-sm-12 col-md-5">
-                                    <label class="form-label" for="def_hor">Definicón:</label>
+                                    <label class="form-label" for="definicion">Definicón:</label>
                                 </div>
                                 <div class="col-sm-12 col-md-7">
-                                    <input class="form-control agregar casilla validar" type="text" id="def_hor" name="def_hor" size="16" maxlength="100" placeholder="Definición del Horario" title="El formato del horario deberia ser: 'de 00:00 AM/PM a 00:00 AM/PM'">
+                                    <input class="form-control editar casilla validar" type="text" id="definicion" name="definicion" size="16" maxlength="100" placeholder="Definición del Horario" title="El formato del horario deberia ser: 'de 00:00 AM/PM a 00:00 AM/PM'">
                                     <span></span>
                                 </div>
                             </div>
                         </form>
                     </div>
                     <div class="modal-footer d-flex justify-content-center">
-                        <button type="button" class="btn btn-secondary" id="btnAgregar" disabled>Agregar</button>
+                        <button type="button" class="btn btn-secondary" id="btnEditar" disabled>editar</button>
                     </div>
                 </div>
             </div>
@@ -213,5 +213,6 @@
     <script src="../js/agregar.js"></script>
     <script src="../js/validar.js"></script>
     <script src="../js/pedirRecarga.js"></script>
+    <script src="../js/editar.js"></script>
 </body>
 </html>

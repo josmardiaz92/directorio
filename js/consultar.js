@@ -8,6 +8,8 @@ const selectDoctor = modalAgregar.querySelector('#fky_doc', null);
 const selectConsultorio = modalAgregar.querySelector('#fky_con', null);
 const selectHorario = modalAgregar.querySelector('#fky_hor', null);
 const modalEditar=document.getElementById('modalEditar');
+let id='';
+let estatus='';
 
 consultarContenido();
 btnFiltro.addEventListener('change',filtrar);
@@ -73,6 +75,8 @@ async function consultarContenido(){
             let boton=evento.relatedTarget;
             let codigo=boton.getAttribute('data-bs-whatever');
             consultarUno(codigo,arregloJson);
+            id=obtenerCodigo(codigo,arregloJson);
+            estatus=obtenerStatus(codigo,arregloJson);
         });
     })
     .catch(error=>{console.error(`Atención ${error}`)})
@@ -419,13 +423,13 @@ function consultarListaHorario(valor,select){
 
 function consultarUno(codigo,arregloJson){
     const nombre=modalEditar.querySelector('#nombre', null);
-    const descripcion=modalEditar.querySelector('#def_hor', null);
+    const descripcion=modalEditar.querySelector('#definicion', null);
     const doctor=modalEditar.querySelector('#doctor', null);
     const especialidad=modalEditar.querySelector('#especialidad', null);
     const horario=modalEditar.querySelector('#horario', null);
     const consultorio=modalEditar.querySelector('#consultorio', null);
     const d15=modalEditar.querySelector('#d15', null);
-    const dias=document.getElementById(`dia${codigo}`, null).textContent;
+    const dias=document.getElementById(`dia${codigo}`, null);
 
     if(nombre){
         nombre.value=arregloJson[codigo].nombre;
@@ -459,8 +463,9 @@ function consultarUno(codigo,arregloJson){
         })
     }
     if(dias){
-        let diasSeleccionados=dias.split(',').map(dia => dia.trim());
-        const checkboxes = document.querySelectorAll('.diasSemana');
+        valorDias=dias.textContent;
+        let diasSeleccionados=valorDias.split(',').map(dia => dia.trim());
+        const checkboxes = document.querySelectorAll('.diasEditar');
         checkboxes.forEach(checkbox => {
             if(diasSeleccionados.includes(checkbox.value)){
                 checkbox.checked=true;

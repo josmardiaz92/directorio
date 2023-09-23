@@ -34,7 +34,6 @@ async function consultarContenido(){
     fetch(ruta)
     .then(respuesta=>respuesta.json())
     .then(arregloJson=>{
-        console.log(arregloJson)
         cuerpoTabla.innerHTML='';
         arregloJson.forEach((element,index)=>{
             let status='';
@@ -426,6 +425,7 @@ function consultarUno(codigo,arregloJson){
     const horario=modalEditar.querySelector('#horario', null);
     const consultorio=modalEditar.querySelector('#consultorio', null);
     const d15=modalEditar.querySelector('#d15', null);
+    const dias=document.getElementById(`dia${codigo}`, null).textContent;
 
     if(nombre){
         nombre.value=arregloJson[codigo].nombre;
@@ -457,5 +457,16 @@ function consultarUno(codigo,arregloJson){
                 opcion.selected=true;
             }
         })
+    }
+    if(dias){
+        let diasSeleccionados=dias.split(',').map(dia => dia.trim());
+        const checkboxes = document.querySelectorAll('.diasSemana');
+        checkboxes.forEach(checkbox => {
+            if(diasSeleccionados.includes(checkbox.value)){
+                checkbox.checked=true;
+            }else{
+                checkbox.checked=false;
+            }
+        });
     }
 }
